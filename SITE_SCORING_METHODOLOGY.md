@@ -61,14 +61,31 @@ relatif, bukan angka absolut.
 
 **2. `cannibalization_pairs.csv`** — pasangan outlet sebrand di kota yang
 sama di mana kedua outlet punya Huff probability ≥15% dari demand cell yang
-sama ("contested"). `contested_cells_pct` tinggi → sinyal untuk evaluasi
-jarak antar outlet sebelum ekspansi baru di area itu.
+sama ("contested"). `contested_cells_pct` tetap simetris (persentase cell
+yang sama-sama contested), tapi **demand at risk-nya dihitung directional**:
+`a_demand_at_risk_pct` = persentase dari captured demand outlet A sendiri
+yang berasal dari cell yang dikontes dengan B, dan sebaliknya untuk
+`b_demand_at_risk_pct`. Keduanya jarang sama — outlet kecil bisa kehilangan
+porsi jauh lebih besar dari basisnya sendiri dibanding tetangga besarnya,
+meski overlap cell-nya identik. `net_asymmetry_pct` (`a - b`) positif berarti
+A lebih rentan terhadap B daripada sebaliknya. Lihat §Heterogeneous pull
+untuk kenapa ini penting dicek sebelum keputusan ekspansi/tutup outlet.
 
-**3. `whitespace_candidates.csv`** — grid cell dengan demand tinggi tapi
+**3. `cannibalization_network.csv`** — agregat per outlet: `n_contested_neighbors`
+(berapa outlet sebrand yang overlap dengannya) dan `total_demand_at_risk_pct`
+(jumlah `demand_at_risk_pct` dari SEMUA tetangga yang overlap, bisa >100%
+kalau demand yang sama dikontes lebih dari satu tetangga sekaligus — itu
+memang menunjukkan tekanan kompetitif kumulatif, bukan bug). Dipakai untuk
+menjawab "outlet mana yang paling terkepung", bukan cuma "pasangan mana yang
+overlap paling besar" — dua hal yang bisa beda jawabannya kalau satu outlet
+dikepung 3 tetangga sedang-sedang saja sementara pasangan tunggal terbesar
+ada di tempat lain.
+
+**4. `whitespace_candidates.csv`** — grid cell dengan demand tinggi tapi
 total exposure ke outlet existing rendah (`whitespace_score` = demand_norm ×
 (1 - exposure_norm)). Ini kandidat area untuk lokasi baru.
 
-**4. `outlet_catchment_validation.csv`** — median/p90 `distance_km` observed
+**5. `outlet_catchment_validation.csv`** — median/p90 `distance_km` observed
 per outlet (dari `customer_origin_sample.csv`) dibandingkan dengan
 `expected_mean_km` asumsi `outlet_type`-nya, plus flag `reclassify_review`
 untuk outlet yang menyimpang signifikan. Lihat §Heterogeneous pull.

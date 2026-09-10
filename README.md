@@ -41,8 +41,10 @@ Menghasilkan tiga output analitik dari data di tahap 1:
 | File | Isi |
 |---|---|
 | `outlet_site_scores.csv` | Estimasi captured demand & market share per outlet |
-| `cannibalization_pairs.csv` | Pasangan outlet sebrand yang demand-nya overlap |
+| `cannibalization_pairs.csv` | Pasangan outlet sebrand overlap — directional (`a_demand_at_risk_pct` vs `b_demand_at_risk_pct`, jarang sama) |
+| `cannibalization_network.csv` | Agregat per outlet: total demand at risk dari SELURUH tetangga overlap, bukan cuma pasangan terburuk |
 | `whitespace_candidates.csv` | Grid cell demand tinggi, exposure ke outlet existing rendah |
+| `outlet_catchment_validation.csv` | Dispersion jarak observed vs asumsi `outlet_type`, flag kandidat salah klasifikasi |
 
 Metodologi & batasan (termasuk kalibrasi beta, asumsi jarak lurus):
 `SITE_SCORING_METHODOLOGY.md`.

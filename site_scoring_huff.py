@@ -23,15 +23,20 @@ ini — beda kategori kebutuhan). Kalau nanti mau model cross-brand/cross-
 category, cukup ubah filter `same_brand` di compute_huff_scores().
 
 Output:
-  1. outlet_site_scores.csv        - estimasi demand tertangkap per outlet
-  2. cannibalization_pairs.csv     - pasangan outlet brand sama yang overlap
-  3. whitespace_candidates.csv     - grid cell dengan demand tinggi tapi
-                                      exposure ke outlet existing rendah
-  4. outlet_catchment_validation.csv - dispersion jarak customer OBSERVED
-                                      (dari customer_origin_sample.csv) per
-                                      outlet, dibandingkan dengan asumsi
-                                      beta/outlet_type di atas — dipakai untuk
-                                      flag outlet yang mungkin salah klasifikasi
+  1. outlet_site_scores.csv          - estimasi demand tertangkap per outlet
+  2. cannibalization_pairs.csv       - pasangan outlet brand sama yang overlap,
+                                        DIRECTIONAL (a_demand_at_risk_pct vs
+                                        b_demand_at_risk_pct bisa berbeda jauh)
+  3. cannibalization_network.csv     - agregat per outlet: total demand at
+                                        risk dari SELURUH tetangga yang
+                                        overlap (bukan cuma pasangan terburuk)
+  4. whitespace_candidates.csv       - grid cell dengan demand tinggi tapi
+                                        exposure ke outlet existing rendah
+  5. outlet_catchment_validation.csv - dispersion jarak customer OBSERVED
+                                        (dari customer_origin_sample.csv) per
+                                        outlet, dibandingkan dengan asumsi
+                                        beta/outlet_type di atas — dipakai untuk
+                                        flag outlet yang mungkin salah klasifikasi
 
 Run: python3 site_scoring_huff.py
 """
@@ -164,17 +169,34 @@ def compute_huff_scores(outlets, grid):
 
 
 # ---------------------------------------------------------------------------
-# 2. Cannibalization — same-brand outlet pairs with meaningful demand overlap
+# 2. Cannibalization — directional pairwise overlap + network-level exposure
 # ---------------------------------------------------------------------------
 def compute_cannibalization(outlets, grid, overlap_threshold=0.15):
     """
-    For each same-brand, same-city outlet pair, estimate overlap as the share
-    of grid cells where BOTH outlets get a non-trivial Huff probability
-    (>= overlap_threshold each) — i.e. demand genuinely contested between them.
+    For each same-brand, same-city outlet pair, estimate contested cells (both
+    outlets get Huff probability >= overlap_threshold) AND the DIRECTIONAL
+    demand at risk: what share of outlet A's own captured demand comes from
+    cells it contests with B, vs the share of B's captured demand contested
+    by A. These two shares are rarely equal — a destination_hub with a large
+    total captured demand can share the same contested cells as a small
+    neighborhood outlet next door, but lose only a sliver of its own demand
+    while the neighborhood outlet loses a large fraction of its (much
+    smaller) base. A single symmetric "overlap %" hides this.
+
+    Also aggregates a network-level view per outlet: total demand at risk
+    across ALL contested neighbors (not just the single worst pair), since
+    an outlet boxed in by three moderate overlaps can be under more real
+    competitive pressure than one outlet with one large overlap.
+
+    Returns (pairs_df, network_df).
     """
-    rows = []
+    pair_rows = []
+    network_rows = []
     outlets = outlets.copy()
     outlets["attractiveness"] = outlets.apply(attractiveness, axis=1)
+    outlet_type_by_id = dict(zip(outlets["outlet_id"], outlets["outlet_type"]))
+    grid = grid.copy()
+    grid["demand_potential"] = grid.apply(demand_potential, axis=1)
 
     for city in grid["city"].unique():
         city_grid = grid[grid["city"] == city]
@@ -184,8 +206,8 @@ def compute_cannibalization(outlets, grid, overlap_threshold=0.15):
             if len(ids) < 2:
                 continue
 
-            # P matrix: rows=cells, cols=outlets
-            p_matrix = []
+            # P matrix (rows=cells, cols=outlets) + matching demand potential per cell
+            p_matrix, demand_list = [], []
             for _, cell in city_grid.iterrows():
                 weights = {}
                 for _, o in city_outlets.iterrows():
@@ -194,23 +216,69 @@ def compute_cannibalization(outlets, grid, overlap_threshold=0.15):
                     weights[o["outlet_id"]] = (o["attractiveness"] ** ALPHA) / (d ** outlet_beta(o))
                 total_w = sum(weights.values())
                 p_matrix.append({k: v / total_w for k, v in weights.items()})
+                demand_list.append(cell["demand_potential"])
 
+            captured = {oid: 0.0 for oid in ids}
+            for p, dem in zip(p_matrix, demand_list):
+                for oid, pij in p.items():
+                    captured[oid] += pij * dem
+
+            demand_at_risk = {oid: {} for oid in ids}  # oid -> {neighbor_id: at_risk_pct}
             for i in range(len(ids)):
                 for j in range(i + 1, len(ids)):
                     a, b = ids[i], ids[j]
-                    contested = sum(
-                        1 for p in p_matrix
-                        if p.get(a, 0) >= overlap_threshold and p.get(b, 0) >= overlap_threshold
-                    )
-                    overlap_pct = round(contested / len(p_matrix) * 100, 1)
-                    if overlap_pct > 0:
-                        rows.append({
-                            "brand": brand, "city": city,
-                            "outlet_a": a, "outlet_b": b,
-                            "contested_cells_pct": overlap_pct,
-                        })
+                    contested_cells = 0
+                    a_contested_demand = b_contested_demand = 0.0
+                    for p, dem in zip(p_matrix, demand_list):
+                        pa, pb = p.get(a, 0), p.get(b, 0)
+                        if pa >= overlap_threshold and pb >= overlap_threshold:
+                            contested_cells += 1
+                            a_contested_demand += pa * dem
+                            b_contested_demand += pb * dem
+                    if contested_cells == 0:
+                        continue
 
-    return pd.DataFrame(rows).sort_values("contested_cells_pct", ascending=False)
+                    overlap_pct = round(contested_cells / len(p_matrix) * 100, 1)
+                    a_risk_pct = round(a_contested_demand / captured[a] * 100, 1) if captured[a] > 0 else 0.0
+                    b_risk_pct = round(b_contested_demand / captured[b] * 100, 1) if captured[b] > 0 else 0.0
+                    pair_rows.append({
+                        "brand": brand, "city": city,
+                        "outlet_a": a, "outlet_b": b,
+                        "contested_cells_pct": overlap_pct,
+                        "a_demand_at_risk_pct": a_risk_pct,
+                        "b_demand_at_risk_pct": b_risk_pct,
+                        # positive => A is more exposed to B than B is to A
+                        "net_asymmetry_pct": round(a_risk_pct - b_risk_pct, 1),
+                    })
+                    demand_at_risk[a][b] = a_risk_pct
+                    demand_at_risk[b][a] = b_risk_pct
+
+            for oid in ids:
+                neighbors = demand_at_risk[oid]
+                if not neighbors:
+                    continue
+                worst_neighbor, worst_pct = max(neighbors.items(), key=lambda kv: kv[1])
+                network_rows.append({
+                    "outlet_id": oid, "brand": brand, "city": city,
+                    "outlet_type": outlet_type_by_id.get(oid),
+                    "estimated_captured_demand": round(captured[oid], 1),
+                    "n_contested_neighbors": len(neighbors),
+                    # sum across neighbors: cumulative competitive pressure, can exceed
+                    # 100% if the same demand is separately contested by multiple neighbors
+                    "total_demand_at_risk_pct": round(sum(neighbors.values()), 1),
+                    "most_threatening_neighbor": worst_neighbor,
+                    "most_threatening_neighbor_risk_pct": worst_pct,
+                })
+
+    pairs_df = pd.DataFrame(pair_rows)
+    if not pairs_df.empty:
+        pairs_df = pairs_df.sort_values("contested_cells_pct", ascending=False)
+
+    network_df = pd.DataFrame(network_rows)
+    if not network_df.empty:
+        network_df = network_df.sort_values("total_demand_at_risk_pct", ascending=False)
+
+    return pairs_df, network_df
 
 
 # ---------------------------------------------------------------------------
@@ -275,10 +343,13 @@ if __name__ == "__main__":
     scores.to_csv(os.path.join(DATA_DIR, "outlet_site_scores.csv"), index=False)
     print(scores.to_string(index=False))
 
-    print("\nMenghitung cannibalization antar outlet sebrand...")
-    cannib = compute_cannibalization(outlets, grid)
-    cannib.to_csv(os.path.join(DATA_DIR, "cannibalization_pairs.csv"), index=False)
-    print(cannib.head(10).to_string(index=False) if not cannib.empty else "(tidak ada overlap signifikan)")
+    print("\nMenghitung cannibalization antar outlet sebrand (directional + network)...")
+    cannib_pairs, cannib_network = compute_cannibalization(outlets, grid)
+    cannib_pairs.to_csv(os.path.join(DATA_DIR, "cannibalization_pairs.csv"), index=False)
+    cannib_network.to_csv(os.path.join(DATA_DIR, "cannibalization_network.csv"), index=False)
+    print(cannib_pairs.head(10).to_string(index=False) if not cannib_pairs.empty else "(tidak ada overlap signifikan)")
+    print("\nOutlet dengan total demand-at-risk tertinggi (network-level):")
+    print(cannib_network.head(10).to_string(index=False) if not cannib_network.empty else "(tidak ada exposure signifikan)")
 
     print("\nMenghitung whitespace candidates...")
     whitespace = compute_whitespace(whitespace_raw)
