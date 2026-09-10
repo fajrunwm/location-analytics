@@ -1,0 +1,91 @@
+poi_id,poi_type,name,city,latitude,longitude
+POI-0001,transit_station,Halte Transjakarta H 2,Jakarta,-6.210669,106.879852
+POI-0002,transit_station,MRT Stasiun F 15,Jakarta,-6.303545,106.883137
+POI-0003,transit_station,Halte Transjakarta H 14,Jakarta,-6.255535,106.846509
+POI-0004,transit_station,MRT Stasiun F 1,Surabaya,-7.219735,112.740834
+POI-0005,residential_complex,Cluster K 19,Jakarta,-6.294507,106.819554
+POI-0006,residential_complex,Cluster K 13,Jakarta,-6.317138,106.860645
+POI-0007,transit_station,Halte Transjakarta H 1,Jakarta,-6.31706,106.739152
+POI-0008,mall,Trade Center Z 2,Surabaya,-7.275341,112.774821
+POI-0009,school_campus,Sekolah D 3,Jakarta,-6.342079,106.800221
+POI-0010,school_campus,Universitas E 2,Bandung,-6.939057,107.666987
+POI-0011,mall,Plaza Y 6,Jakarta,-6.27553,106.773336
+POI-0012,residential_complex,Perumahan I 5,Bandung,-6.945678,107.548394
+POI-0013,office_building,Corporate Park C 19,Surabaya,-7.222936,112.792351
+POI-0014,residential_complex,Perumahan I 11,Surabaya,-7.348115,112.753922
+POI-0015,mall,Mall X 3,Jakarta,-6.284719,106.809797
+POI-0016,residential_complex,Perumahan I 16,Jakarta,-6.209794,106.735888
+POI-0017,mall,Plaza Y 20,Bandung,-6.932709,107.545945
+POI-0018,competitor_noodle_asian,Hakata Ikkousha 15,Jakarta,-6.333485,106.798858
+POI-0019,competitor_noodle_asian,Marutama Ramen 6,Jakarta,-6.117413,106.889699
+POI-0020,residential_complex,Perumahan I 17,Jakarta,-6.205677,106.709446
+POI-0021,transit_station,Halte Transjakarta H 5,Surabaya,-7.249346,112.73789
+POI-0022,competitor_noodle_asian,Bakmi GM 7,Jakarta,-6.313596,106.837443
+POI-0023,school_campus,Universitas E 14,Jakarta,-6.058322,106.862477
+POI-0024,office_building,Corporate Park C 17,Bandung,-6.98851,107.635952
+POI-0025,competitor_bakery_cake,Union Bakery 6,Surabaya,-7.189487,112.727862
+POI-0026,mall,Mall X 5,Surabaya,-7.220395,112.716123
+POI-0027,competitor_bakery_cake,Union Bakery 6,Jakarta,-6.114079,106.900853
+POI-0028,transit_station,MRT Stasiun F 6,Surabaya,-7.350228,112.717019
+POI-0029,competitor_bakery_cake,Sarinah Cake 9,Jakarta,-6.178745,106.832149
+POI-0030,transit_station,KRL Stasiun G 12,Jakarta,-6.279602,106.825941
+POI-0031,school_campus,Universitas E 4,Jakarta,-6.225474,106.953537
+POI-0032,competitor_bakery_cake,Sarinah Cake 11,Surabaya,-7.257248,112.682783
+POI-0033,school_campus,Universitas E 10,Jakarta,-6.254464,106.69164
+POI-0034,school_campus,Sekolah D 19,Jakarta,-6.238883,106.928038
+POI-0035,competitor_noodle_asian,Mie Gacoan 2,Bandung,-6.844069,107.573011
+POI-0036,office_building,Corporate Park C 8,Jakarta,-6.096359,106.802388
+POI-0037,transit_station,MRT Stasiun F 19,Jakarta,-6.192085,106.892269
+POI-0038,competitor_bakery_cake,Holland Bakery 3,Jakarta,-6.351309,106.861057
+POI-0039,competitor_noodle_asian,Mie Gacoan 7,Jakarta,-6.30415,106.794088
+POI-0040,competitor_noodle_asian,Bakmi GM 13,Jakarta,-6.217936,106.719249
+POI-0041,mall,Mall X 10,Jakarta,-6.099333,106.742678
+POI-0042,school_campus,Sekolah D 7,Jakarta,-6.178617,106.760302
+POI-0043,residential_complex,Apartemen J 10,Bandung,-6.920292,107.67952
+POI-0044,transit_station,KRL Stasiun G 5,Jakarta,-6.29172,106.957016
+POI-0045,mall,Plaza Y 17,Surabaya,-7.191887,112.804318
+POI-0046,residential_complex,Apartemen J 3,Surabaya,-7.264397,112.779246
+POI-0047,competitor_bakery_cake,Sarinah Cake 19,Jakarta,-6.080581,106.826558
+POI-0048,office_building,Tower B 18,Surabaya,-7.220686,112.767881
+POI-0049,school_campus,Universitas E 16,Jakarta,-6.069485,106.798119
+POI-0050,competitor_noodle_asian,Hakata Ikkousha 9,Bandung,-6.907206,107.680004
+POI-0051,competitor_noodle_asian,Bakmi GM 14,Jakarta,-6.306991,106.760229
+POI-0052,competitor_noodle_asian,Marutama Ramen 9,Jakarta,-6.330688,106.750231
+POI-0053,mall,Trade Center Z 16,Jakarta,-6.301804,106.714932
+POI-0054,office_building,Corporate Park C 4,Bandung,-6.977969,107.560439
+POI-0055,mall,Mall X 19,Jakarta,-6.193526,106.984403
+POI-0056,competitor_bakery_cake,Union Bakery 6,Jakarta,-6.272267,106.91216
+POI-0057,mall,Mall X 10,Jakarta,-6.282404,106.78135
+POI-0058,competitor_bakery_cake,BreadTalk 4,Jakarta,-6.148631,106.961089
+POI-0059,mall,Trade Center Z 10,Bandung,-6.884436,107.602755
+POI-0060,school_campus,Universitas E 5,Jakarta,-6.105795,106.757081
+POI-0061,office_building,Tower B 11,Jakarta,-6.125235,106.763614
+POI-0062,school_campus,Sekolah D 7,Surabaya,-7.214735,112.760921
+POI-0063,school_campus,Sekolah D 14,Surabaya,-7.332564,112.721949
+POI-0064,competitor_noodle_asian,Mie Gacoan 12,Jakarta,-6.249494,106.864501
+POI-0065,school_campus,Universitas E 6,Jakarta,-6.297909,106.885759
+POI-0066,competitor_bakery_cake,BreadTalk 5,Bandung,-6.931538,107.625174
+POI-0067,competitor_noodle_asian,Mie Gacoan 4,Bandung,-6.86913,107.631662
+POI-0068,competitor_noodle_asian,Hakata Ikkousha 4,Jakarta,-6.351378,106.852214
+POI-0069,office_building,Menara A 9,Jakarta,-6.281584,106.735168
+POI-0070,competitor_noodle_asian,Marutama Ramen 20,Jakarta,-6.203056,106.935002
+POI-0071,mall,Mall X 3,Jakarta,-6.067604,106.907293
+POI-0072,school_campus,Universitas E 12,Jakarta,-6.070787,106.821482
+POI-0073,competitor_bakery_cake,Holland Bakery 4,Jakarta,-6.322499,106.830095
+POI-0074,transit_station,MRT Stasiun F 10,Surabaya,-7.27452,112.658449
+POI-0075,transit_station,MRT Stasiun F 7,Jakarta,-6.20497,106.987191
+POI-0076,transit_station,Halte Transjakarta H 6,Surabaya,-7.24172,112.652814
+POI-0077,mall,Plaza Y 14,Jakarta,-6.064846,106.912799
+POI-0078,mall,Mall X 15,Jakarta,-6.158434,106.904659
+POI-0079,transit_station,KRL Stasiun G 18,Jakarta,-6.268405,106.850233
+POI-0080,office_building,Tower B 15,Bandung,-6.91648,107.593094
+POI-0081,office_building,Menara A 18,Bandung,-6.925004,107.669224
+POI-0082,residential_complex,Perumahan I 16,Jakarta,-6.138416,106.700014
+POI-0083,transit_station,KRL Stasiun G 4,Surabaya,-7.252241,112.817948
+POI-0084,competitor_noodle_asian,Hakata Ikkousha 13,Jakarta,-6.313761,106.793067
+POI-0085,competitor_bakery_cake,Holland Bakery 12,Jakarta,-6.134465,106.94621
+POI-0086,office_building,Menara A 8,Surabaya,-7.292848,112.699639
+POI-0087,transit_station,Halte Transjakarta H 19,Surabaya,-7.166911,112.735559
+POI-0088,office_building,Tower B 16,Jakarta,-6.321999,106.755929
+POI-0089,school_campus,Universitas E 5,Bandung,-6.924377,107.707288
+POI-0090,office_building,Menara A 5,Surabaya,-7.221966,112.751945
