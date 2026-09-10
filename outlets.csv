@@ -1,43 +1,43 @@
 outlet_id,brand,outlet_name,city,district,location_type,outlet_type,latitude,longitude,gross_floor_area_sqm,seating_capacity,store_tier,open_date
-MRG-001,Marugame Udon,Marugame Udon Central Park,Bandung,Bandung Wetan,mall,destination_hub,-6.903428,107.616852,293,109.0,standard,2018-12-23
-MRG-002,Marugame Udon,Marugame Udon Grand Indonesia,Bandung,Buah Batu,mall,destination_hub,-6.908582,107.632555,126,65.0,standard,2025-04-15
-MRG-003,Marugame Udon,Marugame Udon Kota Kasablanka,Bandung,Bandung Wetan,mall,destination_hub,-6.899193,107.563288,314,60.0,standard,2022-09-28
-MRG-004,Marugame Udon,Marugame Udon Senayan City,Jakarta,Jakarta Pusat,mall,destination_hub,-6.225784,106.907609,217,52.0,standard,2022-01-10
-MRG-005,Marugame Udon,Marugame Udon Pondok Indah Mall,Surabaya,Sukolilo,mall,destination_hub,-7.336146,112.781847,151,88.0,standard,2018-11-19
-MRG-006,Marugame Udon,Marugame Udon Summarecon Mall,Bandung,Buah Batu,mall,transit_adjacent,-6.973106,107.558328,137,45.0,standard,2025-06-01
-MRG-007,Marugame Udon,Marugame Udon Living World,Jakarta,Jakarta Pusat,mall,neighborhood,-6.166874,106.922551,236,86.0,standard,2019-10-29
-MRG-008,Marugame Udon,Marugame Udon Trans Studio Mall,Jakarta,Jakarta Pusat,mall,destination_hub,-6.134997,106.83765,275,61.0,standard,2023-12-28
-MRG-009,Marugame Udon,Marugame Udon Ciputra World,Bandung,Buah Batu,mall,destination_hub,-6.89248,107.592444,176,81.0,standard,2018-08-18
-MRG-010,Marugame Udon,Marugame Udon Pakuwon Mall,Jakarta,Jakarta Timur,mall,destination_hub,-6.182169,106.833917,265,80.0,standard,2020-05-20
-MRG-011,Marugame Udon,Marugame Udon Tunjungan Plaza,Bandung,Sukajadi,mall,destination_hub,-6.946484,107.66815,155,71.0,standard,2024-04-18
-MRG-012,Marugame Udon,Marugame Udon Paris Van Java,Jakarta,Tangerang,mall,neighborhood,-6.147879,106.718631,155,105.0,standard,2023-07-15
-MRG-013,Marugame Udon,Marugame Udon Cihampelas Walk,Jakarta,Bekasi,mall,neighborhood,-6.186423,106.872931,218,88.0,standard,2024-09-06
-MRG-014,Marugame Udon,Marugame Udon AEON Mall,Surabaya,Gubeng,mall,neighborhood,-7.271712,112.830068,149,108.0,standard,2020-12-28
-MRG-015,Marugame Udon,Marugame Udon Bintaro Xchange,Surabaya,Gubeng,mall,destination_hub,-7.196787,112.734943,304,73.0,flagship,2023-08-13
-MRG-016,Marugame Udon,Marugame Udon Gandaria City,Surabaya,Sukolilo,mall,destination_hub,-7.209751,112.813032,275,65.0,standard,2019-09-19
-MRG-017,Marugame Udon,Marugame Udon PIK Avenue,Jakarta,Jakarta Selatan,mall,neighborhood,-6.227573,106.908384,245,42.0,standard,2019-04-04
-MRG-018,Marugame Udon,Marugame Udon Lippo Mall Puri,Surabaya,Gubeng,mall,neighborhood,-7.34579,112.80225,265,50.0,standard,2018-12-17
-HVT-019,The Harvest,The Harvest Boutique 01,Bandung,Cidadap,standalone_ruko,neighborhood,-6.928722,107.700296,81,,flagship,2020-12-11
-HVT-020,The Harvest,The Harvest Boutique 02,Jakarta,Jakarta Timur,standalone_ruko,neighborhood,-6.236844,106.969472,111,,standard,2023-05-18
-HVT-021,The Harvest,The Harvest Counter 03,Jakarta,Jakarta Timur,mall,neighborhood,-6.128403,106.930638,35,,standard,2016-08-04
-HVT-022,The Harvest,The Harvest Counter 04,Bandung,Buah Batu,mall,neighborhood,-6.908517,107.639174,77,,standard,2025-11-20
-HVT-023,The Harvest,The Harvest Boutique 05,Jakarta,Depok,standalone_ruko,neighborhood,-6.232051,106.90013,84,,standard,2017-02-11
-HVT-024,The Harvest,The Harvest Boutique 06,Jakarta,Jakarta Pusat,standalone_ruko,transit_adjacent,-6.15962,106.750616,153,,standard,2022-08-11
-HVT-025,The Harvest,The Harvest Boutique 07,Surabaya,Wonokromo,standalone_ruko,neighborhood,-7.224144,112.765026,91,,flagship,2016-09-09
-HVT-026,The Harvest,The Harvest Counter 08,Jakarta,Jakarta Selatan,mall,neighborhood,-6.2556,106.701717,83,,standard,2020-04-20
-HVT-027,The Harvest,The Harvest Boutique 09,Jakarta,Bekasi,standalone_ruko,transit_adjacent,-6.098712,106.87127,109,,flagship,2020-12-12
-HVT-028,The Harvest,The Harvest Boutique 10,Surabaya,Sukolilo,standalone_ruko,neighborhood,-7.164048,112.730887,122,,standard,2018-06-22
-HVT-029,The Harvest,The Harvest Boutique 11,Jakarta,Tangerang,standalone_ruko,transit_adjacent,-6.181619,106.916628,134,,flagship,2025-09-10
-HVT-030,The Harvest,The Harvest Boutique 12,Jakarta,Jakarta Barat,standalone_ruko,transit_adjacent,-6.083677,106.928352,68,,flagship,2020-04-10
-HVT-031,The Harvest,The Harvest Boutique 13,Jakarta,Jakarta Pusat,standalone_ruko,neighborhood,-6.275508,106.702243,134,,flagship,2022-02-04
-HVT-032,The Harvest,The Harvest Counter 14,Surabaya,Rungkut,mall,neighborhood,-7.305261,112.741716,83,,standard,2016-08-17
-HVT-033,The Harvest,The Harvest Counter 15,Jakarta,Jakarta Utara,mall,transit_adjacent,-6.258075,106.726979,57,,standard,2016-07-17
-HVT-034,The Harvest,The Harvest Boutique 16,Surabaya,Sukolilo,standalone_ruko,neighborhood,-7.202517,112.788386,163,,standard,2015-03-06
-HVT-035,The Harvest,The Harvest Counter 17,Bandung,Sukajadi,mall,transit_adjacent,-6.945395,107.680565,41,,standard,2018-06-27
-HVT-036,The Harvest,The Harvest Counter 18,Jakarta,Jakarta Utara,mall,neighborhood,-6.332313,106.819962,51,,standard,2016-02-21
-HVT-037,The Harvest,The Harvest Counter 19,Jakarta,Jakarta Utara,mall,transit_adjacent,-6.10474,106.827887,63,,standard,2024-08-04
-HVT-038,The Harvest,The Harvest Boutique 20,Bandung,Bandung Wetan,standalone_ruko,neighborhood,-6.927698,107.647663,134,,flagship,2018-04-28
-HVT-039,The Harvest,The Harvest Boutique 21,Jakarta,Jakarta Selatan,standalone_ruko,neighborhood,-6.183874,106.823593,86,,standard,2020-08-06
-HVT-040,The Harvest,The Harvest Boutique 22,Bandung,Coblong,standalone_ruko,neighborhood,-6.937187,107.568905,90,,standard,2018-08-24
-HVT-041,The Harvest,The Harvest Counter 23,Surabaya,Rungkut,mall,neighborhood,-7.323502,112.824228,61,,standard,2020-07-25
-HVT-042,The Harvest,The Harvest Boutique 24,Jakarta,Jakarta Timur,standalone_ruko,transit_adjacent,-6.118412,106.958222,177,,standard,2025-04-28
+MRG-001,Marugame Udon,Marugame Udon Central Park,Jakarta,Jakarta Barat,mall,destination_hub,-6.188506,106.974429,177,57.0,standard,2019-02-24
+MRG-002,Marugame Udon,Marugame Udon Grand Indonesia,Jakarta,Jakarta Pusat,mall,destination_hub,-6.292415,106.950153,228,44.0,flagship,2018-05-03
+MRG-003,Marugame Udon,Marugame Udon Kota Kasablanka,Jakarta,Jakarta Selatan,mall,destination_hub,-6.159457,106.851029,263,65.0,standard,2025-04-15
+MRG-004,Marugame Udon,Marugame Udon Senayan City,Jakarta,Jakarta Selatan,mall,destination_hub,-6.143018,106.726092,191,40.0,standard,2019-10-16
+MRG-005,Marugame Udon,Marugame Udon Pondok Indah Mall,Jakarta,Jakarta Selatan,mall,destination_hub,-6.094513,106.772389,315,83.0,flagship,2019-02-23
+MRG-006,Marugame Udon,Marugame Udon Gandaria City,Jakarta,Jakarta Selatan,mall,destination_hub,-6.180603,106.886383,274,73.0,standard,2018-06-27
+MRG-007,Marugame Udon,Marugame Udon PIK Avenue,Jakarta,Jakarta Utara,mall,neighborhood,-6.240061,106.709851,261,77.0,standard,2025-01-18
+MRG-008,Marugame Udon,Marugame Udon Lippo Mall Puri,Jakarta,Jakarta Barat,mall,neighborhood,-6.306189,106.928428,131,69.0,standard,2021-03-31
+MRG-009,Marugame Udon,Marugame Udon Bintaro Xchange,Jakarta,Tangerang,mall,neighborhood,-6.335786,106.94509,236,86.0,standard,2019-10-29
+MRG-010,Marugame Udon,Marugame Udon Summarecon Mall Serpong,Jakarta,Tangerang,mall,neighborhood,-6.113313,106.870579,285,49.0,standard,2024-10-31
+MRG-011,Marugame Udon,Marugame Udon AEON Mall BSD City,Jakarta,Tangerang,mall,neighborhood,-6.236306,106.718597,189,68.0,standard,2021-08-21
+MRG-012,Marugame Udon,Marugame Udon Plaza Indonesia,Jakarta,Jakarta Pusat,mall,transit_adjacent,-6.355694,106.869956,200,91.0,standard,2021-01-01
+MRG-013,Marugame Udon,Marugame Udon Paris Van Java,Bandung,Sukajadi,mall,neighborhood,-6.929531,107.639056,174,103.0,standard,2022-06-09
+MRG-014,Marugame Udon,Marugame Udon Cihampelas Walk,Bandung,Coblong,mall,destination_hub,-6.983748,107.565878,155,71.0,flagship,2024-04-18
+MRG-015,Marugame Udon,Marugame Udon Trans Studio Mall Bandung,Bandung,Buah Batu,mall,destination_hub,-6.983628,107.61785,269,91.0,standard,2022-01-22
+MRG-016,Marugame Udon,Marugame Udon Tunjungan Plaza,Surabaya,Tegalsari,mall,destination_hub,-7.258283,112.803132,143,46.0,standard,2019-03-26
+MRG-017,Marugame Udon,Marugame Udon Pakuwon Mall,Surabaya,Wonokromo,mall,destination_hub,-7.221817,112.774934,272,48.0,standard,2022-04-26
+MRG-018,Marugame Udon,Marugame Udon Ciputra World Surabaya,Surabaya,Sukolilo,mall,destination_hub,-7.259127,112.819404,261,41.0,standard,2025-08-18
+HVT-019,The Harvest,The Harvest Counter 01,Bandung,Bandung Wetan,mall,neighborhood,-6.934624,107.546183,45,,standard,2025-03-05
+HVT-020,The Harvest,The Harvest Boutique 02,Jakarta,Jakarta Pusat,standalone_ruko,neighborhood,-6.344106,106.819354,98,,standard,2019-06-18
+HVT-021,The Harvest,The Harvest Boutique 03,Jakarta,Jakarta Selatan,standalone_ruko,neighborhood,-6.24348,106.707499,122,,standard,2015-06-09
+HVT-022,The Harvest,The Harvest Boutique 04,Jakarta,Jakarta Timur,standalone_ruko,neighborhood,-6.217798,106.943458,70,,standard,2016-12-02
+HVT-023,The Harvest,The Harvest Boutique 05,Bandung,Cidadap,standalone_ruko,neighborhood,-6.928722,107.700296,81,,flagship,2020-12-11
+HVT-024,The Harvest,The Harvest Boutique 06,Jakarta,Jakarta Timur,standalone_ruko,neighborhood,-6.236844,106.969472,111,,standard,2023-05-18
+HVT-025,The Harvest,The Harvest Counter 07,Jakarta,Jakarta Timur,mall,neighborhood,-6.128403,106.930638,35,,standard,2016-08-04
+HVT-026,The Harvest,The Harvest Counter 08,Bandung,Buah Batu,mall,neighborhood,-6.908517,107.639174,77,,standard,2025-11-20
+HVT-027,The Harvest,The Harvest Boutique 09,Jakarta,Depok,standalone_ruko,neighborhood,-6.232051,106.90013,84,,standard,2017-02-11
+HVT-028,The Harvest,The Harvest Boutique 10,Jakarta,Jakarta Pusat,standalone_ruko,transit_adjacent,-6.15962,106.750616,153,,standard,2022-08-11
+HVT-029,The Harvest,The Harvest Boutique 11,Surabaya,Wonokromo,standalone_ruko,neighborhood,-7.224144,112.765026,91,,flagship,2016-09-09
+HVT-030,The Harvest,The Harvest Counter 12,Jakarta,Jakarta Selatan,mall,neighborhood,-6.2556,106.701717,83,,standard,2020-04-20
+HVT-031,The Harvest,The Harvest Boutique 13,Jakarta,Bekasi,standalone_ruko,transit_adjacent,-6.098712,106.87127,109,,flagship,2020-12-12
+HVT-032,The Harvest,The Harvest Boutique 14,Surabaya,Sukolilo,standalone_ruko,neighborhood,-7.164048,112.730887,122,,standard,2018-06-22
+HVT-033,The Harvest,The Harvest Boutique 15,Jakarta,Tangerang,standalone_ruko,transit_adjacent,-6.181619,106.916628,134,,flagship,2025-09-10
+HVT-034,The Harvest,The Harvest Boutique 16,Jakarta,Jakarta Barat,standalone_ruko,transit_adjacent,-6.083677,106.928352,68,,flagship,2020-04-10
+HVT-035,The Harvest,The Harvest Boutique 17,Jakarta,Jakarta Pusat,standalone_ruko,neighborhood,-6.275508,106.702243,134,,flagship,2022-02-04
+HVT-036,The Harvest,The Harvest Counter 18,Surabaya,Rungkut,mall,neighborhood,-7.305261,112.741716,83,,standard,2016-08-17
+HVT-037,The Harvest,The Harvest Counter 19,Jakarta,Jakarta Utara,mall,transit_adjacent,-6.258075,106.726979,57,,standard,2016-07-17
+HVT-038,The Harvest,The Harvest Boutique 20,Surabaya,Sukolilo,standalone_ruko,neighborhood,-7.202517,112.788386,163,,standard,2015-03-06
+HVT-039,The Harvest,The Harvest Counter 21,Bandung,Sukajadi,mall,transit_adjacent,-6.945395,107.680565,41,,standard,2018-06-27
+HVT-040,The Harvest,The Harvest Counter 22,Jakarta,Jakarta Utara,mall,neighborhood,-6.332313,106.819962,51,,standard,2016-02-21
+HVT-041,The Harvest,The Harvest Counter 23,Jakarta,Jakarta Utara,mall,transit_adjacent,-6.10474,106.827887,63,,standard,2024-08-04
+HVT-042,The Harvest,The Harvest Boutique 24,Bandung,Bandung Wetan,standalone_ruko,neighborhood,-6.927698,107.647663,134,,flagship,2018-04-28

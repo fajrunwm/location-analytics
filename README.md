@@ -50,10 +50,11 @@ Menghasilkan tiga output analitik dari data di tahap 1:
 Metodologi & batasan (termasuk kalibrasi beta, asumsi jarak lurus):
 `SITE_SCORING_METHODOLOGY.md`.
 
-**Temuan kunci dari run ini**: `MRG-004` & `MRG-017` (Surabaya) overlap 75%
-demand cell — kandidat evaluasi jarak sebelum ekspansi baru di area itu.
-Beberapa grid cell di Bandung & Surabaya konsisten whitespace untuk kedua
-brand — kandidat lokasi baru.
+**Temuan kunci dari run ini**: `MRG-017` & `MRG-018` (dua-duanya destination_hub
+di Surabaya — Pakuwon Mall & Ciputra World Surabaya) overlap 95.7% demand
+cell, dengan demand-at-risk directional 97.0% vs 93.8% — kandidat evaluasi
+jarak sebelum ekspansi baru di area itu. Grid cell `GRD-0199` (Bandung)
+konsisten whitespace tertinggi untuk kedua brand — kandidat lokasi baru.
 
 ## 4. Location insight → GenAI marketing — `prompt_builder.py`
 

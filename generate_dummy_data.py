@@ -115,27 +115,53 @@ def assign_outlet_type(location_type, outlet_name, store_tier):
 # ---------------------------------------------------------------------------
 # 1. OUTLETS
 # ---------------------------------------------------------------------------
+# Real mall -> (city, district) so a dummy outlet's name matches where it
+# would plausibly actually be, instead of a mall name being jittered into a
+# random city (e.g. "Marugame Udon Central Park" — a real Jakarta mall — must
+# not land in Bandung). District left as None falls back to a random pick
+# within that city's DISTRICTS list, used where a mall's real Surabaya-area
+# district isn't represented in our fixed 5-district taxonomy for that city.
+MARUGAME_MALLS = [
+    ("Central Park", "Jakarta", "Jakarta Barat"),
+    ("Grand Indonesia", "Jakarta", "Jakarta Pusat"),
+    ("Kota Kasablanka", "Jakarta", "Jakarta Selatan"),
+    ("Senayan City", "Jakarta", "Jakarta Selatan"),
+    ("Pondok Indah Mall", "Jakarta", "Jakarta Selatan"),
+    ("Gandaria City", "Jakarta", "Jakarta Selatan"),
+    ("PIK Avenue", "Jakarta", "Jakarta Utara"),
+    ("Lippo Mall Puri", "Jakarta", "Jakarta Barat"),
+    ("Bintaro Xchange", "Jakarta", "Tangerang"),
+    ("Summarecon Mall Serpong", "Jakarta", "Tangerang"),
+    ("AEON Mall BSD City", "Jakarta", "Tangerang"),
+    ("Plaza Indonesia", "Jakarta", "Jakarta Pusat"),
+    ("Paris Van Java", "Bandung", "Sukajadi"),
+    ("Cihampelas Walk", "Bandung", "Coblong"),
+    ("Trans Studio Mall Bandung", "Bandung", "Buah Batu"),
+    ("Tunjungan Plaza", "Surabaya", "Tegalsari"),
+    ("Pakuwon Mall", "Surabaya", "Wonokromo"),
+    ("Ciputra World Surabaya", "Surabaya", "Sukolilo"),
+]
+
 def generate_outlets(n_marugame=18, n_harvest=24):
     rows = []
     outlet_id = 1
 
-    # Marugame Udon — overwhelmingly mall-based, fewer but larger footprints
-    mall_names = ["Central Park", "Grand Indonesia", "Kota Kasablanka", "Senayan City",
-                  "Pondok Indah Mall", "Summarecon Mall", "Living World", "Trans Studio Mall",
-                  "Ciputra World", "Pakuwon Mall", "Tunjungan Plaza", "Paris Van Java",
-                  "Cihampelas Walk", "AEON Mall", "Bintaro Xchange", "Gandaria City",
-                  "PIK Avenue", "Lippo Mall Puri"]
+    # Marugame Udon — overwhelmingly mall-based, fewer but larger footprints.
+    # n_marugame must equal len(MARUGAME_MALLS): each real mall is used once,
+    # so the resulting city mix (12 Jakarta / 3 Bandung / 3 Surabaya) is a
+    # consequence of where these malls actually are, not an arbitrary weight.
+    assert n_marugame == len(MARUGAME_MALLS), "n_marugame must match MARUGAME_MALLS length"
     for i in range(n_marugame):
-        city = pick_city()
+        mall_name, city, district = MARUGAME_MALLS[i]
         lat, lon = random_point_in_city(city)
-        outlet_name = f"Marugame Udon {mall_names[i % len(mall_names)]}"
+        outlet_name = f"Marugame Udon {mall_name}"
         store_tier = random.choices(["flagship", "standard"], weights=[0.2, 0.8])[0]
         rows.append({
             "outlet_id": f"MRG-{outlet_id:03d}",
             "brand": "Marugame Udon",
             "outlet_name": outlet_name,
             "city": city,
-            "district": random.choice(DISTRICTS[city]),
+            "district": district or random.choice(DISTRICTS[city]),
             "location_type": "mall",
             "outlet_type": assign_outlet_type("mall", outlet_name, store_tier),
             "latitude": round(lat, 6),
