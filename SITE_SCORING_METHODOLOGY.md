@@ -56,8 +56,12 @@ tipe, bukan cuma memvalidasi.
 ## Tiga output
 
 **1. `outlet_site_scores.csv`** — estimasi captured demand & market share
-per outlet dalam kota+brand yang sama. Berguna untuk ranking performa lokasi
-relatif, bukan angka absolut.
+per outlet dalam kota+brand yang sama, plus kolom confidence band
+(`estimated_captured_demand_p10/p50/p90`, `coefficient_of_variation`,
+`confidence_label`) dari §Confidence/uncertainty band. Berguna untuk ranking
+performa lokasi relatif, bukan angka absolut — dan `confidence_label`
+menunjukkan seberapa jauh angka itu bisa dipercaya dibanding sekadar
+diranking.
 
 **2. `cannibalization_pairs.csv`** — pasangan outlet sebrand di kota yang
 sama di mana kedua outlet punya Huff probability ≥15% dari demand cell yang
@@ -112,6 +116,30 @@ Upgrade berikutnya: ganti `effective_distance_km()` dengan travel-time dari
 routing engine (OSRM self-hosted atau API komersial) begitu data alamat/GPS
 pelanggan riil tersedia — lihat `customer_origin_sample.csv` sebagai titik
 mula validasi (bandingkan `distance_km` lurus vs travel-time riil di sana).
+
+## Confidence/uncertainty band
+
+`beta`, attractiveness multiplier, dan circuity factor di atas semuanya masih
+**asumsi**, bukan hasil kalibrasi terhadap data riil. Menyajikan
+`estimated_captured_demand` sebagai satu angka pasti berisiko overtrust,
+terutama kalau dipakai untuk keputusan bisnis (ekspansi/tutup outlet).
+
+`compute_uncertainty_bands()` menjalankan `compute_huff_scores()` ulang
+sebanyak 30 iterasi, tiap iterasi men-jitter `beta`, attractiveness
+multiplier, dan circuity factor secara acak dalam rentang `JITTER_RANGE`
+(±15% untuk beta & attractiveness, ±10% untuk circuity — rentang ini sendiri
+judgment call, bukan hasil analisis sensitivitas formal). Hasilnya
+dilaporkan sebagai:
+
+- `estimated_captured_demand_p10/p50/p90` — rentang plausible, bukan titik tunggal
+- `coefficient_of_variation` — seberapa lebar rentang itu relatif terhadap mediannya
+- `confidence_label` (`high`/`medium`/`low`) — `high` jika CV ≤0.12, `medium` jika ≤0.25, `low` jika lebih lebar
+
+**Penting:** ini mengukur sensitivitas terhadap ketidakpastian asumsi
+model saat ini, **bukan** akurasi terhadap dunia nyata — outlet ber-label
+`high` confidence bisa saja tetap salah jika seluruh asumsi model (bukan
+cuma rentang jitter-nya) keliru. Baru jadi ukuran akurasi yang bermakna
+setelah beta/attractiveness/circuity dikalibrasi ke data riil.
 
 ## Batasan penting (karena data masih dummy)
 

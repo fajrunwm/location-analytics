@@ -45,6 +45,7 @@ Menghasilkan tiga output analitik dari data di tahap 1:
 | `cannibalization_network.csv` | Agregat per outlet: total demand at risk dari SELURUH tetangga overlap, bukan cuma pasangan terburuk |
 | `whitespace_candidates.csv` | Grid cell demand tinggi, exposure ke outlet existing rendah |
 | `outlet_catchment_validation.csv` | Dispersion jarak observed vs asumsi `outlet_type`, flag kandidat salah klasifikasi |
+| `outlet_confidence_bands.csv` | Monte Carlo p10/p50/p90 & `confidence_label` per outlet — seberapa sensitif captured demand terhadap ketidakpastian asumsi (juga digabung ke `outlet_site_scores.csv`) |
 
 Metodologi & batasan (termasuk kalibrasi beta, asumsi jarak lurus):
 `SITE_SCORING_METHODOLOGY.md`.

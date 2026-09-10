@@ -41,6 +41,13 @@ Output:
                                         outlet, dibandingkan dengan asumsi
                                         beta/outlet_type di atas — dipakai untuk
                                         flag outlet yang mungkin salah klasifikasi
+  6. outlet_confidence_bands.csv     - Monte Carlo p10/p50/p90 & confidence_label
+                                        per outlet (juga digabung ke kolom
+                                        tambahan di outlet_site_scores.csv) —
+                                        seberapa sensitif captured demand
+                                        terhadap ketidakpastian beta/
+                                        attractiveness/circuity yang belum
+                                        dikalibrasi
 
 Run: python3 site_scoring_huff.py
 """
@@ -112,9 +119,11 @@ LAND_USE_CIRCUITY_ADJ = {
 }
 
 
-def effective_distance_km(straight_km, city, land_use_type):
-    city_factor = ROAD_CIRCUITY_BY_CITY.get(city, 1.3)
-    land_use_factor = LAND_USE_CIRCUITY_ADJ.get(land_use_type, 1.0)
+def effective_distance_km(straight_km, city, land_use_type, circuity_by_city=None, land_use_adj=None):
+    circuity_by_city = circuity_by_city or ROAD_CIRCUITY_BY_CITY
+    land_use_adj = land_use_adj or LAND_USE_CIRCUITY_ADJ
+    city_factor = circuity_by_city.get(city, 1.3)
+    land_use_factor = land_use_adj.get(land_use_type, 1.0)
     return straight_km * city_factor * land_use_factor
 
 
@@ -127,14 +136,18 @@ def haversine_km(lat1, lon1, lat2, lon2):
     return 2 * R * math.asin(math.sqrt(a))
 
 
-def attractiveness(outlet_row):
+def attractiveness(outlet_row, type_multiplier=None):
+    """type_multiplier override lets Monte Carlo uncertainty runs jitter this
+    assumption without mutating the module-level OUTLET_TYPE_ATTRACT_MULTIPLIER."""
+    type_multiplier = type_multiplier or OUTLET_TYPE_ATTRACT_MULTIPLIER
     tier_mult = TIER_MULTIPLIER.get(outlet_row["store_tier"], 1.0)
-    type_mult = OUTLET_TYPE_ATTRACT_MULTIPLIER.get(outlet_row.get("outlet_type"), 1.0)
+    type_mult = type_multiplier.get(outlet_row.get("outlet_type"), 1.0)
     return outlet_row["gross_floor_area_sqm"] * tier_mult * type_mult
 
 
-def outlet_beta(outlet_row):
-    return BETA_BY_OUTLET_TYPE.get(outlet_row.get("outlet_type"), DEFAULT_BETA)
+def outlet_beta(outlet_row, beta_by_type=None):
+    beta_by_type = beta_by_type or BETA_BY_OUTLET_TYPE
+    return beta_by_type.get(outlet_row.get("outlet_type"), DEFAULT_BETA)
 
 
 def demand_potential(cell_row):
@@ -146,9 +159,16 @@ def demand_potential(cell_row):
 # ---------------------------------------------------------------------------
 # 1. Huff probabilities + captured demand per outlet
 # ---------------------------------------------------------------------------
-def compute_huff_scores(outlets, grid):
+def compute_huff_scores(outlets, grid, beta_by_type=None, type_multiplier=None,
+                         circuity_by_city=None, land_use_adj=None):
+    """
+    beta_by_type / type_multiplier / circuity_by_city / land_use_adj let a
+    Monte Carlo uncertainty run (see compute_uncertainty_bands()) jitter these
+    still-uncalibrated assumptions per iteration without touching the module
+    defaults used everywhere else.
+    """
     outlets = outlets.copy()
-    outlets["attractiveness"] = outlets.apply(attractiveness, axis=1)
+    outlets["attractiveness"] = outlets.apply(lambda r: attractiveness(r, type_multiplier), axis=1)
     grid = grid.copy()
     grid["demand_potential"] = grid.apply(demand_potential, axis=1)
 
@@ -167,8 +187,9 @@ def compute_huff_scores(outlets, grid):
                 for _, o in city_outlets.iterrows():
                     straight_d = haversine_km(cell["centroid_lat"], cell["centroid_lon"],
                                                o["latitude"], o["longitude"])
-                    d = max(effective_distance_km(straight_d, city, cell["land_use_type"]), MIN_DIST_KM)
-                    w = (o["attractiveness"] ** ALPHA) / (d ** outlet_beta(o))
+                    d = max(effective_distance_km(straight_d, city, cell["land_use_type"],
+                                                   circuity_by_city, land_use_adj), MIN_DIST_KM)
+                    w = (o["attractiveness"] ** ALPHA) / (d ** outlet_beta(o, beta_by_type))
                     weights.append((o["outlet_id"], w))
 
                 total_w = sum(w for _, w in weights)
@@ -365,6 +386,66 @@ def compute_catchment_validation(outlets, origin_sample, deviation_flag_pct=0.5)
 
 
 # ---------------------------------------------------------------------------
+# 5. Confidence/uncertainty bands — Monte Carlo over uncalibrated assumptions
+# ---------------------------------------------------------------------------
+# How much each still-uncalibrated assumption is allowed to wobble per
+# iteration (uniform multiplicative jitter). These ranges are themselves a
+# judgment call — wide enough to be honest that beta/attractiveness/circuity
+# are asserted, not fitted, without being so wide the bands become useless.
+JITTER_RANGE = {
+    "beta": (0.85, 1.15),          # +/-15% on BETA_BY_OUTLET_TYPE
+    "attractiveness": (0.85, 1.15),  # +/-15% on OUTLET_TYPE_ATTRACT_MULTIPLIER
+    "circuity": (0.90, 1.10),      # +/-10% on ROAD_CIRCUITY_BY_CITY / LAND_USE_CIRCUITY_ADJ
+}
+
+
+def compute_uncertainty_bands(outlets, grid, n_iterations=30, seed=42):
+    """
+    Re-runs compute_huff_scores() n_iterations times, jittering beta,
+    attractiveness multiplier, and circuity factors within JITTER_RANGE each
+    time, and reports the resulting spread of estimated_captured_demand per
+    outlet (p10/p50/p90 + a qualitative confidence_label). This does NOT
+    replace calibration against real data — it only makes explicit how much
+    the site scores in outlet_site_scores.csv could move if the current
+    (asserted) assumptions are off within a plausible range.
+    """
+    rng = np.random.default_rng(seed)
+    captured_by_outlet = {}
+
+    for _ in range(n_iterations):
+        beta_by_type = {k: v * rng.uniform(*JITTER_RANGE["beta"]) for k, v in BETA_BY_OUTLET_TYPE.items()}
+        type_multiplier = {k: v * rng.uniform(*JITTER_RANGE["attractiveness"])
+                            for k, v in OUTLET_TYPE_ATTRACT_MULTIPLIER.items()}
+        circuity_by_city = {k: v * rng.uniform(*JITTER_RANGE["circuity"]) for k, v in ROAD_CIRCUITY_BY_CITY.items()}
+        land_use_adj = {k: v * rng.uniform(*JITTER_RANGE["circuity"]) for k, v in LAND_USE_CIRCUITY_ADJ.items()}
+
+        scores, _ = compute_huff_scores(
+            outlets, grid,
+            beta_by_type=beta_by_type, type_multiplier=type_multiplier,
+            circuity_by_city=circuity_by_city, land_use_adj=land_use_adj,
+        )
+        for _, row in scores.iterrows():
+            captured_by_outlet.setdefault(row["outlet_id"], []).append(row["estimated_captured_demand"])
+
+    rows = []
+    for outlet_id, values in captured_by_outlet.items():
+        arr = np.array(values)
+        p10, p50, p90 = np.percentile(arr, [10, 50, 90])
+        cv = float(arr.std() / arr.mean()) if arr.mean() > 0 else 0.0
+        confidence_label = "low" if cv > 0.25 else ("medium" if cv > 0.12 else "high")
+        rows.append({
+            "outlet_id": outlet_id,
+            "estimated_captured_demand_p10": round(p10, 1),
+            "estimated_captured_demand_p50": round(p50, 1),
+            "estimated_captured_demand_p90": round(p90, 1),
+            "coefficient_of_variation": round(cv, 3),
+            "confidence_label": confidence_label,
+        })
+
+    return pd.DataFrame(rows).sort_values("coefficient_of_variation", ascending=False)
+
+
+# ---------------------------------------------------------------------------
 # MAIN
 # ---------------------------------------------------------------------------
 if __name__ == "__main__":
@@ -373,8 +454,17 @@ if __name__ == "__main__":
 
     print("Menghitung Huff site scores...")
     scores, whitespace_raw = compute_huff_scores(outlets, grid)
+
+    print("Menghitung confidence/uncertainty band (Monte Carlo, 30 iterasi)...")
+    uncertainty = compute_uncertainty_bands(outlets, grid)
+    scores = scores.merge(uncertainty, on="outlet_id", how="left")
     scores.to_csv(os.path.join(DATA_DIR, "outlet_site_scores.csv"), index=False)
+    uncertainty.to_csv(os.path.join(DATA_DIR, "outlet_confidence_bands.csv"), index=False)
     print(scores.to_string(index=False))
+    low_conf = scores[scores["confidence_label"] == "low"]
+    if not low_conf.empty:
+        print(f"\n{len(low_conf)} outlet berlabel confidence 'low' — captured_demand-nya sensitif "
+              "terhadap asumsi beta/attractiveness/circuity, treat dengan hati-hati.")
 
     print("\nMenghitung cannibalization antar outlet sebrand (directional + network)...")
     cannib_pairs, cannib_network = compute_cannibalization(outlets, grid)
