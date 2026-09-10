@@ -85,44 +85,67 @@ svg.leaflet-zoom-animated{will-change:transform}
 /* ---- end inlined leaflet.css ---- */
 
 :root{
-  --bg:#F5F4F0; --surface:#FFFFFF; --surface-2:#EDEBE3;
-  --ink:#1B211F; --ink-muted:#5C655F; --border:#DBD9CE;
-  --accent:#1E6E62; --accent-soft:#DCEAE6; --accent-ink:#0F3D36;
-  --transit:#3E5C8A; --transit-soft:#DEE4EF;
-  --warn:#A9691F; --warn-soft:#F3E4D0; --warn-ink:#5C3B10;
-  --critical:#A13E32; --critical-soft:#F5DEDA;
+  /* warm, humanist neutrals */
+  --bg:#FAF6F1; --surface:#FFFFFF; --surface-2:#F2E9E1;
+  --ink:#2B2320; --ink-muted:#8A7B71; --border:#E7DAD0;
+
+  /* brand/UI accent — buttons, links, selection, progress */
+  --accent:#D9704F; --accent-soft:#F8E3D8; --accent-ink:#8A3F26;
+
+  /* status (confidence) — separate channel from outlet_type colors below */
+  --status-high:#4C9A6A;   --status-high-soft:#E3EFE8;   --status-high-ink:#295E3D;
+  --status-medium:#D9A23D; --status-medium-soft:#F8EDD9; --status-medium-ink:#7A5A18;
+  --status-low:#C0392B;    --status-low-soft:#F7DEDA;    --status-low-ink:#7A241A;
+
+  /* outlet_type — humanist triadic palette, colorblind-friendly hue spread */
+  --type-hub:#5B4B8A;          --type-hub-soft:#E9E4F4;
+  --type-transit:#2E8F94;      --type-transit-soft:#DFEFF0;
+  --type-neighborhood:#B85C42; --type-neighborhood-soft:#F4E1D8;
+
   --mono:"IBM Plex Mono", ui-monospace, monospace;
   --sans:"IBM Plex Sans", system-ui, sans-serif;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --bg:#12181A; --surface:#182422; --surface-2:#1E2B28;
-    --ink:#E7EDEA; --ink-muted:#9BAAA4; --border:#2A3634;
-    --accent:#4FB3A0; --accent-soft:#1D3A34; --accent-ink:#C9EEE5;
-    --transit:#8FADDD; --transit-soft:#232D40;
-    --warn:#D99A4E; --warn-soft:#3A2E1A; --warn-ink:#F0D2A5;
-    --critical:#E08579; --critical-soft:#3D211D;
+    --bg:#181310; --surface:#211A16; --surface-2:#2A211C;
+    --ink:#F1E8E1; --ink-muted:#AD9C90; --border:#382D26;
+
+    --accent:#E68F6B; --accent-soft:#3A2620; --accent-ink:#F6D3BF;
+
+    --status-high:#7FC99A;   --status-high-soft:#233A2C;   --status-high-ink:#B9E6C8;
+    --status-medium:#F0C36B; --status-medium-soft:#3A2E17; --status-medium-ink:#F5DBA6;
+    --status-low:#E58880;    --status-low-soft:#3D211D;    --status-low-ink:#F3BBB4;
+
+    --type-hub:#9C86D6;          --type-hub-soft:#2A2440;
+    --type-transit:#5FC7CC;      --type-transit-soft:#1D3536;
+    --type-neighborhood:#DA9075; --type-neighborhood-soft:#3A2A22;
   }
   :root:not([data-theme="light"]) .leaflet-control-attribution,
-  :root:not([data-theme="light"]) .leaflet-control-scale-line{background:rgba(24,36,34,.85); color:#cfd8d5}
-  :root:not([data-theme="light"]) .leaflet-bar a{background-color:#182422; color:#E7EDEA; border-bottom-color:#2A3634}
-  :root:not([data-theme="light"]) .leaflet-bar a:hover{background-color:#1E2B28}
+  :root:not([data-theme="light"]) .leaflet-control-scale-line{background:rgba(33,26,22,.85); color:#e3d6cc}
+  :root:not([data-theme="light"]) .leaflet-bar a{background-color:#211A16; color:#F1E8E1; border-bottom-color:#382D26}
+  :root:not([data-theme="light"]) .leaflet-bar a:hover{background-color:#2A211C}
   :root:not([data-theme="light"]) .leaflet-popup-content-wrapper,
-  :root:not([data-theme="light"]) .leaflet-popup-tip{background:#182422; color:#E7EDEA}
+  :root:not([data-theme="light"]) .leaflet-popup-tip{background:#211A16; color:#F1E8E1}
 }
 :root[data-theme="dark"]{
-  --bg:#12181A; --surface:#182422; --surface-2:#1E2B28;
-  --ink:#E7EDEA; --ink-muted:#9BAAA4; --border:#2A3634;
-  --accent:#4FB3A0; --accent-soft:#1D3A34; --accent-ink:#C9EEE5;
-  --transit:#8FADDD; --transit-soft:#232D40;
-  --warn:#D99A4E; --warn-soft:#3A2E1A; --warn-ink:#F0D2A5;
-  --critical:#E08579; --critical-soft:#3D211D;
+  --bg:#181310; --surface:#211A16; --surface-2:#2A211C;
+  --ink:#F1E8E1; --ink-muted:#AD9C90; --border:#382D26;
+
+  --accent:#E68F6B; --accent-soft:#3A2620; --accent-ink:#F6D3BF;
+
+  --status-high:#7FC99A;   --status-high-soft:#233A2C;   --status-high-ink:#B9E6C8;
+  --status-medium:#F0C36B; --status-medium-soft:#3A2E17; --status-medium-ink:#F5DBA6;
+  --status-low:#E58880;    --status-low-soft:#3D211D;    --status-low-ink:#F3BBB4;
+
+  --type-hub:#9C86D6;          --type-hub-soft:#2A2440;
+  --type-transit:#5FC7CC;      --type-transit-soft:#1D3536;
+  --type-neighborhood:#DA9075; --type-neighborhood-soft:#3A2A22;
 }
 :root[data-theme="dark"] .leaflet-control-attribution,
-:root[data-theme="dark"] .leaflet-control-scale-line{background:rgba(24,36,34,.85); color:#cfd8d5}
-:root[data-theme="dark"] .leaflet-bar a{background-color:#182422; color:#E7EDEA; border-bottom-color:#2A3634}
+:root[data-theme="dark"] .leaflet-control-scale-line{background:rgba(33,26,22,.85); color:#e3d6cc}
+:root[data-theme="dark"] .leaflet-bar a{background-color:#211A16; color:#F1E8E1; border-bottom-color:#382D26}
 :root[data-theme="dark"] .leaflet-popup-content-wrapper,
-:root[data-theme="dark"] .leaflet-popup-tip{background:#182422; color:#E7EDEA}
+:root[data-theme="dark"] .leaflet-popup-tip{background:#211A16; color:#F1E8E1}
 
 *{box-sizing:border-box}
 body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans); font-size:14.5px; line-height:1.5}
@@ -132,40 +155,44 @@ header{display:flex; justify-content:space-between; align-items:flex-start; gap:
 header h1{font-size:22px; margin:0 0 4px; font-weight:700; letter-spacing:-0.01em}
 header p{margin:0; color:var(--ink-muted); font-size:13.5px; max-width:52ch}
 .kpi-row{display:flex; gap:10px; flex-wrap:wrap}
-.kpi{background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:10px 14px; min-width:108px}
+.kpi{background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:10px 14px; min-width:108px; transition:transform .15s, box-shadow .15s}
+.kpi:hover{transform:translateY(-1px); box-shadow:0 4px 14px -6px rgba(43,35,32,.18)}
 .kpi .v{font-family:var(--mono); font-size:19px; font-weight:600; font-variant-numeric:tabular-nums}
 .kpi .l{font-size:11px; color:var(--ink-muted); text-transform:uppercase; letter-spacing:.03em; margin-top:2px}
 
-.controls{display:flex; gap:20px; flex-wrap:wrap; align-items:center; margin:20px 0 18px; padding:14px 16px; background:var(--surface); border:1px solid var(--border); border-radius:8px}
+.controls{display:flex; gap:20px; flex-wrap:wrap; align-items:center; margin:20px 0 18px; padding:14px 16px; background:var(--surface); border:1px solid var(--border); border-radius:12px}
 .control-group{display:flex; gap:6px; align-items:center; flex-wrap:wrap}
 .control-group .label{font-family:var(--mono); font-size:11px; color:var(--ink-muted); text-transform:uppercase; letter-spacing:.03em; margin-right:4px}
-.chip-btn{font-family:var(--mono); font-size:12px; padding:5px 11px; border-radius:14px; border:1px solid var(--border); background:var(--bg); color:var(--ink-muted); cursor:pointer; display:inline-flex; align-items:center; gap:6px; transition:all .12s}
+.chip-btn{font-family:var(--mono); font-size:12px; padding:5px 11px; border-radius:14px; border:1px solid var(--border); background:var(--bg); color:var(--ink-muted); cursor:pointer; display:inline-flex; align-items:center; gap:6px; transition:all .15s}
+.chip-btn:hover{border-color:var(--accent)}
 .chip-btn .sw{width:8px; height:8px; border-radius:50%; background:currentColor}
 .chip-btn.on{background:var(--accent-soft); color:var(--accent-ink); border-color:var(--accent)}
-.chip-btn.on.transit{background:var(--transit-soft); color:var(--transit); border-color:var(--transit)}
-.chip-btn.on.warn{background:var(--warn-soft); color:var(--warn-ink); border-color:var(--warn)}
+.chip-btn.on.type-hub{background:var(--type-hub-soft); color:var(--type-hub); border-color:var(--type-hub)}
+.chip-btn.on.type-transit{background:var(--type-transit-soft); color:var(--type-transit); border-color:var(--type-transit)}
+.chip-btn.on.type-neighborhood{background:var(--type-neighborhood-soft); color:var(--type-neighborhood); border-color:var(--type-neighborhood)}
 label.toggle{font-family:var(--mono); font-size:12px; color:var(--ink-muted); display:flex; align-items:center; gap:6px; cursor:pointer}
 
 .layout{display:grid; grid-template-columns:1fr 300px; gap:20px; align-items:start}
 @media (max-width:900px){.layout{grid-template-columns:1fr}}
 
-.map-card{background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:10px; overflow:hidden}
-#map{height:560px; border-radius:6px; background:var(--surface-2); font-family:var(--sans)}
+.map-card{background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:10px; overflow:hidden}
+#map{height:560px; border-radius:10px; background:var(--surface-2); font-family:var(--sans)}
 .map-note{font-size:11.5px; color:var(--ink-muted); padding:8px 4px 0}
 
 .legend{display:flex; gap:16px; flex-wrap:wrap; margin-top:14px; font-size:12px; color:var(--ink-muted); align-items:center}
 .legend .item{display:flex; align-items:center; gap:6px}
 .legend svg{flex:none}
 
-aside{position:sticky; top:20px; background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:18px; min-height:260px}
+aside{position:sticky; top:20px; background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:18px; min-height:260px}
 aside h2{font-size:14px; margin:0 0 12px}
-.detail-empty{color:var(--ink-muted); font-size:13px}
+.detail-empty{color:var(--ink-muted); font-size:13px; text-align:center; padding:24px 8px}
+.detail-empty .emoji-ish{font-size:26px; display:block; margin-bottom:10px; opacity:.7}
 .detail-id{font-family:var(--mono); font-size:12px; color:var(--ink-muted)}
 .detail-name{font-size:16px; font-weight:600; margin:2px 0 10px}
 .badge{font-family:var(--mono); font-size:11px; padding:2px 8px; border-radius:10px; display:inline-flex; align-items:center; gap:5px; font-weight:500}
-.badge.high{background:var(--accent-soft); color:var(--accent-ink)}
-.badge.medium{background:var(--transit-soft); color:var(--transit)}
-.badge.low{background:var(--warn-soft); color:var(--warn-ink)}
+.badge.high{background:var(--status-high-soft); color:var(--status-high-ink)}
+.badge.medium{background:var(--status-medium-soft); color:var(--status-medium-ink)}
+.badge.low{background:var(--status-low-soft); color:var(--status-low-ink)}
 .badge::before{content:""; width:6px; height:6px; border-radius:50%; background:currentColor}
 .detail-row{display:flex; justify-content:space-between; padding:8px 0; border-top:1px solid var(--border); font-size:13px}
 .detail-row .k{color:var(--ink-muted)}
@@ -174,14 +201,15 @@ aside h2{font-size:14px; margin:0 0 12px}
 .range-bar .fill{position:absolute; top:0; bottom:0; background:var(--accent); border-radius:3px}
 .range-bar .mid{position:absolute; top:-3px; width:2px; height:12px; background:var(--ink)}
 .range-labels{display:flex; justify-content:space-between; font-family:var(--mono); font-size:10.5px; color:var(--ink-muted)}
-.neighbor-link{font-family:var(--mono); font-size:12.5px; color:var(--accent-ink); background:var(--accent-soft); border:none; padding:6px 10px; border-radius:5px; cursor:pointer; margin-top:10px; width:100%; text-align:left}
+.neighbor-link{font-family:var(--mono); font-size:12.5px; color:var(--accent-ink); background:var(--accent-soft); border:none; padding:8px 12px; border-radius:8px; cursor:pointer; margin-top:10px; width:100%; text-align:left; transition:transform .12s}
+.neighbor-link:hover{transform:translateX(2px)}
 
 table{width:100%; border-collapse:collapse; margin-top:22px; font-size:13px}
-th,td{text-align:left; padding:8px 10px; border-bottom:1px solid var(--border)}
+th,td{text-align:left; padding:9px 10px; border-bottom:1px solid var(--border)}
 th{font-family:var(--mono); font-size:10.5px; text-transform:uppercase; letter-spacing:.03em; color:var(--ink-muted); cursor:pointer; user-select:none; white-space:nowrap}
 th.num, td.num{text-align:right; font-variant-numeric:tabular-nums}
 th:hover{color:var(--ink)}
-tbody tr{cursor:pointer}
+tbody tr{cursor:pointer; transition:background .12s}
 tbody tr:hover{background:var(--surface-2)}
 tbody tr.selected{background:var(--accent-soft)}
 td code{font-family:var(--mono); font-size:12px}
@@ -189,10 +217,11 @@ td code{font-family:var(--mono); font-size:12px}
 footer{margin-top:36px; padding-top:16px; border-top:1px solid var(--border); font-size:12px; color:var(--ink-muted); display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px}
 footer a{color:var(--ink-muted)}
 
-.pin{border-radius:50%; box-sizing:border-box}
-.pin.diamond{border-radius:3px; transform:rotate(45deg)}
-.pin.selected{outline:2px dashed var(--critical); outline-offset:3px}
-.ws-pin{border-radius:2px; transform:rotate(45deg); background:transparent}
+.pin{border-radius:50%; box-sizing:border-box; display:flex; align-items:center; justify-content:center; transition:transform .15s, box-shadow .15s; box-shadow:0 0 0 2px rgba(255,255,255,.85), 0 2px 6px -2px rgba(43,35,32,.35)}
+:root[data-theme="dark"] .pin, :root:not([data-theme="light"]) .pin{box-shadow:0 0 0 2px rgba(24,19,16,.85), 0 2px 6px -2px rgba(0,0,0,.5)}
+.pin:hover{transform:scale(1.12)}
+.pin.selected{outline:2.5px dashed var(--accent); outline-offset:3px}
+.ws-pin{border-radius:50%; background:transparent}
 .popup-title{font-family:var(--mono); font-weight:600; font-size:12.5px; margin-bottom:2px}
 .popup-row{font-size:12px; color:#555}
 </style>
@@ -203,7 +232,7 @@ footer a{color:var(--ink-muted)}
   <header>
     <div>
       <h1>Outlet Intelligence Board</h1>
-      <p>72 outlet real Marugame Udon &amp; The Harvest di Jawa (Google Maps) — site score, cannibalization, dan confidence band dari <code>site_scoring_huff.py</code>. Lokasi &amp; rating real, angka demand/transaksi sintetis (POC).</p>
+      <p>Cerita 72 outlet real Marugame Udon &amp; The Harvest se-Jawa (Google Maps) — siapa yang ramai, siapa yang saling rebutan pelanggan, dan seberapa yakin kita dengan angkanya. Lokasi &amp; rating asli, angka demand/transaksi masih simulasi (POC).</p>
     </div>
     <div class="kpi-row" id="kpiRow"></div>
   </header>
@@ -215,16 +244,16 @@ footer a{color:var(--ink-muted)}
       <button class="chip-btn on" data-filter="brand" data-value="The Harvest"><span class="sw"></span>The Harvest</button>
     </div>
     <div class="control-group">
-      <span class="label">Outlet type</span>
-      <button class="chip-btn on" data-filter="type" data-value="destination_hub"><span class="sw"></span>hub</button>
-      <button class="chip-btn on transit" data-filter="type" data-value="transit_adjacent"><span class="sw"></span>transit</button>
-      <button class="chip-btn on warn" data-filter="type" data-value="neighborhood"><span class="sw"></span>neighborhood</button>
+      <span class="label">Karakter lokasi</span>
+      <button class="chip-btn on type-hub" data-filter="type" data-value="destination_hub"><span class="sw"></span>Hub besar</button>
+      <button class="chip-btn on type-transit" data-filter="type" data-value="transit_adjacent"><span class="sw"></span>Mall menengah</button>
+      <button class="chip-btn on type-neighborhood" data-filter="type" data-value="neighborhood"><span class="sw"></span>Toko lokal</button>
     </div>
-    <label class="toggle"><input type="checkbox" id="whitespaceToggle"> tampilkan whitespace candidates</label>
+    <label class="toggle"><input type="checkbox" id="whitespaceToggle"> tampilkan peluang lokasi baru</label>
     <div class="control-group">
       <span class="label">Basemap</span>
-      <button class="chip-btn" data-basemap="light"><span class="sw"></span>Positron Light</button>
-      <button class="chip-btn" data-basemap="dark"><span class="sw"></span>Positron Dark</button>
+      <button class="chip-btn" data-basemap="light"><span class="sw"></span>Peta terang</button>
+      <button class="chip-btn" data-basemap="dark"><span class="sw"></span>Peta gelap</button>
     </div>
   </div>
 
@@ -235,12 +264,12 @@ footer a{color:var(--ink-muted)}
         <div class="map-note">Basemap © <a href="https://carto.com/attributions" target="_blank" rel="noopener">CARTO</a>, © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors. Tile gambar butuh koneksi internet &amp; hanya tampil saat file dibuka langsung di browser (tidak dalam preview ter-sandbox).</div>
       </div>
       <div class="legend">
-        <span class="item"><svg width="14" height="14"><circle cx="7" cy="7" r="6" fill="var(--accent)"/></svg> Marugame · lingkaran</span>
-        <span class="item"><svg width="14" height="14"><polygon points="7,1 13,7 7,13 1,7" fill="var(--warn)"/></svg> The Harvest · diamond</span>
-        <span class="item"><svg width="14" height="14"><circle cx="7" cy="7" r="6" fill="var(--accent)"/></svg><svg width="14" height="14"><circle cx="7" cy="7" r="6" fill="var(--transit)"/></svg><svg width="14" height="14"><circle cx="7" cy="7" r="6" fill="var(--warn)"/></svg> warna = outlet_type (hub / transit / neighborhood)</span>
-        <span class="item">opacity pudar = confidence rendah</span>
-        <span class="item">ukuran = captured demand</span>
-        <span class="item"><svg width="14" height="14"><circle cx="7" cy="7" r="6" fill="none" stroke="var(--critical)" stroke-width="2" stroke-dasharray="2 2"/></svg> outlet terpilih</span>
+        <span class="item"><svg width="18" height="18" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="var(--type-hub)"/><path d="M3 8 C3 11 5.2 12.6 8 12.6 C10.8 12.6 13 11 13 8" stroke="#fff" stroke-width="1.3" fill="none" stroke-linecap="round"/><path d="M3 8 L13 8" stroke="#fff" stroke-width="1.3" stroke-linecap="round"/><path d="M5.3 7 Q6.5 4.3 7.7 7 Q8.9 4.3 10.1 7" stroke="#fff" stroke-width="1.1" fill="none" stroke-linecap="round"/></svg> Marugame = mangkuk udon</span>
+        <span class="item"><svg width="18" height="18" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="var(--type-neighborhood)"/><path d="M4 13 L8 4 L12 13 Z" stroke="#fff" stroke-width="1.3" fill="none" stroke-linejoin="round" stroke-linecap="round"/><path d="M2.5 13 L13.5 13" stroke="#fff" stroke-width="1.2" stroke-linecap="round"/><circle cx="8" cy="3.2" r="1.1" fill="#FFD1B8"/></svg> The Harvest = potongan cake</span>
+        <span class="item"><svg width="12" height="12"><circle cx="6" cy="6" r="5.5" fill="var(--type-hub)"/></svg><svg width="12" height="12"><circle cx="6" cy="6" r="5.5" fill="var(--type-transit)"/></svg><svg width="12" height="12"><circle cx="6" cy="6" r="5.5" fill="var(--type-neighborhood)"/></svg> warna = karakter lokasi (hub / mall menengah / toko lokal)</span>
+        <span class="item">makin pudar = makin tidak yakin angkanya</span>
+        <span class="item">makin besar = makin ramai (captured demand)</span>
+        <span class="item"><svg width="16" height="16"><circle cx="8" cy="8" r="6" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="2 2"/></svg> lagi dilihat</span>
       </div>
 
       <table id="outletTable">
@@ -249,11 +278,11 @@ footer a{color:var(--ink-muted)}
             <th data-key="outlet_id">Outlet</th>
             <th data-key="brand">Brand</th>
             <th data-key="city">Kota</th>
-            <th data-key="outlet_type">Tipe</th>
-            <th class="num" data-key="estimated_captured_demand">Captured demand</th>
-            <th class="num" data-key="market_share_pct">Share%</th>
-            <th data-key="confidence_label">Confidence</th>
-            <th class="num" data-key="total_demand_at_risk_pct">Risk%</th>
+            <th data-key="outlet_type">Karakter</th>
+            <th class="num" data-key="estimated_captured_demand">Pelanggan</th>
+            <th class="num" data-key="market_share_pct">Pangsa%</th>
+            <th data-key="confidence_label">Keyakinan</th>
+            <th class="num" data-key="total_demand_at_risk_pct">Risiko%</th>
           </tr>
         </thead>
         <tbody id="tableBody"></tbody>
@@ -261,8 +290,8 @@ footer a{color:var(--ink-muted)}
     </div>
 
     <aside id="detailPanel">
-      <h2>Detail outlet</h2>
-      <div class="detail-empty" id="detailContent">Klik outlet di peta atau tabel untuk lihat detail site score, confidence, dan cannibalization-nya.</div>
+      <h2>Cerita outlet</h2>
+      <div class="detail-empty" id="detailContent"><svg class="emoji-ish" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="2.4" fill="currentColor" stroke="none"/></svg>Klik salah satu outlet di peta atau tabel untuk lihat ceritanya — seberapa ramai, siapa saingan terdekatnya, dan seberapa yakin kita dengan angkanya.</div>
     </aside>
   </div>
 
@@ -296,10 +325,23 @@ footer a{color:var(--ink-muted)}
 
   function css(name){ return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
   function radiusFor(cd){ return Math.max(6, Math.min(22, 5 + Math.sqrt(cd || 0) / 22)); }
-  function typeColor(t){ return t==='destination_hub' ? css('--accent') : t==='transit_adjacent' ? css('--transit') : css('--warn'); }
+  function typeColor(t){ return t==='destination_hub' ? css('--type-hub') : t==='transit_adjacent' ? css('--type-transit') : css('--type-neighborhood'); }
   function confOpacity(c){ return c==='high' ? 0.9 : c==='medium' ? 0.65 : 0.4; }
   function fmt(n){ if(n==null) return '–'; return Math.round(n).toLocaleString('id-ID'); }
   function passesFilter(o){ return state.brands.has(o.brand) && state.types.has(o.outlet_type); }
+
+  // Line-art brand glyphs (1-2 colors: white strokes + one warm accent fill)
+  // drawn small enough to still read as "bowl of udon" vs "slice of cake" at marker scale.
+  function brandGlyph(brand){
+    if(brand === 'Marugame Udon'){
+      return '<path d="M3 8 C3 11 5.2 12.6 8 12.6 C10.8 12.6 13 11 13 8" stroke="#fff" stroke-width="1.3" fill="none" stroke-linecap="round"/>'+
+             '<path d="M3 8 L13 8" stroke="#fff" stroke-width="1.3" stroke-linecap="round"/>'+
+             '<path d="M5.3 7 Q6.5 4.3 7.7 7 Q8.9 4.3 10.1 7" stroke="#fff" stroke-width="1.1" fill="none" stroke-linecap="round"/>';
+    }
+    return '<path d="M4 13 L8 4 L12 13 Z" stroke="#fff" stroke-width="1.3" fill="none" stroke-linejoin="round" stroke-linecap="round"/>'+
+           '<path d="M2.5 13 L13.5 13" stroke="#fff" stroke-width="1.2" stroke-linecap="round"/>'+
+           '<circle cx="8" cy="3.2" r="1.1" fill="#FFD1B8"/>';
+  }
 
   // ---- Leaflet map ----
   var map = L.map('map', {scrollWheelZoom:true});
@@ -339,11 +381,13 @@ footer a{color:var(--ink-muted)}
   function buildIcon(o, visible){
     var r = radiusFor(o.estimated_captured_demand);
     var d = r * 2;
+    var glyphSize = Math.round(d * 0.62);
     var color = typeColor(o.outlet_type);
     var op = visible ? confOpacity(o.confidence_label) : 0.06;
     var isSelected = state.selected === o.outlet_id;
-    var shapeClass = o.brand === 'Marugame Udon' ? 'pin' : 'pin diamond';
-    var html = '<div class="'+shapeClass+(isSelected?' selected':'')+'" style="width:'+d+'px;height:'+d+'px;background:'+color+';opacity:'+op+';border:1.5px solid '+color+';"></div>';
+    var html = '<div class="pin'+(isSelected?' selected':'')+'" style="width:'+d+'px;height:'+d+'px;background:'+color+';opacity:'+op+';">'+
+      '<svg width="'+glyphSize+'" height="'+glyphSize+'" viewBox="0 0 16 16">'+brandGlyph(o.brand)+'</svg>'+
+      '</div>';
     return L.divIcon({ html: html, className: '', iconSize: [d,d], iconAnchor: [d/2, d/2] });
   }
 
@@ -359,7 +403,7 @@ footer a{color:var(--ink-muted)}
           className: '', iconSize:[12,12], iconAnchor:[6,6]
         });
         var m = L.marker([w.centroid_lat, w.centroid_lon], {icon: icon, interactive:true});
-        m.bindTooltip('Whitespace '+w.grid_id+' ('+w.brand+') · score '+w.whitespace_score, {direction:'top'});
+        m.bindTooltip('Peluang lokasi baru · '+w.grid_id+' ('+w.brand+') · skor '+w.whitespace_score, {direction:'top'});
         m.addTo(whitespaceLayer);
       });
     }
@@ -369,9 +413,9 @@ footer a{color:var(--ink-muted)}
       var marker = L.marker([o.latitude, o.longitude], { icon: buildIcon(o, visible), interactive:true });
       marker.bindPopup(
         '<div class="popup-title">'+o.outlet_id+' · '+o.outlet_name+'</div>'+
-        '<div class="popup-row">'+o.city+' · '+o.outlet_type.replace('_',' ')+'</div>'+
-        '<div class="popup-row">Captured demand: '+fmt(o.estimated_captured_demand)+'</div>'+
-        '<div class="popup-row">Confidence: '+o.confidence_label+'</div>'
+        '<div class="popup-row">'+o.city+' · '+(TYPE_LABEL[o.outlet_type]||o.outlet_type)+'</div>'+
+        '<div class="popup-row">Estimasi pelanggan tertangkap: '+fmt(o.estimated_captured_demand)+'</div>'+
+        '<div class="popup-row">Seberapa yakin: '+(CONF_LABEL[o.confidence_label]||o.confidence_label)+'</div>'
       );
       marker.on('click', function(){ select(o.outlet_id); });
       marker.addTo(outletLayer);
@@ -387,9 +431,9 @@ footer a{color:var(--ink-muted)}
     var atRisk = visible.filter(function(o){ return o.total_demand_at_risk_pct!=null && o.total_demand_at_risk_pct > 100; }).length;
     var kpis = [
       [visible.length, 'Outlet tampil'],
-      [fmt(totalDemand), 'Total captured demand'],
-      [lowConf, 'Low confidence'],
-      [atRisk, 'Risk > 100%']
+      [fmt(totalDemand), 'Total pelanggan tertangkap'],
+      [lowConf, 'Angkanya masih kasar'],
+      [atRisk, 'Rawan rebutan pelanggan']
     ];
     document.getElementById('kpiRow').innerHTML = kpis.map(function(k){
       return '<div class="kpi"><div class="v">'+k[0]+'</div><div class="l">'+k[1]+'</div></div>';
@@ -413,10 +457,10 @@ footer a{color:var(--ink-muted)}
         '<td><code>'+o.outlet_id+'</code></td>'+
         '<td>'+o.brand+'</td>'+
         '<td>'+o.city+'</td>'+
-        '<td>'+o.outlet_type.replace('_',' ')+'</td>'+
+        '<td>'+(TYPE_LABEL[o.outlet_type]||o.outlet_type)+'</td>'+
         '<td class="num">'+fmt(o.estimated_captured_demand)+'</td>'+
         '<td class="num">'+o.market_share_pct+'%</td>'+
-        '<td><span class="badge '+o.confidence_label+'">'+o.confidence_label+'</span></td>'+
+        '<td><span class="badge '+o.confidence_label+'">'+(CONF_LABEL[o.confidence_label]||o.confidence_label)+'</span></td>'+
         '<td class="num">'+(o.total_demand_at_risk_pct!=null ? o.total_demand_at_risk_pct+'%' : '–')+'</td>'+
         '</tr>';
     }).join('');
@@ -425,11 +469,14 @@ footer a{color:var(--ink-muted)}
     });
   }
 
+  var TYPE_LABEL = { destination_hub: 'Hub besar', transit_adjacent: 'Mall menengah', neighborhood: 'Toko lokal' };
+  var CONF_LABEL = { high: 'cukup yakin', medium: 'lumayan yakin', low: 'masih kasar' };
+
   // ---- detail panel ----
   function renderDetail(){
     var el = document.getElementById('detailContent');
     if(!state.selected || !byId[state.selected]){
-      el.innerHTML = 'Klik outlet di peta atau tabel untuk lihat detail site score, confidence, dan cannibalization-nya.';
+      el.innerHTML = '<svg class="emoji-ish" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="2.4" fill="currentColor" stroke="none"/></svg>Klik salah satu outlet di peta atau tabel untuk lihat ceritanya — seberapa ramai, siapa saingan terdekatnya, dan seberapa yakin kita dengan angkanya.';
       el.className = 'detail-empty';
       return;
     }
@@ -440,24 +487,24 @@ footer a{color:var(--ink-muted)}
     if(p10!=null && p90!=null && p90>p10){
       rangeHtml = '<div class="range-bar"><div class="fill" style="left:0%; width:100%"></div>'+
         '<div class="mid" style="left:'+((p50-p10)/(p90-p10)*100)+'%"></div></div>'+
-        '<div class="range-labels"><span>p10 '+fmt(p10)+'</span><span>p90 '+fmt(p90)+'</span></div>';
+        '<div class="range-labels"><span>rentang bawah '+fmt(p10)+'</span><span>rentang atas '+fmt(p90)+'</span></div>';
     }
     var neighborHtml = '';
     if(o.most_threatening_neighbor){
-      neighborHtml = '<button class="neighbor-link" data-goto="'+o.most_threatening_neighbor+'">→ Lihat '+o.most_threatening_neighbor+' (paling mengancam, '+o.most_threatening_neighbor_risk_pct+'% dari demand outlet ini)</button>';
+      neighborHtml = '<button class="neighbor-link" data-goto="'+o.most_threatening_neighbor+'">→ Lihat '+o.most_threatening_neighbor+' — saingan terdekat, rebutan '+o.most_threatening_neighbor_risk_pct+'% pelanggan outlet ini</button>';
     }
     el.innerHTML =
       '<div class="detail-id">'+o.outlet_id+' · '+o.city+' · '+o.district+'</div>'+
       '<div class="detail-name">'+o.outlet_name+'</div>'+
-      '<span class="badge '+o.confidence_label+'">'+o.confidence_label+' confidence</span>'+
+      '<span class="badge '+o.confidence_label+'">'+(CONF_LABEL[o.confidence_label]||o.confidence_label)+'</span>'+
       '<div class="detail-row"><span class="k">Brand</span><span class="v">'+o.brand+'</span></div>'+
-      '<div class="detail-row"><span class="k">Rating (Google Maps)</span><span class="v">'+(o.rating!=null ? o.rating+'★ ('+o.review_count+' ulasan)' : '–')+'</span></div>'+
-      '<div class="detail-row"><span class="k">Outlet type</span><span class="v">'+o.outlet_type.replace('_',' ')+'</span></div>'+
-      '<div class="detail-row"><span class="k">Captured demand</span><span class="v">'+fmt(o.estimated_captured_demand)+'</span></div>'+
-      '<div class="detail-row"><span class="k">Market share (kota+brand)</span><span class="v">'+o.market_share_pct+'%</span></div>'+
+      '<div class="detail-row"><span class="k">Rating Google Maps</span><span class="v">'+(o.rating!=null ? o.rating+'★ ('+o.review_count+' ulasan)' : '–')+'</span></div>'+
+      '<div class="detail-row"><span class="k">Karakter lokasi</span><span class="v">'+(TYPE_LABEL[o.outlet_type]||o.outlet_type)+'</span></div>'+
+      '<div class="detail-row"><span class="k">Estimasi pelanggan tertangkap</span><span class="v">'+fmt(o.estimated_captured_demand)+'</span></div>'+
+      '<div class="detail-row"><span class="k">Pangsa pasar (kota+brand)</span><span class="v">'+o.market_share_pct+'%</span></div>'+
       rangeHtml+
-      '<div class="detail-row"><span class="k">Tetangga overlap</span><span class="v">'+(o.n_contested_neighbors!=null ? o.n_contested_neighbors : '–')+'</span></div>'+
-      '<div class="detail-row"><span class="k">Total demand-at-risk</span><span class="v">'+(o.total_demand_at_risk_pct!=null ? o.total_demand_at_risk_pct+'%' : '–')+'</span></div>'+
+      '<div class="detail-row"><span class="k">Bersaing dengan outlet lain</span><span class="v">'+(o.n_contested_neighbors!=null ? o.n_contested_neighbors+' outlet' : '–')+'</span></div>'+
+      '<div class="detail-row"><span class="k">Total risiko rebutan pelanggan</span><span class="v">'+(o.total_demand_at_risk_pct!=null ? o.total_demand_at_risk_pct+'%' : '–')+'</span></div>'+
       neighborHtml;
 
     var btn = el.querySelector('[data-goto]');
