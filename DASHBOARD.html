@@ -399,8 +399,8 @@ footer a{color:var(--ink-muted)}
     if(state.showWhitespace){
       whitespace.filter(function(w){ return state.brands.has(w.brand); }).forEach(function(w){
         var icon = L.divIcon({
-          html: '<div class="ws-pin" style="width:12px;height:12px;border:1.5px dashed '+css('--ink-muted')+';"></div>',
-          className: '', iconSize:[12,12], iconAnchor:[6,6]
+          html: '<div class="ws-pin" style="width:14px;height:14px;background:'+css('--accent')+';opacity:0.35;border:1.5px dashed rgba(128,128,128,.6);"></div>',
+          className: '', iconSize:[14,14], iconAnchor:[7,7]
         });
         var m = L.marker([w.centroid_lat, w.centroid_lon], {icon: icon, interactive:true});
         m.bindTooltip('Peluang lokasi baru · '+w.grid_id+' ('+w.brand+') · skor '+w.whitespace_score, {direction:'top'});
