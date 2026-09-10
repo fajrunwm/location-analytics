@@ -108,10 +108,10 @@ footer a{color:var(--ink-muted)}
   <header class="hero">
     <span class="eyebrow">Location Analytics · POC</span>
     <h1>Demand Capture Pipeline</h1>
-    <p class="dek">Bagaimana data dummy 42 outlet Marugame Udon &amp; The Harvest mengalir jadi site score, sinyal cannibalization, dan prompt image-gen — dan kenapa tiap tahap dirancang begitu.</p>
+    <p class="dek">Bagaimana 72 outlet Marugame Udon &amp; The Harvest di Jawa — lokasi &amp; rating-nya real (Google Maps), atribut lain sintetis — mengalir jadi site score, sinyal cannibalization, dan prompt image-gen.</p>
     <div class="meta-row">
       <span class="pill"><span class="dot"></span> <a href="https://github.com/fajrunwm/location-analytics" target="_blank" rel="noopener">github.com/fajrunwm/location-analytics</a></span>
-      <span class="pill">4 commit · data dummy, seed=42</span>
+      <span class="pill">6 commit · lokasi &amp; rating real (Google Maps, Jawa), atribut lain sintetis</span>
       <span class="pill">brand: Marugame Udon · The Harvest</span>
     </div>
   </header>
@@ -132,7 +132,7 @@ footer a{color:var(--ink-muted)}
           <!-- Col 1: data sources -->
           <rect x="20" y="90" width="190" height="280" rx="7" fill="none" stroke="currentColor" stroke-opacity="0.55"/>
           <text x="35" y="116" font-family="var(--sans)" font-weight="600" font-size="14.5">Sumber data</text>
-          <text x="35" y="132" font-family="var(--mono)" font-size="10.5" fill="currentColor" fill-opacity="0.6">(dummy, seed=42)</text>
+          <text x="35" y="132" font-family="var(--mono)" font-size="10.5" fill="currentColor" fill-opacity="0.6">(lokasi real, atribut sintetis)</text>
           <g font-family="var(--mono)" font-size="11" fill="currentColor" fill-opacity="0.82">
             <text x="35" y="162">outlets.csv</text>
             <text x="35" y="184">demographics_grid.csv</text>
@@ -223,35 +223,35 @@ footer a{color:var(--ink-muted)}
     <p class="intro">Poin dari diskusi tim: outlet di mall besar seperti assembly point bisa menarik pelanggan dari radius jauh dan arah yang tidak simetris, sementara outlet tapak/neighborhood didominasi proximity murni. Model sekarang mengukur ini lewat <code class="id">outlet_type</code>, bukan menganggap semua outlet setara.</p>
     <figure>
       <div class="fig-scroll">
-        <svg viewBox="0 0 900 380" role="img" aria-label="Perbandingan bentuk catchment: outlet destination_hub MRG-015 di Trans Studio Mall Bandung menarik pelanggan dari area lonjong dan lebih jauh mengikuti sumbu koridor transit, sementara outlet neighborhood MRG-013 di Paris Van Java (Bandung juga) punya catchment lingkaran sempit yang didominasi proximity.">
+        <svg viewBox="0 0 900 380" role="img" aria-label="Perbandingan bentuk catchment: outlet destination_hub MRG-032 di Royal Plaza Surabaya menarik pelanggan dari area lonjong dan lebih jauh mengikuti sumbu koridor transit, sementara outlet neighborhood MRG-027 di Jalan Raya Darmo (Wonokromo, Surabaya juga) punya catchment lingkaran sempit yang didominasi proximity.">
           <!-- panel 1: hub -->
           <g>
-            <text x="230" y="34" text-anchor="middle" font-family="var(--mono)" font-size="13" font-weight="600">MRG-015 · destination_hub</text>
-            <text x="230" y="52" text-anchor="middle" font-family="var(--mono)" font-size="10.5" fill="currentColor" fill-opacity="0.6">Trans Studio Mall Bandung · beta = 1.1 (landai)</text>
+            <text x="230" y="34" text-anchor="middle" font-family="var(--mono)" font-size="13" font-weight="600">MRG-032 · destination_hub</text>
+            <text x="230" y="52" text-anchor="middle" font-family="var(--mono)" font-size="10.5" fill="currentColor" fill-opacity="0.6">Royal Plaza · beta = 1.1 (landai)</text>
             <line x1="90" y1="200" x2="370" y2="140" stroke="currentColor" stroke-opacity="0.35" stroke-dasharray="3 4" marker-end="url(#arrow)" marker-start="url(#arrow)"/>
             <text x="230" y="120" text-anchor="middle" font-family="var(--mono)" font-size="9.5" fill="currentColor" fill-opacity="0.55">bias sumbu transit/komuter</text>
             <ellipse cx="230" cy="200" rx="185" ry="105" transform="rotate(-18 230 200)" fill="none" stroke="var(--accent)" stroke-dasharray="5 4" stroke-width="1.6"/>
             <ellipse cx="230" cy="200" rx="95" ry="55" transform="rotate(-18 230 200)" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.8"/>
             <circle cx="230" cy="200" r="5" fill="var(--accent)"/>
-            <text x="230" y="196" text-anchor="middle" font-family="var(--mono)" font-size="10" fill="var(--accent-ink)" dy="-14">p50 5.3km</text>
-            <text x="230" y="312" text-anchor="middle" font-family="var(--mono)" font-size="10" fill="currentColor" fill-opacity="0.7">p90 17.5km</text>
+            <text x="230" y="196" text-anchor="middle" font-family="var(--mono)" font-size="10" fill="var(--accent-ink)" dy="-14">p50 7.0km</text>
+            <text x="230" y="312" text-anchor="middle" font-family="var(--mono)" font-size="10" fill="currentColor" fill-opacity="0.7">p90 16.3km</text>
           </g>
 
           <line x1="450" y1="30" x2="450" y2="350" stroke="currentColor" stroke-opacity="0.15"/>
 
           <!-- panel 2: neighborhood -->
           <g>
-            <text x="670" y="34" text-anchor="middle" font-family="var(--mono)" font-size="13" font-weight="600">MRG-013 · neighborhood</text>
-            <text x="670" y="52" text-anchor="middle" font-family="var(--mono)" font-size="10.5" fill="currentColor" fill-opacity="0.6">Paris Van Java · beta = 2.3 (curam)</text>
+            <text x="670" y="34" text-anchor="middle" font-family="var(--mono)" font-size="13" font-weight="600">MRG-027 · neighborhood</text>
+            <text x="670" y="52" text-anchor="middle" font-family="var(--mono)" font-size="10.5" fill="currentColor" fill-opacity="0.6">Jl. Raya Darmo · beta = 2.3 (curam)</text>
             <circle cx="670" cy="200" r="70" fill="none" stroke="var(--warn)" stroke-dasharray="5 4" stroke-width="1.6"/>
             <circle cx="670" cy="200" r="45" fill="var(--warn-soft)" stroke="var(--warn)" stroke-width="1.8"/>
             <circle cx="670" cy="200" r="5" fill="var(--warn)"/>
-            <text x="670" y="186" text-anchor="middle" font-family="var(--mono)" font-size="10" fill="var(--warn-ink)">p50 1.2km</text>
-            <text x="670" y="280" text-anchor="middle" font-family="var(--mono)" font-size="10" fill="currentColor" fill-opacity="0.7">p90 2.2km</text>
+            <text x="670" y="186" text-anchor="middle" font-family="var(--mono)" font-size="10" fill="var(--warn-ink)">p50 1.4km</text>
+            <text x="670" y="280" text-anchor="middle" font-family="var(--mono)" font-size="10" fill="currentColor" fill-opacity="0.7">p90 2.3km</text>
           </g>
         </svg>
       </div>
-      <figcaption><b>Yang ditunjukkan:</b> dua outlet Marugame di kota yang sama (Bandung) — radius solid = jarak median observed dari <code>customer_origin_sample.csv</code>, radius putus-putus = persentil-90, bukan skala yang sama antar panel, tiap panel dibaca dari angka km-nya sendiri. Bentuk lonjong pada hub bukan hiasan: itu representasi anisotropy yang dipakai model untuk mensimulasikan bias arah koridor transit/komuter, kontras dengan lingkaran rapat outlet neighborhood.</figcaption>
+      <figcaption><b>Yang ditunjukkan:</b> dua outlet Marugame REAL (lokasi &amp; nama dari Google Maps) di kecamatan yang sama (Wonokromo, Surabaya) — radius solid = jarak median observed dari <code>customer_origin_sample.csv</code>, radius putus-putus = persentil-90, bukan skala yang sama antar panel, tiap panel dibaca dari angka km-nya sendiri. Bentuk lonjong pada hub bukan hiasan: itu representasi anisotropy yang dipakai model untuk mensimulasikan bias arah koridor transit/komuter, kontras dengan lingkaran rapat outlet neighborhood.</figcaption>
     </figure>
     <div class="two-col" style="margin-top:20px">
       <table>
@@ -264,11 +264,11 @@ footer a{color:var(--ink-muted)}
         </tbody>
       </table>
       <table>
-        <caption>customer_origin_sample.csv — jarak observed (Bandung)</caption>
+        <caption>customer_origin_sample.csv — jarak observed (Wonokromo, Surabaya)</caption>
         <thead><tr><th>outlet</th><th class="num">median</th><th class="num">p90</th></tr></thead>
         <tbody>
-          <tr><td><span class="id">MRG-015</span> hub</td><td class="num">5.3 km</td><td class="num">17.5 km</td></tr>
-          <tr><td><span class="id">MRG-013</span> neighborhood</td><td class="num">1.2 km</td><td class="num">2.2 km</td></tr>
+          <tr><td><span class="id">MRG-032</span> hub</td><td class="num">7.0 km</td><td class="num">16.3 km</td></tr>
+          <tr><td><span class="id">MRG-027</span> neighborhood</td><td class="num">1.4 km</td><td class="num">2.3 km</td></tr>
         </tbody>
       </table>
     </div>
@@ -277,29 +277,29 @@ footer a{color:var(--ink-muted)}
   <section id="cannibalization">
     <span class="section-index">03 — Cannibalization</span>
     <h2>Overlap yang sama, kerugian yang tidak sama</h2>
-    <p class="intro">Poin kedua dari diskusi tim: dua outlet berdekatan bisa saling memakan customer. Tapi "saling" di sini jarang simetris — outlet kecil di dekat hub besar bisa kehilangan porsi besar dari basisnya sendiri, sementara si hub nyaris tidak merasakannya. Contohnya dua outlet Marugame di Bandung yang muncul di diagram sebelumnya.</p>
+    <p class="intro">Poin kedua dari diskusi tim: dua outlet berdekatan bisa saling memakan customer. Tapi "saling" di sini jarang simetris — outlet kecil di dekat hub besar bisa kehilangan porsi besar dari basisnya sendiri, sementara si hub nyaris tidak merasakannya. Contohnya dua outlet Marugame real di Wonokromo, Surabaya yang muncul di diagram sebelumnya.</p>
     <figure>
       <div class="fig-scroll">
-        <svg viewBox="0 0 900 400" role="img" aria-label="Dua lingkaran catchment yang tumpang tindih tipis: outlet kecil MRG-013 di Paris Van Java kehilangan 49.6 persen demand miliknya sendiri di area kontes itu, sementara outlet besar MRG-015 di Trans Studio Mall Bandung hanya kehilangan 5.6 persen, meski cell yang dikontes sama-sama sama, cuma 7.1 persen dari total grid.">
-          <text x="450" y="28" text-anchor="middle" font-family="var(--sans)" font-size="13" font-weight="600" fill="currentColor" fill-opacity="0.75">net asymmetry: 44.0 pts — kontes cuma 7.1% grid cell, dampaknya sangat tidak sebanding</text>
+        <svg viewBox="0 0 900 400" role="img" aria-label="Dua lingkaran catchment yang tumpang tindih tipis: outlet kecil MRG-027 di Jalan Raya Darmo kehilangan 78.6 persen demand miliknya sendiri di area kontes itu, sementara outlet besar MRG-032 di Royal Plaza hanya kehilangan 6.5 persen, meski cell yang dikontes sama-sama sama, cuma 6.7 persen dari total grid.">
+          <text x="450" y="28" text-anchor="middle" font-family="var(--sans)" font-size="13" font-weight="600" fill="currentColor" fill-opacity="0.75">net asymmetry: 72.1 pts — kontes cuma 6.7% grid cell, dampaknya sangat tidak sebanding</text>
 
           <circle cx="230" cy="210" r="70" fill="var(--warn)" fill-opacity="0.28" stroke="var(--warn)" stroke-width="1.8"/>
           <circle cx="430" cy="210" r="150" fill="var(--accent)" fill-opacity="0.22" stroke="var(--accent)" stroke-width="1.8"/>
 
-          <text x="230" y="215" text-anchor="middle" font-family="var(--mono)" font-size="11" font-weight="600" fill="var(--warn-ink)">MRG-013</text>
-          <text x="230" y="315" text-anchor="middle" font-family="var(--mono)" font-size="10" fill="currentColor" fill-opacity="0.65">neighborhood (Paris Van Java) · captured ≈ 18.9rb</text>
-          <text x="230" y="330" text-anchor="middle" font-family="var(--mono)" font-size="10" fill="currentColor" fill-opacity="0.65">confidence: low (CV 0.25)</text>
+          <text x="230" y="215" text-anchor="middle" font-family="var(--mono)" font-size="11" font-weight="600" fill="var(--warn-ink)">MRG-027</text>
+          <text x="230" y="315" text-anchor="middle" font-family="var(--mono)" font-size="10" fill="currentColor" fill-opacity="0.65">neighborhood (Jl. Raya Darmo) · captured ≈ 6.2rb</text>
+          <text x="230" y="330" text-anchor="middle" font-family="var(--mono)" font-size="10" fill="currentColor" fill-opacity="0.65">confidence: medium (CV 0.13)</text>
 
-          <text x="500" y="145" text-anchor="middle" font-family="var(--mono)" font-size="11" font-weight="600" fill="var(--accent-ink)">MRG-015</text>
-          <text x="500" y="352" text-anchor="middle" font-family="var(--mono)" font-size="10" fill="currentColor" fill-opacity="0.65">destination_hub (Trans Studio Mall Bandung) · captured ≈ 216rb</text>
-          <text x="500" y="367" text-anchor="middle" font-family="var(--mono)" font-size="10" fill="currentColor" fill-opacity="0.65">confidence: high (CV 0.013)</text>
+          <text x="500" y="145" text-anchor="middle" font-family="var(--mono)" font-size="11" font-weight="600" fill="var(--accent-ink)">MRG-032</text>
+          <text x="500" y="352" text-anchor="middle" font-family="var(--mono)" font-size="10" fill="currentColor" fill-opacity="0.65">destination_hub (Royal Plaza) · captured ≈ 46.1rb</text>
+          <text x="500" y="367" text-anchor="middle" font-family="var(--mono)" font-size="10" fill="currentColor" fill-opacity="0.65">confidence: high (CV 0.054)</text>
 
           <path d="M255,150 C300,110 330,110 340,140" fill="none" stroke="var(--critical)" stroke-width="9" stroke-linecap="round" marker-end="url(#arrow)"/>
-          <text x="270" y="108" font-family="var(--mono)" font-size="10.5" fill="var(--critical)" font-weight="600">MRG-013 kehilangan 49.6%</text>
+          <text x="270" y="108" font-family="var(--mono)" font-size="10.5" fill="var(--critical)" font-weight="600">MRG-027 kehilangan 78.6%</text>
           <text x="270" y="122" font-family="var(--mono)" font-size="10.5" fill="var(--critical)" font-weight="600">demand miliknya sendiri</text>
 
           <path d="M340,260 C325,290 285,292 265,270" fill="none" stroke="currentColor" stroke-opacity="0.55" stroke-width="2" stroke-linecap="round" marker-end="url(#arrow)"/>
-          <text x="300" y="308" font-family="var(--mono)" font-size="10" fill="currentColor" fill-opacity="0.6">MRG-015 kehilangan 5.6% — nyaris tak terasa</text>
+          <text x="300" y="308" font-family="var(--mono)" font-size="10" fill="currentColor" fill-opacity="0.6">MRG-032 kehilangan 6.5% — nyaris tak terasa</text>
         </svg>
       </div>
       <figcaption><b>Yang ditunjukkan:</b> arah &amp; ketebalan panah = besar demand-at-risk directional dari <code>cannibalization_pairs.csv</code>, bukan sekadar "overlap %" simetris. <code class="id">confidence_label</code> dari §04 juga muncul di sini — outlet kecil yang paling rentan dicaplok justru yang paling tidak pasti angkanya.</figcaption>
@@ -312,39 +312,39 @@ footer a{color:var(--ink-muted)}
     <p class="intro"><code class="id">beta</code>, multiplier attractiveness, dan circuity factor semuanya masih asumsi, belum dikalibrasi ke data riil. <code>compute_uncertainty_bands()</code> menjalankan ulang Huff scoring 30x sambil men-jitter ketiga asumsi itu — grafik di bawah membaca hasilnya sebagai deviasi relatif dari median, supaya outlet kecil dan besar bisa dibandingkan di satu skala yang sama.</p>
     <figure>
       <div class="fig-scroll">
-        <svg viewBox="0 0 820 210" role="img" aria-label="Grafik rentang ketidakpastian relatif tiga outlet: MRG-015 hampir tidak bergeser dari mediannya (confidence tinggi), sementara MRG-013 dan HVT-025 bisa bergeser sekitar 40 sampai 50 persen dari mediannya (confidence rendah).">
+        <svg viewBox="0 0 820 210" role="img" aria-label="Grafik rentang ketidakpastian relatif tiga outlet: MRG-032 hampir tidak bergeser dari mediannya (confidence tinggi), sementara MRG-011 dan HVT-011 bisa bergeser sekitar 40 sampai 65 persen dari mediannya (confidence rendah).">
           <line x1="410" y1="30" x2="410" y2="185" stroke="currentColor" stroke-opacity="0.3"/>
           <g font-family="var(--mono)" font-size="10" fill="currentColor" fill-opacity="0.55" text-anchor="middle">
             <text x="410" y="20">p50</text>
-            <text x="90" y="20">-60%</text>
-            <text x="250" y="20">-30%</text>
-            <text x="570" y="20">+30%</text>
-            <text x="730" y="20">+60%</text>
+            <text x="70" y="20">-70%</text>
+            <text x="240" y="20">-35%</text>
+            <text x="580" y="20">+35%</text>
+            <text x="750" y="20">+70%</text>
           </g>
           <line x1="70" y1="30" x2="750" y2="30" stroke="currentColor" stroke-opacity="0.15"/>
 
-          <!-- MRG-015: high confidence, tight range -->
+          <!-- MRG-032: high confidence, tight range -->
           <g>
-            <line x1="397" y1="70" x2="416" y2="70" stroke="var(--accent)" stroke-width="6" stroke-linecap="round"/>
+            <line x1="388" y1="70" x2="440" y2="70" stroke="var(--accent)" stroke-width="6" stroke-linecap="round"/>
             <circle cx="410" cy="70" r="4.5" fill="var(--accent)"/>
-            <text x="70" y="74" font-family="var(--mono)" font-size="12" font-weight="600">MRG-015</text>
-            <text x="440" y="74" font-family="var(--mono)" font-size="10.5" fill="currentColor" fill-opacity="0.65">-2.3% / +1.0% · destination_hub</text>
+            <text x="70" y="74" font-family="var(--mono)" font-size="12" font-weight="600">MRG-032</text>
+            <text x="460" y="74" font-family="var(--mono)" font-size="10.5" fill="currentColor" fill-opacity="0.65">-4.6% / +6.2% · destination_hub</text>
           </g>
 
-          <!-- HVT-025: low confidence, wide range -->
+          <!-- MRG-011: low confidence, wide range -->
           <g>
-            <line x1="196" y1="115" x2="691" y2="115" stroke="var(--warn)" stroke-width="6" stroke-linecap="round"/>
+            <line x1="186" y1="115" x2="728" y2="115" stroke="var(--warn)" stroke-width="6" stroke-linecap="round"/>
             <circle cx="410" cy="115" r="4.5" fill="var(--warn)"/>
-            <text x="70" y="119" font-family="var(--mono)" font-size="12" font-weight="600">HVT-025</text>
-            <text x="640" y="119" font-family="var(--mono)" font-size="10.5" fill="currentColor" fill-opacity="0.65">-37.8% / +49.6% · neighborhood</text>
+            <text x="70" y="119" font-family="var(--mono)" font-size="12" font-weight="600">MRG-011</text>
+            <text x="640" y="119" font-family="var(--mono)" font-size="10.5" fill="currentColor" fill-opacity="0.65">-46.1% / +65.4% · neighborhood</text>
           </g>
 
-          <!-- MRG-013: low confidence, wide range -->
+          <!-- HVT-011: low confidence, wide range -->
           <g>
-            <line x1="260" y1="160" x2="653" y2="160" stroke="var(--warn)" stroke-width="6" stroke-linecap="round"/>
+            <line x1="222" y1="160" x2="733" y2="160" stroke="var(--warn)" stroke-width="6" stroke-linecap="round"/>
             <circle cx="410" cy="160" r="4.5" fill="var(--warn)"/>
-            <text x="70" y="164" font-family="var(--mono)" font-size="12" font-weight="600">MRG-013</text>
-            <text x="600" y="164" font-family="var(--mono)" font-size="10.5" fill="currentColor" fill-opacity="0.65">-26.4% / +42.9% · neighborhood</text>
+            <text x="70" y="164" font-family="var(--mono)" font-size="12" font-weight="600">HVT-011</text>
+            <text x="640" y="164" font-family="var(--mono)" font-size="10.5" fill="currentColor" fill-opacity="0.65">-38.7% / +66.4% · transit_adjacent</text>
           </g>
         </svg>
       </div>
@@ -358,16 +358,18 @@ footer a{color:var(--ink-muted)}
   <section id="status">
     <span class="section-index">05 — Status &amp; riwayat</span>
     <h2>Riwayat build &amp; yang masih terbuka</h2>
-    <p class="intro">Empat commit, tiap satu perbaikan satu asumsi yang dibahas tim — dari data dummy awal sampai model yang mengenali outlet tidak flat dan cannibalization yang directional.</p>
+    <p class="intro">Enam commit, tiap satu perbaikan satu asumsi yang dibahas tim — dari data dummy penuh sampai 72 lokasi outlet real se-Jawa dan model yang mengenali outlet tidak flat.</p>
     <ul class="log">
-      <li><time>#1</time><div><div class="commit-title">Dummy data + Huff scoring awal + prompt builder</div><div class="commit-desc">42 outlet, grid demografi, POI, foot traffic — beta &amp; attractiveness masih satu angka global untuk semua outlet.</div></div></li>
+      <li><time>#1</time><div><div class="commit-title">Dummy data + Huff scoring awal + prompt builder</div><div class="commit-desc">42 outlet fiktif, grid demografi, POI, foot traffic — beta &amp; attractiveness masih satu angka global untuk semua outlet.</div></div></li>
       <li><time>#2</time><div><div class="commit-title">outlet_type + customer_origin_sample</div><div class="commit-desc">Outlet diklasifikasi destination_hub / transit_adjacent / neighborhood; ditambah sampel per-customer untuk mengukur origin dispersion riil.</div></div></li>
       <li><time>#3</time><div><div class="commit-title">Attractiveness &amp; beta per outlet_type + road-distance proxy</div><div class="commit-desc">Huff model berhenti pakai satu beta global; jarak lurus diganti circuity factor kota × land use.</div></div></li>
       <li><time>#4</time><div><div class="commit-title">Cannibalization directional + confidence band</div><div class="commit-desc">demand-at-risk dipecah per arah &amp; per-network; site score dapat rentang Monte Carlo p10/p50/p90.</div></div></li>
+      <li><time>#5</time><div><div class="commit-title">Fix konsistensi nama-outlet vs kota + OSM basemap</div><div class="commit-desc">Nama mall Marugame dipetakan ke kota asli sungguhan; dashboard dapat basemap peta nyata.</div></div></li>
+      <li><time>#6</time><div><div class="commit-title">72 outlet REAL se-Jawa (Google Maps) + basemap CARTO Positron</div><div class="commit-desc">42 outlet fiktif diganti 72 outlet real (44 Marugame + 28 The Harvest) hasil scraping Google Maps, difilter ke pulau Jawa (Jakarta metro, Bandung, Surabaya, Semarang, Yogyakarta, Malang) — nama, kota, distrik, tipe lokasi, koordinat, rating &amp; jumlah ulasan sungguhan; outlet_type &amp; store_tier diturunkan dari review_count riil, bukan random murni. Basemap dashboard diganti CARTO Positron light/dark (lebih sederhana dari tile OSM standar).</div></div></li>
     </ul>
     <p class="intro" style="margin:26px 0 10px">Yang masih terbuka sebelum dipakai untuk keputusan bisnis nyata:</p>
     <ul class="open-items">
-      <li>Sumber data riil per brand (POS, GIS outlet, demografi vendor/BPS) — seluruh pipeline di atas dirancang supaya cuma tahap sumber data yang perlu diganti.</li>
+      <li>72 outlet di atas cuma yang terindeks di Google Maps per 2026-09-10 dan berada di Jawa — bukan daftar lengkap outlet kedua brand (data mentah juga mencakup Medan, Makassar, Palembang, Denpasar, Balikpapan, sengaja belum dipakai); perlu sumber data riil brand (POS, daftar outlet internal) untuk cakupan penuh.</li>
       <li>Kalibrasi beta, attractiveness, dan circuity factor terhadap data transaksi &amp; travel-time riil — sekarang masih asumsi yang divalidasi, bukan di-fit.</li>
       <li>Ganti circuity proxy dengan travel-time dari routing engine (OSRM/API) begitu alamat pelanggan riil tersedia.</li>
       <li>Endpoint API untuk menyambungkan <code class="id">prompt_builder.py</code> ke layanan image-gen — saat ini masih menghasilkan teks prompt, belum memanggil API.</li>
@@ -376,7 +378,7 @@ footer a{color:var(--ink-muted)}
   </section>
 
   <footer>
-    <span>Location Analytics POC — data 100% sintetis, bukan untuk keputusan bisnis nyata.</span>
+    <span>Location Analytics POC — lokasi &amp; rating outlet real (Google Maps, Jawa), sisanya sintetis. Bukan untuk keputusan bisnis nyata.</span>
     <span><a href="https://github.com/fajrunwm/location-analytics" target="_blank" rel="noopener">Repo &amp; source →</a></span>
   </footer>
 </div>

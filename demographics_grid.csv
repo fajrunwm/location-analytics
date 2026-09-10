@@ -1,421 +1,441 @@
 grid_id,city,district,centroid_lat,centroid_lon,cell_size_km,land_use_type,population_est,household_count_est,income_bracket,age_0_14_pct,age_15_34_pct,age_35_54_pct,age_55plus_pct
-GRD-0001,Jakarta,Tangerang,-6.18118,106.948866,0.5,mixed,1363,335,middle,0.191,0.354,0.352,0.148
-GRD-0002,Jakarta,Jakarta Timur,-6.271934,106.971731,0.5,mixed,1925,437,lower_middle,0.217,0.345,0.34,0.134
-GRD-0003,Jakarta,Jakarta Pusat,-6.140811,106.889487,0.5,residential,1958,515,upper_middle,0.228,0.318,0.304,0.111
-GRD-0004,Jakarta,Jakarta Pusat,-6.145979,106.811753,0.5,office,559,130,middle,0.09,0.422,0.403,0.056
-GRD-0005,Jakarta,Jakarta Selatan,-6.221548,106.969228,0.5,residential,3579,926,middle,0.233,0.305,0.305,0.153
-GRD-0006,Jakarta,Jakarta Timur,-6.211806,106.851588,0.5,residential,2086,504,upper_middle,0.228,0.289,0.315,0.134
-GRD-0007,Jakarta,Bekasi,-6.145562,106.907409,0.5,mixed,1912,597,middle,0.187,0.346,0.335,0.129
-GRD-0008,Jakarta,Jakarta Timur,-6.169492,106.741634,0.5,commercial,473,118,middle,0.19,0.369,0.345,0.13
-GRD-0009,Jakarta,Jakarta Selatan,-6.135834,106.869892,0.5,residential,3746,949,upper_middle,0.253,0.293,0.314,0.119
-GRD-0010,Jakarta,Jakarta Pusat,-6.292771,106.951248,0.5,mixed,1920,545,low,0.221,0.347,0.348,0.13
-GRD-0011,Jakarta,Depok,-6.299774,106.711766,0.5,commercial,1173,344,middle,0.222,0.347,0.345,0.14
-GRD-0012,Jakarta,Depok,-6.292907,106.860461,0.5,commercial,458,129,lower_middle,0.189,0.352,0.308,0.104
-GRD-0013,Jakarta,Jakarta Pusat,-6.338854,106.808855,0.5,residential,3155,737,low,0.233,0.316,0.347,0.111
-GRD-0014,Jakarta,Depok,-6.278475,106.709511,0.5,residential,3240,780,middle,0.258,0.324,0.319,0.126
-GRD-0015,Jakarta,Bekasi,-6.136143,106.758535,0.5,mixed,1722,434,upper_middle,0.21,0.325,0.326,0.142
-GRD-0016,Jakarta,Tangerang,-6.139811,106.841166,0.5,residential,3138,733,upper_middle,0.225,0.275,0.291,0.142
-GRD-0017,Jakarta,Jakarta Pusat,-6.07759,106.749758,0.5,mixed,1364,423,lower_middle,0.179,0.328,0.34,0.124
-GRD-0018,Jakarta,Tangerang,-6.280724,106.821824,0.5,residential,4287,1326,low,0.229,0.311,0.347,0.134
-GRD-0019,Jakarta,Jakarta Timur,-6.145784,106.968103,0.5,residential,4964,1359,upper_middle,0.236,0.292,0.32,0.13
-GRD-0020,Jakarta,Jakarta Pusat,-6.343097,106.911602,0.5,residential,3283,847,lower_middle,0.249,0.307,0.345,0.156
-GRD-0021,Jakarta,Jakarta Utara,-6.307081,106.896548,0.5,residential,2805,737,lower_middle,0.247,0.293,0.292,0.161
-GRD-0022,Jakarta,Jakarta Utara,-6.141599,106.862,0.5,residential,4241,1281,high,0.253,0.299,0.335,0.151
-GRD-0023,Jakarta,Jakarta Selatan,-6.201288,106.714722,0.5,residential,2707,736,middle,0.243,0.291,0.35,0.143
-GRD-0024,Jakarta,Jakarta Utara,-6.181238,106.752906,0.5,residential,2294,517,upper_middle,0.251,0.281,0.334,0.127
-GRD-0025,Jakarta,Jakarta Utara,-6.333059,106.853628,0.5,office,519,161,lower_middle,0.102,0.436,0.408,0.073
-GRD-0026,Jakarta,Depok,-6.112274,106.941147,0.5,residential,1850,508,middle,0.268,0.285,0.342,0.117
-GRD-0027,Jakarta,Jakarta Selatan,-6.206651,106.803959,0.5,residential,5122,1527,high,0.256,0.306,0.337,0.124
-GRD-0028,Jakarta,Depok,-6.172936,106.733337,0.5,residential,4210,1054,middle,0.254,0.327,0.302,0.123
-GRD-0029,Jakarta,Jakarta Barat,-6.098856,106.918687,0.5,commercial,1136,298,middle,0.172,0.337,0.317,0.142
-GRD-0030,Jakarta,Jakarta Utara,-6.16577,106.850124,0.5,mixed,2010,497,middle,0.225,0.37,0.304,0.1
-GRD-0031,Jakarta,Jakarta Utara,-6.298738,106.845008,0.5,residential,3719,968,middle,0.215,0.272,0.316,0.129
-GRD-0032,Jakarta,Jakarta Selatan,-6.164753,106.914147,0.5,office,329,81,middle,0.125,0.431,0.385,0.078
-GRD-0033,Jakarta,Tangerang,-6.147122,106.941696,0.5,residential,3115,810,middle,0.25,0.294,0.336,0.112
-GRD-0034,Jakarta,Jakarta Pusat,-6.160684,106.84487,0.5,office,823,217,upper_middle,0.073,0.451,0.387,0.07
-GRD-0035,Jakarta,Jakarta Utara,-6.174447,106.948399,0.5,commercial,1292,321,low,0.218,0.363,0.319,0.091
-GRD-0036,Jakarta,Jakarta Pusat,-6.106526,106.862093,0.5,commercial,1320,321,lower_middle,0.195,0.349,0.328,0.117
-GRD-0037,Jakarta,Jakarta Barat,-6.151371,106.868216,0.5,mixed,2899,905,lower_middle,0.214,0.37,0.335,0.13
-GRD-0038,Jakarta,Depok,-6.159086,106.702345,0.5,residential,4060,938,high,0.269,0.284,0.313,0.161
-GRD-0039,Jakarta,Depok,-6.114258,106.802173,0.5,mixed,2761,682,upper_middle,0.179,0.378,0.308,0.148
-GRD-0040,Jakarta,Depok,-6.153707,106.921511,0.5,residential,3671,823,upper_middle,0.214,0.317,0.306,0.147
-GRD-0041,Jakarta,Tangerang,-6.159369,106.935621,0.5,mixed,2756,658,middle,0.222,0.322,0.304,0.128
-GRD-0042,Jakarta,Jakarta Pusat,-6.211317,107.002117,0.5,residential,2203,504,middle,0.213,0.318,0.308,0.132
-GRD-0043,Jakarta,Jakarta Barat,-6.220838,106.784554,0.5,residential,2123,627,upper_middle,0.238,0.285,0.305,0.111
-GRD-0044,Jakarta,Jakarta Barat,-6.293403,106.964625,0.5,residential,3215,748,lower_middle,0.222,0.293,0.319,0.124
-GRD-0045,Jakarta,Jakarta Utara,-6.264346,106.73562,0.5,residential,5199,1271,middle,0.255,0.273,0.326,0.14
-GRD-0046,Jakarta,Jakarta Timur,-6.058575,106.81063,0.5,commercial,689,165,lower_middle,0.216,0.361,0.308,0.096
-GRD-0047,Jakarta,Depok,-6.177307,106.970867,0.5,residential,3294,881,lower_middle,0.222,0.317,0.343,0.132
-GRD-0048,Jakarta,Jakarta Barat,-6.095077,106.829299,0.5,residential,5177,1359,upper_middle,0.215,0.315,0.304,0.151
-GRD-0049,Jakarta,Tangerang,-6.128782,106.738521,0.5,residential,3416,928,low,0.255,0.286,0.313,0.148
-GRD-0050,Jakarta,Depok,-6.296817,106.800374,0.5,residential,4099,960,low,0.265,0.288,0.314,0.118
-GRD-0051,Jakarta,Depok,-6.060169,106.792447,0.5,residential,2761,678,middle,0.255,0.327,0.315,0.155
-GRD-0052,Jakarta,Jakarta Pusat,-6.176311,106.790432,0.5,mixed,2871,824,middle,0.197,0.334,0.322,0.149
-GRD-0053,Jakarta,Tangerang,-6.265719,106.926197,0.5,residential,2930,843,low,0.248,0.328,0.293,0.13
-GRD-0054,Jakarta,Jakarta Timur,-6.36572,106.882949,0.5,residential,4934,1139,lower_middle,0.23,0.279,0.344,0.11
-GRD-0055,Jakarta,Jakarta Barat,-6.090265,106.938463,0.5,commercial,525,156,upper_middle,0.191,0.367,0.335,0.091
-GRD-0056,Jakarta,Bekasi,-6.149082,106.904357,0.5,commercial,1275,330,upper_middle,0.177,0.35,0.357,0.093
-GRD-0057,Jakarta,Jakarta Utara,-6.315262,106.942408,0.5,commercial,1280,383,middle,0.213,0.347,0.354,0.109
-GRD-0058,Jakarta,Tangerang,-6.164308,106.889689,0.5,residential,4246,1129,middle,0.258,0.277,0.329,0.163
-GRD-0059,Jakarta,Bekasi,-6.298873,106.925978,0.5,commercial,994,240,lower_middle,0.189,0.339,0.315,0.147
-GRD-0060,Jakarta,Jakarta Pusat,-6.187166,106.712179,0.5,mixed,2968,757,upper_middle,0.205,0.354,0.32,0.097
-GRD-0061,Jakarta,Bekasi,-6.291905,106.796403,0.5,mixed,1410,423,lower_middle,0.2,0.329,0.329,0.141
-GRD-0062,Jakarta,Jakarta Pusat,-6.242019,106.755051,0.5,mixed,2126,499,high,0.207,0.359,0.302,0.146
-GRD-0063,Jakarta,Jakarta Barat,-6.061998,106.829346,0.5,residential,4922,1137,low,0.244,0.294,0.299,0.148
-GRD-0064,Jakarta,Jakarta Timur,-6.237185,106.844902,0.5,residential,3658,1010,lower_middle,0.266,0.306,0.343,0.119
-GRD-0065,Jakarta,Jakarta Pusat,-6.165475,106.980413,0.5,residential,4511,1269,middle,0.255,0.277,0.316,0.127
-GRD-0066,Jakarta,Jakarta Utara,-6.197595,106.711712,0.5,residential,3418,984,lower_middle,0.218,0.285,0.31,0.11
-GRD-0067,Jakarta,Bekasi,-6.083643,106.909056,0.5,commercial,1025,246,lower_middle,0.196,0.348,0.305,0.109
-GRD-0068,Jakarta,Bekasi,-6.148761,106.757424,0.5,residential,3459,864,upper_middle,0.26,0.325,0.295,0.161
-GRD-0069,Jakarta,Jakarta Pusat,-6.251181,106.77736,0.5,residential,3070,931,upper_middle,0.248,0.302,0.302,0.157
-GRD-0070,Jakarta,Jakarta Barat,-6.233733,106.938943,0.5,residential,2399,573,middle,0.249,0.281,0.336,0.14
-GRD-0071,Jakarta,Depok,-6.349381,106.854387,0.5,mixed,2523,662,middle,0.208,0.368,0.335,0.111
-GRD-0072,Jakarta,Jakarta Selatan,-6.198284,106.802447,0.5,residential,2975,804,middle,0.245,0.327,0.334,0.112
-GRD-0073,Jakarta,Jakarta Timur,-6.276083,106.705574,0.5,residential,3748,881,middle,0.26,0.329,0.295,0.149
-GRD-0074,Jakarta,Depok,-6.239752,106.837108,0.5,commercial,1045,282,upper_middle,0.216,0.361,0.303,0.128
-GRD-0075,Jakarta,Bekasi,-6.126507,106.800301,0.5,residential,4764,1408,middle,0.231,0.328,0.332,0.134
-GRD-0076,Jakarta,Jakarta Utara,-6.256305,106.962001,0.5,commercial,561,127,middle,0.23,0.375,0.306,0.13
-GRD-0077,Jakarta,Jakarta Utara,-6.195583,106.961155,0.5,residential,2677,792,lower_middle,0.215,0.321,0.296,0.156
-GRD-0078,Jakarta,Jakarta Selatan,-6.307718,106.956596,0.5,mixed,1736,406,lower_middle,0.216,0.369,0.31,0.116
-GRD-0079,Jakarta,Jakarta Timur,-6.301815,106.798932,0.5,office,389,108,middle,0.119,0.448,0.4,0.062
-GRD-0080,Jakarta,Depok,-6.224205,107.00359,0.5,mixed,2764,810,middle,0.182,0.356,0.352,0.093
-GRD-0081,Jakarta,Jakarta Pusat,-6.127439,106.767565,0.5,mixed,1710,481,upper_middle,0.224,0.329,0.326,0.147
-GRD-0082,Jakarta,Tangerang,-6.185703,106.772332,0.5,office,664,179,lower_middle,0.075,0.433,0.369,0.046
-GRD-0083,Jakarta,Jakarta Barat,-6.090927,106.775186,0.5,residential,2975,744,middle,0.264,0.271,0.303,0.119
-GRD-0084,Jakarta,Bekasi,-6.308174,106.723023,0.5,residential,2980,796,low,0.258,0.297,0.297,0.164
-GRD-0085,Jakarta,Jakarta Timur,-6.195887,106.970936,0.5,mixed,2958,750,lower_middle,0.181,0.36,0.331,0.112
-GRD-0086,Jakarta,Jakarta Selatan,-6.252097,106.692397,0.5,residential,3725,1156,lower_middle,0.257,0.291,0.334,0.148
-GRD-0087,Jakarta,Tangerang,-6.350619,106.832284,0.5,residential,3243,770,lower_middle,0.238,0.312,0.328,0.159
-GRD-0088,Jakarta,Depok,-6.248985,106.852312,0.5,residential,2625,729,lower_middle,0.234,0.319,0.318,0.112
-GRD-0089,Jakarta,Jakarta Selatan,-6.081716,106.816087,0.5,mixed,2319,623,middle,0.196,0.377,0.32,0.101
-GRD-0090,Jakarta,Jakarta Utara,-6.108934,106.754369,0.5,mixed,2938,688,middle,0.203,0.339,0.305,0.13
-GRD-0091,Jakarta,Bekasi,-6.262758,106.773425,0.5,residential,3618,825,upper_middle,0.247,0.296,0.328,0.157
-GRD-0092,Jakarta,Bekasi,-6.242971,106.827035,0.5,residential,5081,1245,upper_middle,0.236,0.278,0.304,0.149
-GRD-0093,Jakarta,Jakarta Selatan,-6.239267,106.938857,0.5,commercial,1059,321,middle,0.178,0.342,0.319,0.107
-GRD-0094,Jakarta,Jakarta Barat,-6.183038,107.003352,0.5,commercial,541,131,upper_middle,0.183,0.357,0.342,0.15
-GRD-0095,Jakarta,Jakarta Pusat,-6.154158,106.893612,0.5,commercial,479,107,high,0.21,0.363,0.333,0.107
-GRD-0096,Jakarta,Jakarta Barat,-6.134567,106.894646,0.5,mixed,2118,604,upper_middle,0.2,0.342,0.334,0.118
-GRD-0097,Jakarta,Jakarta Pusat,-6.091756,106.956479,0.5,residential,3430,803,upper_middle,0.214,0.328,0.329,0.137
-GRD-0098,Jakarta,Jakarta Barat,-6.097963,106.770327,0.5,mixed,2972,767,upper_middle,0.188,0.33,0.356,0.104
-GRD-0099,Jakarta,Jakarta Utara,-6.227498,106.68794,0.5,mixed,2004,501,middle,0.176,0.358,0.336,0.125
-GRD-0100,Jakarta,Tangerang,-6.256089,106.79772,0.5,mixed,1368,339,low,0.205,0.359,0.346,0.115
-GRD-0101,Jakarta,Jakarta Utara,-6.207202,106.715218,0.5,commercial,801,211,middle,0.211,0.329,0.325,0.118
-GRD-0102,Jakarta,Tangerang,-6.134552,106.904539,0.5,mixed,2833,849,middle,0.185,0.327,0.327,0.098
-GRD-0103,Jakarta,Bekasi,-6.221074,106.880155,0.5,residential,2454,638,upper_middle,0.241,0.3,0.309,0.111
-GRD-0104,Jakarta,Jakarta Timur,-6.214192,106.687104,0.5,residential,3245,746,middle,0.249,0.298,0.322,0.161
-GRD-0105,Jakarta,Tangerang,-6.280465,106.924779,0.5,mixed,1385,401,middle,0.203,0.324,0.33,0.136
-GRD-0106,Jakarta,Jakarta Pusat,-6.214674,106.931669,0.5,residential,2196,598,middle,0.219,0.306,0.314,0.112
-GRD-0107,Jakarta,Depok,-6.239956,106.838303,0.5,commercial,586,162,high,0.194,0.357,0.351,0.126
-GRD-0108,Jakarta,Depok,-6.215845,106.729633,0.5,mixed,3145,941,lower_middle,0.195,0.338,0.354,0.142
-GRD-0109,Jakarta,Jakarta Utara,-6.282376,106.73946,0.5,office,888,232,low,0.101,0.463,0.396,0.063
-GRD-0110,Jakarta,Jakarta Pusat,-6.061984,106.852847,0.5,residential,3606,1041,middle,0.24,0.307,0.318,0.161
-GRD-0111,Jakarta,Jakarta Timur,-6.341799,106.807438,0.5,commercial,1376,402,lower_middle,0.225,0.341,0.321,0.136
-GRD-0112,Jakarta,Jakarta Utara,-6.316692,106.759555,0.5,commercial,871,197,lower_middle,0.229,0.366,0.342,0.131
-GRD-0113,Jakarta,Jakarta Utara,-6.194449,106.73245,0.5,residential,4148,934,upper_middle,0.258,0.287,0.307,0.153
-GRD-0114,Jakarta,Jakarta Utara,-6.174996,106.755824,0.5,mixed,2027,600,middle,0.207,0.355,0.315,0.13
-GRD-0115,Jakarta,Jakarta Selatan,-6.298873,106.768654,0.5,residential,3152,983,upper_middle,0.243,0.326,0.314,0.166
-GRD-0116,Jakarta,Jakarta Timur,-6.187337,106.694252,0.5,mixed,2515,599,low,0.209,0.334,0.344,0.141
-GRD-0117,Jakarta,Bekasi,-6.223633,106.873345,0.5,mixed,1348,323,lower_middle,0.222,0.337,0.302,0.108
-GRD-0118,Jakarta,Tangerang,-6.26351,106.959662,0.5,residential,4426,1312,upper_middle,0.24,0.286,0.339,0.13
-GRD-0119,Jakarta,Jakarta Barat,-6.320092,106.762407,0.5,residential,3180,789,middle,0.234,0.296,0.31,0.134
-GRD-0120,Jakarta,Depok,-6.214551,106.895645,0.5,residential,2816,674,lower_middle,0.267,0.288,0.333,0.111
-GRD-0121,Jakarta,Jakarta Selatan,-6.331523,106.799191,0.5,mixed,2456,558,middle,0.223,0.366,0.341,0.128
-GRD-0122,Jakarta,Jakarta Timur,-6.092504,106.739095,0.5,residential,2347,589,upper_middle,0.235,0.303,0.318,0.142
-GRD-0123,Jakarta,Jakarta Timur,-6.079245,106.87181,0.5,mixed,1535,418,middle,0.225,0.327,0.35,0.144
-GRD-0124,Jakarta,Jakarta Barat,-6.225446,106.774196,0.5,residential,3931,993,lower_middle,0.215,0.301,0.339,0.137
-GRD-0125,Jakarta,Jakarta Selatan,-6.177651,106.733018,0.5,commercial,344,107,lower_middle,0.183,0.324,0.325,0.132
-GRD-0126,Jakarta,Jakarta Pusat,-6.164707,106.957099,0.5,office,568,168,lower_middle,0.108,0.464,0.408,0.062
-GRD-0127,Jakarta,Bekasi,-6.160154,106.69958,0.5,residential,4596,1370,upper_middle,0.27,0.294,0.298,0.169
-GRD-0128,Jakarta,Jakarta Utara,-6.356854,106.851385,0.5,commercial,1168,334,lower_middle,0.198,0.329,0.311,0.143
-GRD-0129,Jakarta,Bekasi,-6.180275,106.985402,0.5,commercial,722,223,low,0.206,0.362,0.303,0.134
-GRD-0130,Jakarta,Jakarta Timur,-6.106447,106.855764,0.5,mixed,1431,408,high,0.225,0.355,0.335,0.136
-GRD-0131,Jakarta,Jakarta Barat,-6.062597,106.857729,0.5,office,457,116,lower_middle,0.106,0.464,0.361,0.081
-GRD-0132,Jakarta,Tangerang,-6.173698,106.961975,0.5,office,476,128,middle,0.088,0.431,0.382,0.054
-GRD-0133,Jakarta,Jakarta Barat,-6.268864,106.89403,0.5,mixed,3503,1038,middle,0.185,0.332,0.339,0.145
-GRD-0134,Jakarta,Jakarta Timur,-6.126884,106.971102,0.5,residential,3344,844,upper_middle,0.25,0.283,0.303,0.164
-GRD-0135,Jakarta,Jakarta Timur,-6.25712,106.92113,0.5,office,398,97,middle,0.094,0.434,0.369,0.057
-GRD-0136,Jakarta,Jakarta Utara,-6.297855,106.77941,0.5,residential,3900,942,upper_middle,0.256,0.289,0.302,0.129
-GRD-0137,Jakarta,Jakarta Barat,-6.234939,106.868514,0.5,residential,4066,1120,lower_middle,0.233,0.32,0.32,0.149
-GRD-0138,Jakarta,Depok,-6.074744,106.839388,0.5,office,322,88,upper_middle,0.078,0.453,0.361,0.093
-GRD-0139,Jakarta,Jakarta Selatan,-6.25164,107.002103,0.5,mixed,1398,348,low,0.174,0.329,0.313,0.117
-GRD-0140,Jakarta,Depok,-6.239155,106.819597,0.5,mixed,1227,381,middle,0.213,0.352,0.317,0.12
-GRD-0141,Bandung,Coblong,-6.885702,107.550388,0.5,residential,2194,565,lower_middle,0.259,0.286,0.314,0.132
-GRD-0142,Bandung,Coblong,-6.940299,107.56603,0.5,residential,5191,1407,middle,0.239,0.308,0.332,0.115
-GRD-0143,Bandung,Sukajadi,-6.982919,107.567922,0.5,commercial,387,89,lower_middle,0.223,0.349,0.303,0.094
-GRD-0144,Bandung,Buah Batu,-6.968748,107.689512,0.5,mixed,2488,596,middle,0.213,0.344,0.305,0.1
-GRD-0145,Bandung,Cidadap,-6.955575,107.641669,0.5,mixed,2558,624,upper_middle,0.175,0.365,0.321,0.096
-GRD-0146,Bandung,Buah Batu,-6.897547,107.657931,0.5,mixed,2824,669,middle,0.197,0.334,0.333,0.113
-GRD-0147,Bandung,Cidadap,-6.937448,107.585545,0.5,residential,4333,1221,low,0.233,0.317,0.299,0.133
-GRD-0148,Bandung,Sukajadi,-6.888073,107.664838,0.5,residential,4918,1308,low,0.243,0.301,0.296,0.115
-GRD-0149,Bandung,Sukajadi,-6.955866,107.563686,0.5,mixed,2395,578,upper_middle,0.204,0.38,0.315,0.121
-GRD-0150,Bandung,Sukajadi,-6.852258,107.655499,0.5,residential,3819,1019,middle,0.239,0.275,0.305,0.125
-GRD-0151,Bandung,Coblong,-6.957091,107.559459,0.5,commercial,313,78,lower_middle,0.218,0.34,0.32,0.139
-GRD-0152,Bandung,Coblong,-6.930967,107.702134,0.5,residential,4270,1149,lower_middle,0.229,0.314,0.328,0.168
-GRD-0153,Bandung,Sukajadi,-6.84672,107.58227,0.5,mixed,2695,599,lower_middle,0.181,0.366,0.302,0.134
-GRD-0154,Bandung,Sukajadi,-6.832813,107.641204,0.5,mixed,2875,818,middle,0.21,0.363,0.347,0.094
-GRD-0155,Bandung,Cidadap,-6.905834,107.52954,0.5,commercial,375,88,middle,0.206,0.375,0.307,0.105
-GRD-0156,Bandung,Buah Batu,-6.853967,107.656226,0.5,residential,4442,1335,low,0.223,0.315,0.323,0.151
-GRD-0157,Bandung,Cidadap,-6.887385,107.589098,0.5,mixed,3249,849,high,0.188,0.375,0.305,0.14
-GRD-0158,Bandung,Sukajadi,-6.854749,107.574181,0.5,commercial,1289,342,middle,0.212,0.339,0.318,0.139
-GRD-0159,Bandung,Bandung Wetan,-6.942318,107.637067,0.5,mixed,2199,606,middle,0.196,0.348,0.348,0.128
-GRD-0160,Bandung,Cidadap,-6.949982,107.59755,0.5,residential,4315,1346,middle,0.223,0.287,0.332,0.158
-GRD-0161,Bandung,Buah Batu,-6.982669,107.640203,0.5,residential,3135,725,lower_middle,0.242,0.308,0.326,0.147
-GRD-0162,Bandung,Cidadap,-6.861134,107.578968,0.5,commercial,473,141,low,0.188,0.331,0.342,0.121
-GRD-0163,Bandung,Cidadap,-6.87311,107.657113,0.5,residential,3793,1061,lower_middle,0.221,0.321,0.327,0.162
-GRD-0164,Bandung,Coblong,-6.909013,107.530975,0.5,mixed,3270,874,middle,0.22,0.349,0.305,0.092
-GRD-0165,Bandung,Sukajadi,-6.841639,107.598406,0.5,residential,2982,711,upper_middle,0.243,0.277,0.297,0.157
-GRD-0166,Bandung,Bandung Wetan,-6.85682,107.563927,0.5,mixed,3437,803,low,0.215,0.338,0.36,0.117
-GRD-0167,Bandung,Cidadap,-6.966083,107.640912,0.5,mixed,2170,502,middle,0.207,0.346,0.337,0.137
-GRD-0168,Bandung,Buah Batu,-6.993877,107.64704,0.5,residential,2951,824,high,0.244,0.327,0.321,0.164
-GRD-0169,Bandung,Cidadap,-6.856287,107.673058,0.5,office,405,112,low,0.085,0.471,0.374,0.049
-GRD-0170,Bandung,Cidadap,-6.969047,107.568979,0.5,commercial,1125,274,upper_middle,0.223,0.347,0.329,0.125
-GRD-0171,Bandung,Bandung Wetan,-6.986307,107.667597,0.5,mixed,2667,598,lower_middle,0.219,0.35,0.319,0.107
-GRD-0172,Bandung,Cidadap,-6.868745,107.664876,0.5,mixed,1398,326,middle,0.171,0.376,0.309,0.117
-GRD-0173,Bandung,Coblong,-6.87818,107.537862,0.5,mixed,1851,525,middle,0.192,0.374,0.31,0.114
-GRD-0174,Bandung,Coblong,-6.964804,107.603432,0.5,residential,2173,644,middle,0.224,0.311,0.291,0.152
-GRD-0175,Bandung,Cidadap,-6.923555,107.700906,0.5,mixed,1490,351,low,0.176,0.342,0.318,0.113
-GRD-0176,Bandung,Coblong,-6.975133,107.67679,0.5,residential,4107,1181,lower_middle,0.255,0.325,0.327,0.137
-GRD-0177,Bandung,Coblong,-6.942903,107.65278,0.5,mixed,2772,820,lower_middle,0.187,0.325,0.333,0.126
-GRD-0178,Bandung,Bandung Wetan,-6.986564,107.631905,0.5,mixed,2435,707,middle,0.194,0.359,0.347,0.138
-GRD-0179,Bandung,Coblong,-6.888538,107.585634,0.5,commercial,1381,313,high,0.178,0.372,0.334,0.112
-GRD-0180,Bandung,Bandung Wetan,-6.991713,107.62509,0.5,residential,2076,633,low,0.257,0.3,0.328,0.14
-GRD-0181,Bandung,Bandung Wetan,-6.972925,107.601659,0.5,commercial,868,225,lower_middle,0.182,0.368,0.332,0.113
-GRD-0182,Bandung,Bandung Wetan,-6.979367,107.655706,0.5,residential,3591,954,low,0.237,0.307,0.309,0.155
-GRD-0183,Bandung,Coblong,-6.864623,107.67622,0.5,mixed,3233,757,middle,0.186,0.342,0.345,0.142
-GRD-0184,Bandung,Bandung Wetan,-6.865393,107.676381,0.5,residential,3558,796,lower_middle,0.248,0.3,0.321,0.113
-GRD-0185,Bandung,Coblong,-6.845118,107.661065,0.5,residential,2221,693,upper_middle,0.262,0.271,0.293,0.132
-GRD-0186,Bandung,Bandung Wetan,-6.839545,107.65668,0.5,commercial,759,173,lower_middle,0.189,0.37,0.334,0.097
-GRD-0187,Bandung,Coblong,-6.893479,107.689526,0.5,mixed,2842,676,upper_middle,0.189,0.325,0.327,0.112
-GRD-0188,Bandung,Buah Batu,-6.965009,107.629642,0.5,residential,3308,790,upper_middle,0.225,0.27,0.315,0.124
-GRD-0189,Bandung,Bandung Wetan,-6.962346,107.6476,0.5,office,256,57,lower_middle,0.095,0.478,0.408,0.049
-GRD-0190,Bandung,Coblong,-6.904521,107.665291,0.5,mixed,2891,873,high,0.176,0.328,0.349,0.094
-GRD-0191,Bandung,Coblong,-6.890532,107.556343,0.5,residential,2869,792,upper_middle,0.237,0.284,0.347,0.118
-GRD-0192,Bandung,Bandung Wetan,-6.867499,107.680791,0.5,residential,3708,833,middle,0.222,0.288,0.306,0.117
-GRD-0193,Bandung,Buah Batu,-6.950418,107.605011,0.5,residential,3142,858,lower_middle,0.241,0.311,0.306,0.169
-GRD-0194,Bandung,Cidadap,-6.908522,107.605902,0.5,commercial,493,116,low,0.177,0.324,0.347,0.103
-GRD-0195,Bandung,Bandung Wetan,-6.894048,107.586333,0.5,commercial,344,85,lower_middle,0.219,0.326,0.351,0.139
-GRD-0196,Bandung,Bandung Wetan,-6.928688,107.6488,0.5,residential,4150,1015,low,0.22,0.283,0.301,0.127
-GRD-0197,Bandung,Buah Batu,-6.899211,107.702384,0.5,commercial,1321,346,upper_middle,0.175,0.343,0.325,0.129
-GRD-0198,Bandung,Buah Batu,-6.837063,107.619534,0.5,mixed,2670,732,upper_middle,0.204,0.339,0.316,0.092
-GRD-0199,Bandung,Sukajadi,-6.904755,107.688041,0.5,residential,3732,836,high,0.216,0.309,0.306,0.159
-GRD-0200,Bandung,Coblong,-6.88781,107.700707,0.5,commercial,1026,258,lower_middle,0.218,0.362,0.355,0.092
-GRD-0201,Bandung,Buah Batu,-6.941899,107.690972,0.5,residential,2571,775,middle,0.224,0.283,0.322,0.11
-GRD-0202,Bandung,Coblong,-6.83517,107.645206,0.5,residential,2526,614,low,0.218,0.277,0.322,0.132
-GRD-0203,Bandung,Cidadap,-6.94078,107.612213,0.5,commercial,960,231,high,0.196,0.358,0.329,0.109
-GRD-0204,Bandung,Buah Batu,-6.946262,107.548498,0.5,mixed,1918,535,upper_middle,0.181,0.32,0.342,0.124
-GRD-0205,Bandung,Buah Batu,-6.999885,107.630024,0.5,residential,4267,966,middle,0.218,0.315,0.304,0.169
-GRD-0206,Bandung,Bandung Wetan,-6.941856,107.647042,0.5,mixed,2575,731,lower_middle,0.174,0.335,0.306,0.09
-GRD-0207,Bandung,Coblong,-6.973133,107.612943,0.5,mixed,2751,643,lower_middle,0.217,0.355,0.345,0.104
-GRD-0208,Bandung,Bandung Wetan,-6.975152,107.637645,0.5,residential,3105,713,lower_middle,0.22,0.275,0.347,0.169
-GRD-0209,Bandung,Cidadap,-6.922338,107.671631,0.5,mixed,1875,516,low,0.228,0.345,0.333,0.146
-GRD-0210,Bandung,Sukajadi,-6.973536,107.583575,0.5,residential,2003,625,low,0.215,0.319,0.328,0.139
-GRD-0211,Bandung,Sukajadi,-6.890463,107.626651,0.5,office,557,128,middle,0.086,0.459,0.373,0.062
-GRD-0212,Bandung,Bandung Wetan,-6.866218,107.640847,0.5,residential,3704,1091,middle,0.252,0.276,0.33,0.158
-GRD-0213,Bandung,Coblong,-6.975418,107.621468,0.5,commercial,1157,262,middle,0.204,0.334,0.318,0.114
-GRD-0214,Bandung,Buah Batu,-6.899478,107.700973,0.5,office,273,72,high,0.127,0.43,0.363,0.052
-GRD-0215,Bandung,Cidadap,-6.908702,107.63562,0.5,residential,5169,1178,upper_middle,0.214,0.293,0.314,0.13
-GRD-0216,Bandung,Bandung Wetan,-6.905195,107.573045,0.5,mixed,3340,984,middle,0.205,0.366,0.356,0.145
-GRD-0217,Bandung,Sukajadi,-6.877439,107.673923,0.5,mixed,2883,731,middle,0.198,0.33,0.324,0.127
-GRD-0218,Bandung,Cidadap,-6.87446,107.558049,0.5,mixed,2173,498,high,0.171,0.369,0.318,0.107
-GRD-0219,Bandung,Bandung Wetan,-6.97709,107.597992,0.5,office,603,167,upper_middle,0.114,0.456,0.355,0.067
-GRD-0220,Bandung,Cidadap,-6.870079,107.546706,0.5,mixed,1430,347,low,0.194,0.367,0.331,0.124
-GRD-0221,Bandung,Coblong,-6.944023,107.645878,0.5,mixed,1335,324,upper_middle,0.186,0.369,0.33,0.128
-GRD-0222,Bandung,Sukajadi,-6.911448,107.650453,0.5,commercial,1271,348,middle,0.22,0.336,0.35,0.095
-GRD-0223,Bandung,Buah Batu,-6.912919,107.63341,0.5,mixed,2106,520,lower_middle,0.201,0.372,0.358,0.131
-GRD-0224,Bandung,Coblong,-6.871669,107.661208,0.5,commercial,816,227,upper_middle,0.228,0.359,0.325,0.113
-GRD-0225,Bandung,Cidadap,-6.864305,107.618427,0.5,residential,3932,968,middle,0.261,0.292,0.329,0.147
-GRD-0226,Bandung,Bandung Wetan,-6.886581,107.657676,0.5,residential,2932,661,middle,0.249,0.281,0.321,0.124
-GRD-0227,Bandung,Buah Batu,-6.934268,107.6326,0.5,residential,3109,867,middle,0.264,0.294,0.334,0.145
-GRD-0228,Bandung,Sukajadi,-6.999734,107.655576,0.5,mixed,3389,944,lower_middle,0.18,0.359,0.333,0.108
-GRD-0229,Bandung,Buah Batu,-6.979213,107.615549,0.5,mixed,2574,618,lower_middle,0.188,0.367,0.32,0.106
-GRD-0230,Bandung,Cidadap,-6.956802,107.648328,0.5,residential,4398,1142,upper_middle,0.262,0.293,0.308,0.113
-GRD-0231,Bandung,Coblong,-6.85423,107.673627,0.5,residential,4132,1203,upper_middle,0.215,0.29,0.349,0.129
-GRD-0232,Bandung,Coblong,-6.911061,107.598226,0.5,mixed,3560,845,upper_middle,0.178,0.346,0.326,0.116
-GRD-0233,Bandung,Buah Batu,-6.915674,107.681776,0.5,residential,3328,816,lower_middle,0.248,0.285,0.332,0.131
-GRD-0234,Bandung,Buah Batu,-6.895887,107.594854,0.5,residential,2067,533,middle,0.241,0.296,0.331,0.118
-GRD-0235,Bandung,Coblong,-6.911955,107.528697,0.5,residential,5125,1144,lower_middle,0.223,0.271,0.32,0.117
-GRD-0236,Bandung,Cidadap,-6.990825,107.639121,0.5,mixed,3390,835,high,0.209,0.321,0.341,0.115
-GRD-0237,Bandung,Cidadap,-6.933762,107.56559,0.5,mixed,1238,305,middle,0.186,0.356,0.308,0.14
-GRD-0238,Bandung,Bandung Wetan,-6.94612,107.613368,0.5,residential,5014,1191,middle,0.26,0.328,0.311,0.135
-GRD-0239,Bandung,Coblong,-6.928247,107.584407,0.5,mixed,2554,770,low,0.177,0.354,0.33,0.147
-GRD-0240,Bandung,Bandung Wetan,-6.881368,107.69048,0.5,office,453,139,lower_middle,0.119,0.472,0.401,0.062
-GRD-0241,Bandung,Bandung Wetan,-6.884267,107.55237,0.5,residential,4905,1434,middle,0.231,0.296,0.327,0.163
-GRD-0242,Bandung,Coblong,-6.94271,107.630083,0.5,residential,3439,900,middle,0.235,0.323,0.3,0.118
-GRD-0243,Bandung,Coblong,-6.926372,107.695929,0.5,residential,4219,1001,middle,0.247,0.322,0.343,0.154
-GRD-0244,Bandung,Cidadap,-6.908472,107.533885,0.5,residential,3484,965,lower_middle,0.252,0.311,0.336,0.145
-GRD-0245,Bandung,Sukajadi,-6.926875,107.686658,0.5,commercial,1186,310,upper_middle,0.21,0.358,0.309,0.14
-GRD-0246,Bandung,Bandung Wetan,-6.972929,107.554068,0.5,commercial,1261,382,upper_middle,0.199,0.334,0.358,0.093
-GRD-0247,Bandung,Cidadap,-6.950816,107.592495,0.5,mixed,3080,714,middle,0.197,0.327,0.33,0.129
-GRD-0248,Bandung,Buah Batu,-6.902394,107.594325,0.5,commercial,923,228,middle,0.197,0.34,0.35,0.139
-GRD-0249,Bandung,Buah Batu,-6.845458,107.578025,0.5,commercial,1226,302,low,0.17,0.341,0.338,0.138
-GRD-0250,Bandung,Bandung Wetan,-6.870028,107.571942,0.5,residential,2472,662,upper_middle,0.225,0.282,0.297,0.161
-GRD-0251,Bandung,Coblong,-6.954824,107.638125,0.5,mixed,2897,731,upper_middle,0.216,0.347,0.34,0.147
-GRD-0252,Bandung,Buah Batu,-6.917257,107.585802,0.5,mixed,2972,678,upper_middle,0.212,0.33,0.349,0.096
-GRD-0253,Bandung,Sukajadi,-6.962694,107.561285,0.5,commercial,808,222,lower_middle,0.188,0.368,0.308,0.126
-GRD-0254,Bandung,Buah Batu,-6.924046,107.533912,0.5,mixed,3467,840,lower_middle,0.211,0.375,0.308,0.133
-GRD-0255,Bandung,Buah Batu,-6.83753,107.658368,0.5,mixed,1672,424,middle,0.21,0.345,0.345,0.14
-GRD-0256,Bandung,Bandung Wetan,-6.956947,107.646953,0.5,commercial,597,173,middle,0.215,0.33,0.317,0.105
-GRD-0257,Bandung,Sukajadi,-6.994355,107.588782,0.5,residential,4016,928,low,0.254,0.322,0.335,0.144
-GRD-0258,Bandung,Sukajadi,-6.960397,107.628562,0.5,mixed,2762,618,high,0.189,0.353,0.301,0.105
-GRD-0259,Bandung,Cidadap,-6.987134,107.632904,0.5,mixed,2706,755,high,0.181,0.361,0.311,0.1
-GRD-0260,Bandung,Cidadap,-6.872471,107.57247,0.5,residential,2882,899,upper_middle,0.238,0.326,0.292,0.166
-GRD-0261,Bandung,Buah Batu,-6.986334,107.629485,0.5,mixed,3209,888,upper_middle,0.183,0.331,0.304,0.12
-GRD-0262,Bandung,Bandung Wetan,-6.930899,107.56215,0.5,residential,2673,603,lower_middle,0.247,0.298,0.324,0.155
-GRD-0263,Bandung,Sukajadi,-6.869588,107.674037,0.5,residential,4430,1199,upper_middle,0.258,0.277,0.305,0.153
-GRD-0264,Bandung,Sukajadi,-6.918998,107.604916,0.5,commercial,1296,320,lower_middle,0.189,0.325,0.306,0.148
-GRD-0265,Bandung,Bandung Wetan,-6.933909,107.541026,0.5,residential,4378,1024,lower_middle,0.263,0.314,0.316,0.159
-GRD-0266,Bandung,Bandung Wetan,-6.939767,107.609568,0.5,commercial,479,113,low,0.203,0.354,0.314,0.106
-GRD-0267,Bandung,Cidadap,-6.958462,107.580458,0.5,residential,3395,848,middle,0.255,0.305,0.332,0.114
-GRD-0268,Bandung,Sukajadi,-6.863819,107.687795,0.5,commercial,1081,334,upper_middle,0.179,0.333,0.345,0.138
-GRD-0269,Bandung,Coblong,-6.837761,107.595776,0.5,residential,5056,1494,upper_middle,0.213,0.304,0.314,0.143
-GRD-0270,Bandung,Sukajadi,-6.892038,107.625676,0.5,residential,4445,1111,lower_middle,0.225,0.277,0.33,0.144
-GRD-0271,Bandung,Buah Batu,-6.93851,107.619239,0.5,commercial,895,269,low,0.214,0.349,0.32,0.098
-GRD-0272,Bandung,Buah Batu,-6.874611,107.678529,0.5,residential,2592,639,lower_middle,0.252,0.279,0.324,0.158
-GRD-0273,Bandung,Sukajadi,-6.840569,107.66257,0.5,residential,2707,652,low,0.263,0.298,0.312,0.128
-GRD-0274,Bandung,Buah Batu,-6.857733,107.64941,0.5,residential,2949,735,upper_middle,0.254,0.324,0.341,0.148
-GRD-0275,Bandung,Buah Batu,-6.956132,107.54714,0.5,residential,1950,500,upper_middle,0.249,0.279,0.314,0.163
-GRD-0276,Bandung,Coblong,-6.971578,107.662554,0.5,commercial,1112,274,middle,0.221,0.368,0.337,0.1
-GRD-0277,Bandung,Coblong,-6.896085,107.557708,0.5,commercial,1290,308,low,0.184,0.336,0.314,0.13
-GRD-0278,Bandung,Cidadap,-6.980145,107.635921,0.5,commercial,381,93,lower_middle,0.201,0.37,0.35,0.106
-GRD-0279,Bandung,Cidadap,-6.858496,107.649928,0.5,residential,4476,1022,lower_middle,0.241,0.291,0.342,0.139
-GRD-0280,Bandung,Buah Batu,-6.955594,107.56912,0.5,mixed,1878,527,middle,0.179,0.329,0.336,0.139
-GRD-0281,Surabaya,Rungkut,-7.212571,112.675938,0.5,mixed,3161,782,middle,0.195,0.335,0.308,0.126
-GRD-0282,Surabaya,Sukolilo,-7.260649,112.712225,0.5,residential,2481,623,high,0.244,0.271,0.333,0.15
-GRD-0283,Surabaya,Tegalsari,-7.227968,112.801903,0.5,commercial,649,163,upper_middle,0.218,0.369,0.311,0.13
-GRD-0284,Surabaya,Rungkut,-7.312372,112.743049,0.5,office,537,161,lower_middle,0.082,0.472,0.38,0.065
-GRD-0285,Surabaya,Tegalsari,-7.233719,112.786764,0.5,office,665,200,upper_middle,0.11,0.474,0.382,0.04
-GRD-0286,Surabaya,Tegalsari,-7.351817,112.706303,0.5,commercial,1385,326,lower_middle,0.217,0.343,0.335,0.134
-GRD-0287,Surabaya,Gubeng,-7.346602,112.720847,0.5,residential,2842,655,lower_middle,0.235,0.281,0.333,0.157
-GRD-0288,Surabaya,Gubeng,-7.20206,112.813266,0.5,residential,2641,704,low,0.245,0.286,0.322,0.144
-GRD-0289,Surabaya,Tegalsari,-7.261856,112.837235,0.5,mixed,3461,883,lower_middle,0.185,0.338,0.321,0.132
-GRD-0290,Surabaya,Gubeng,-7.330774,112.809395,0.5,mixed,1862,441,middle,0.218,0.357,0.341,0.093
-GRD-0291,Surabaya,Gubeng,-7.308329,112.707425,0.5,mixed,2983,810,lower_middle,0.207,0.363,0.356,0.114
-GRD-0292,Surabaya,Sukolilo,-7.172216,112.732048,0.5,residential,4968,1154,low,0.266,0.301,0.302,0.157
-GRD-0293,Surabaya,Sukolilo,-7.330729,112.727317,0.5,residential,1947,572,low,0.27,0.317,0.311,0.134
-GRD-0294,Surabaya,Gubeng,-7.266707,112.669186,0.5,office,505,142,high,0.106,0.432,0.406,0.074
-GRD-0295,Surabaya,Gubeng,-7.227065,112.705626,0.5,commercial,996,224,upper_middle,0.223,0.369,0.334,0.132
-GRD-0296,Surabaya,Wonokromo,-7.298575,112.653311,0.5,mixed,3079,805,upper_middle,0.185,0.343,0.347,0.103
-GRD-0297,Surabaya,Tegalsari,-7.343567,112.780388,0.5,office,867,246,upper_middle,0.076,0.46,0.399,0.045
-GRD-0298,Surabaya,Rungkut,-7.242186,112.648063,0.5,residential,4149,1204,high,0.254,0.284,0.305,0.126
-GRD-0299,Surabaya,Sukolilo,-7.30206,112.778643,0.5,residential,4990,1228,middle,0.247,0.316,0.322,0.113
-GRD-0300,Surabaya,Tegalsari,-7.309124,112.697146,0.5,mixed,2325,530,high,0.187,0.333,0.335,0.093
-GRD-0301,Surabaya,Sukolilo,-7.244375,112.655571,0.5,residential,3222,784,high,0.238,0.311,0.291,0.123
-GRD-0302,Surabaya,Sukolilo,-7.18418,112.714184,0.5,mixed,3446,775,lower_middle,0.191,0.331,0.325,0.115
-GRD-0303,Surabaya,Tegalsari,-7.187199,112.689559,0.5,residential,2536,596,middle,0.253,0.318,0.323,0.161
-GRD-0304,Surabaya,Wonokromo,-7.303023,112.767023,0.5,commercial,1163,267,low,0.208,0.352,0.319,0.119
-GRD-0305,Surabaya,Gubeng,-7.299554,112.786504,0.5,residential,4628,1212,upper_middle,0.248,0.297,0.31,0.132
-GRD-0306,Surabaya,Rungkut,-7.291106,112.826313,0.5,residential,3486,1008,high,0.245,0.309,0.3,0.157
-GRD-0307,Surabaya,Tegalsari,-7.314565,112.721961,0.5,mixed,1521,378,lower_middle,0.179,0.33,0.348,0.11
-GRD-0308,Surabaya,Gubeng,-7.29487,112.674136,0.5,residential,3207,778,middle,0.246,0.294,0.343,0.157
-GRD-0309,Surabaya,Sukolilo,-7.362237,112.750704,0.5,office,173,49,low,0.085,0.465,0.395,0.053
-GRD-0310,Surabaya,Tegalsari,-7.219015,112.808762,0.5,commercial,1373,343,low,0.175,0.376,0.323,0.104
-GRD-0311,Surabaya,Wonokromo,-7.225042,112.664409,0.5,residential,2498,569,lower_middle,0.262,0.298,0.342,0.166
-GRD-0312,Surabaya,Sukolilo,-7.197401,112.805435,0.5,residential,4247,1091,middle,0.265,0.299,0.304,0.115
-GRD-0313,Surabaya,Wonokromo,-7.226063,112.7006,0.5,residential,1800,462,lower_middle,0.251,0.3,0.335,0.128
-GRD-0314,Surabaya,Sukolilo,-7.347846,112.78041,0.5,residential,1829,466,middle,0.234,0.28,0.334,0.133
-GRD-0315,Surabaya,Tegalsari,-7.191223,112.746639,0.5,commercial,883,208,upper_middle,0.195,0.371,0.311,0.107
-GRD-0316,Surabaya,Rungkut,-7.315657,112.687856,0.5,mixed,1969,441,lower_middle,0.171,0.378,0.317,0.098
-GRD-0317,Surabaya,Gubeng,-7.253812,112.824164,0.5,residential,3821,901,lower_middle,0.27,0.298,0.337,0.13
-GRD-0318,Surabaya,Gubeng,-7.287206,112.847609,0.5,residential,3407,793,lower_middle,0.259,0.32,0.297,0.156
-GRD-0319,Surabaya,Tegalsari,-7.310963,112.75933,0.5,residential,1937,433,middle,0.238,0.311,0.309,0.129
-GRD-0320,Surabaya,Sukolilo,-7.235036,112.835525,0.5,commercial,911,279,lower_middle,0.21,0.378,0.314,0.116
-GRD-0321,Surabaya,Sukolilo,-7.270258,112.755783,0.5,residential,5032,1228,middle,0.251,0.279,0.336,0.125
-GRD-0322,Surabaya,Rungkut,-7.32783,112.721918,0.5,office,514,125,middle,0.117,0.428,0.364,0.099
-GRD-0323,Surabaya,Tegalsari,-7.353416,112.756171,0.5,mixed,2747,629,low,0.199,0.346,0.318,0.132
-GRD-0324,Surabaya,Rungkut,-7.214089,112.770509,0.5,residential,3718,983,middle,0.259,0.302,0.317,0.157
-GRD-0325,Surabaya,Gubeng,-7.333993,112.744154,0.5,commercial,956,214,low,0.219,0.331,0.341,0.136
-GRD-0326,Surabaya,Tegalsari,-7.215973,112.743258,0.5,commercial,1371,320,low,0.178,0.372,0.312,0.119
-GRD-0327,Surabaya,Tegalsari,-7.27216,112.721205,0.5,mixed,2248,544,lower_middle,0.171,0.375,0.339,0.146
-GRD-0328,Surabaya,Gubeng,-7.237842,112.654684,0.5,residential,4845,1211,low,0.242,0.314,0.34,0.115
-GRD-0329,Surabaya,Gubeng,-7.263635,112.701841,0.5,mixed,2778,788,middle,0.208,0.331,0.345,0.115
-GRD-0330,Surabaya,Rungkut,-7.284363,112.7293,0.5,mixed,2949,753,upper_middle,0.2,0.359,0.332,0.126
-GRD-0331,Surabaya,Sukolilo,-7.317569,112.838242,0.5,office,798,193,middle,0.107,0.454,0.363,0.086
-GRD-0332,Surabaya,Tegalsari,-7.153495,112.749406,0.5,residential,3426,885,middle,0.27,0.288,0.308,0.123
-GRD-0333,Surabaya,Rungkut,-7.243906,112.851978,0.5,office,246,67,low,0.078,0.442,0.385,0.054
-GRD-0334,Surabaya,Tegalsari,-7.204351,112.834334,0.5,commercial,964,226,lower_middle,0.211,0.355,0.354,0.126
-GRD-0335,Surabaya,Sukolilo,-7.316321,112.744908,0.5,residential,4995,1327,upper_middle,0.266,0.277,0.336,0.155
-GRD-0336,Surabaya,Tegalsari,-7.300686,112.84262,0.5,residential,3947,1089,middle,0.252,0.279,0.33,0.17
-GRD-0337,Surabaya,Sukolilo,-7.364014,112.754016,0.5,commercial,893,246,low,0.199,0.365,0.333,0.106
-GRD-0338,Surabaya,Wonokromo,-7.230195,112.689047,0.5,mixed,3490,885,lower_middle,0.204,0.38,0.331,0.105
-GRD-0339,Surabaya,Sukolilo,-7.233769,112.701208,0.5,residential,4551,1258,lower_middle,0.246,0.271,0.308,0.169
-GRD-0340,Surabaya,Tegalsari,-7.262744,112.837486,0.5,commercial,778,229,middle,0.214,0.325,0.344,0.105
-GRD-0341,Surabaya,Rungkut,-7.189315,112.803588,0.5,residential,4641,1278,middle,0.254,0.283,0.323,0.155
-GRD-0342,Surabaya,Wonokromo,-7.31343,112.694314,0.5,mixed,1275,328,upper_middle,0.185,0.324,0.312,0.132
-GRD-0343,Surabaya,Gubeng,-7.245203,112.696708,0.5,residential,4504,1041,low,0.249,0.284,0.313,0.169
-GRD-0344,Surabaya,Sukolilo,-7.226226,112.73835,0.5,commercial,1325,321,middle,0.172,0.375,0.318,0.119
-GRD-0345,Surabaya,Rungkut,-7.246757,112.845501,0.5,residential,3038,757,upper_middle,0.263,0.323,0.339,0.112
-GRD-0346,Surabaya,Wonokromo,-7.178411,112.73679,0.5,residential,3409,766,lower_middle,0.247,0.308,0.304,0.124
-GRD-0347,Surabaya,Sukolilo,-7.265277,112.793966,0.5,residential,4020,1030,low,0.258,0.322,0.309,0.152
-GRD-0348,Surabaya,Wonokromo,-7.198727,112.804167,0.5,mixed,1847,417,middle,0.177,0.339,0.353,0.134
-GRD-0349,Surabaya,Tegalsari,-7.322189,112.821659,0.5,office,305,91,upper_middle,0.081,0.466,0.387,0.056
-GRD-0350,Surabaya,Wonokromo,-7.176677,112.761919,0.5,residential,1906,565,upper_middle,0.261,0.298,0.329,0.121
-GRD-0351,Surabaya,Wonokromo,-7.246492,112.685177,0.5,residential,1932,554,high,0.25,0.282,0.302,0.121
-GRD-0352,Surabaya,Sukolilo,-7.218174,112.653271,0.5,commercial,805,247,middle,0.214,0.343,0.319,0.127
-GRD-0353,Surabaya,Sukolilo,-7.30928,112.674039,0.5,commercial,1366,320,middle,0.173,0.38,0.331,0.114
-GRD-0354,Surabaya,Sukolilo,-7.290374,112.664731,0.5,mixed,1977,550,lower_middle,0.22,0.348,0.325,0.127
-GRD-0355,Surabaya,Wonokromo,-7.260187,112.726792,0.5,commercial,485,141,middle,0.205,0.374,0.333,0.114
-GRD-0356,Surabaya,Tegalsari,-7.247915,112.813324,0.5,commercial,1231,300,lower_middle,0.224,0.368,0.343,0.097
-GRD-0357,Surabaya,Rungkut,-7.246081,112.717123,0.5,residential,4697,1272,high,0.233,0.316,0.345,0.144
-GRD-0358,Surabaya,Wonokromo,-7.186442,112.804082,0.5,residential,4716,1123,lower_middle,0.237,0.308,0.297,0.118
-GRD-0359,Surabaya,Rungkut,-7.291398,112.716864,0.5,residential,3838,1094,upper_middle,0.245,0.299,0.315,0.115
-GRD-0360,Surabaya,Sukolilo,-7.173799,112.754904,0.5,residential,4374,1337,lower_middle,0.231,0.279,0.292,0.145
-GRD-0361,Surabaya,Gubeng,-7.184201,112.710804,0.5,residential,3507,864,lower_middle,0.252,0.304,0.324,0.168
-GRD-0362,Surabaya,Gubeng,-7.185464,112.69188,0.5,residential,3025,723,upper_middle,0.261,0.274,0.318,0.117
-GRD-0363,Surabaya,Tegalsari,-7.169437,112.703869,0.5,commercial,419,94,middle,0.202,0.325,0.343,0.126
-GRD-0364,Surabaya,Tegalsari,-7.349965,112.726163,0.5,commercial,1376,376,high,0.178,0.354,0.331,0.128
-GRD-0365,Surabaya,Sukolilo,-7.188871,112.784705,0.5,residential,2989,745,low,0.217,0.321,0.338,0.17
-GRD-0366,Surabaya,Sukolilo,-7.197357,112.716862,0.5,mixed,1246,295,lower_middle,0.188,0.35,0.319,0.09
-GRD-0367,Surabaya,Sukolilo,-7.182321,112.70309,0.5,commercial,697,158,upper_middle,0.199,0.348,0.302,0.098
-GRD-0368,Surabaya,Sukolilo,-7.247062,112.710449,0.5,mixed,2895,699,lower_middle,0.189,0.352,0.312,0.131
-GRD-0369,Surabaya,Rungkut,-7.320035,112.82641,0.5,residential,2411,601,high,0.261,0.304,0.313,0.146
-GRD-0370,Surabaya,Rungkut,-7.358018,112.753081,0.5,mixed,2895,786,upper_middle,0.22,0.338,0.332,0.101
-GRD-0371,Surabaya,Wonokromo,-7.242104,112.816935,0.5,office,644,189,upper_middle,0.09,0.449,0.402,0.059
-GRD-0372,Surabaya,Gubeng,-7.31889,112.759713,0.5,mixed,1743,471,low,0.222,0.327,0.319,0.093
-GRD-0373,Surabaya,Rungkut,-7.329269,112.821662,0.5,commercial,1366,423,upper_middle,0.216,0.358,0.313,0.102
-GRD-0374,Surabaya,Tegalsari,-7.269156,112.694956,0.5,mixed,1811,407,low,0.204,0.326,0.333,0.123
-GRD-0375,Surabaya,Rungkut,-7.277137,112.805273,0.5,commercial,937,240,upper_middle,0.173,0.322,0.354,0.093
-GRD-0376,Surabaya,Tegalsari,-7.223011,112.809955,0.5,residential,4241,1227,lower_middle,0.256,0.319,0.295,0.165
-GRD-0377,Surabaya,Gubeng,-7.296553,112.665329,0.5,mixed,3118,772,lower_middle,0.216,0.348,0.357,0.099
-GRD-0378,Surabaya,Rungkut,-7.155316,112.746884,0.5,residential,4665,1420,middle,0.217,0.299,0.341,0.127
-GRD-0379,Surabaya,Sukolilo,-7.286364,112.694708,0.5,residential,5148,1217,middle,0.242,0.294,0.315,0.147
-GRD-0380,Surabaya,Tegalsari,-7.270569,112.831689,0.5,residential,2652,679,upper_middle,0.224,0.31,0.295,0.166
-GRD-0381,Surabaya,Sukolilo,-7.250627,112.66981,0.5,commercial,499,112,lower_middle,0.174,0.327,0.349,0.136
-GRD-0382,Surabaya,Gubeng,-7.255115,112.685059,0.5,residential,5146,1358,middle,0.227,0.307,0.317,0.122
-GRD-0383,Surabaya,Rungkut,-7.161138,112.720716,0.5,office,746,166,low,0.094,0.428,0.368,0.062
-GRD-0384,Surabaya,Sukolilo,-7.231258,112.828384,0.5,mixed,1649,401,lower_middle,0.194,0.339,0.323,0.113
-GRD-0385,Surabaya,Tegalsari,-7.325553,112.710053,0.5,residential,4075,906,lower_middle,0.25,0.278,0.294,0.111
-GRD-0386,Surabaya,Tegalsari,-7.249837,112.659863,0.5,office,807,187,upper_middle,0.124,0.462,0.406,0.077
-GRD-0387,Surabaya,Tegalsari,-7.224059,112.686828,0.5,residential,2724,708,low,0.254,0.313,0.306,0.166
-GRD-0388,Surabaya,Gubeng,-7.240371,112.833014,0.5,commercial,531,130,middle,0.179,0.364,0.359,0.149
-GRD-0389,Surabaya,Gubeng,-7.23665,112.658245,0.5,commercial,802,197,middle,0.21,0.361,0.332,0.125
-GRD-0390,Surabaya,Sukolilo,-7.305698,112.822245,0.5,mixed,3059,842,middle,0.191,0.379,0.318,0.1
-GRD-0391,Surabaya,Rungkut,-7.309388,112.67781,0.5,mixed,2266,663,middle,0.173,0.379,0.349,0.127
-GRD-0392,Surabaya,Sukolilo,-7.228811,112.802796,0.5,residential,5010,1408,middle,0.225,0.314,0.326,0.165
-GRD-0393,Surabaya,Rungkut,-7.335701,112.701483,0.5,mixed,2167,502,upper_middle,0.191,0.325,0.309,0.146
-GRD-0394,Surabaya,Tegalsari,-7.25642,112.709326,0.5,mixed,3002,699,middle,0.173,0.336,0.349,0.093
-GRD-0395,Surabaya,Tegalsari,-7.246543,112.67869,0.5,mixed,3381,912,middle,0.186,0.352,0.326,0.107
-GRD-0396,Surabaya,Rungkut,-7.192311,112.68033,0.5,office,694,156,middle,0.096,0.475,0.402,0.06
-GRD-0397,Surabaya,Sukolilo,-7.225151,112.798021,0.5,residential,4966,1212,lower_middle,0.221,0.303,0.33,0.16
-GRD-0398,Surabaya,Gubeng,-7.250689,112.761843,0.5,mixed,2098,649,lower_middle,0.176,0.376,0.339,0.14
-GRD-0399,Surabaya,Gubeng,-7.337895,112.683393,0.5,residential,4276,1058,upper_middle,0.258,0.281,0.297,0.121
-GRD-0400,Surabaya,Gubeng,-7.307135,112.720557,0.5,commercial,962,292,lower_middle,0.217,0.343,0.32,0.094
-GRD-0401,Surabaya,Tegalsari,-7.152267,112.742298,0.5,residential,2621,774,middle,0.256,0.283,0.329,0.165
-GRD-0402,Surabaya,Gubeng,-7.202237,112.825539,0.5,residential,4780,1409,upper_middle,0.248,0.326,0.33,0.126
-GRD-0403,Surabaya,Sukolilo,-7.308522,112.827393,0.5,residential,4698,1133,middle,0.259,0.274,0.304,0.133
-GRD-0404,Surabaya,Gubeng,-7.345681,112.768959,0.5,commercial,920,205,low,0.209,0.342,0.351,0.11
-GRD-0405,Surabaya,Rungkut,-7.356439,112.75866,0.5,commercial,380,106,middle,0.193,0.326,0.341,0.119
-GRD-0406,Surabaya,Wonokromo,-7.218861,112.65725,0.5,residential,2590,612,lower_middle,0.249,0.3,0.348,0.159
-GRD-0407,Surabaya,Rungkut,-7.246555,112.858675,0.5,residential,5026,1241,lower_middle,0.241,0.326,0.342,0.142
-GRD-0408,Surabaya,Gubeng,-7.164967,112.76211,0.5,residential,2379,594,upper_middle,0.225,0.309,0.291,0.148
-GRD-0409,Surabaya,Gubeng,-7.350335,112.79667,0.5,commercial,517,122,middle,0.183,0.368,0.326,0.139
-GRD-0410,Surabaya,Rungkut,-7.35398,112.705132,0.5,residential,4602,1088,upper_middle,0.256,0.306,0.31,0.117
-GRD-0411,Surabaya,Rungkut,-7.236852,112.716827,0.5,commercial,383,89,low,0.207,0.367,0.301,0.119
-GRD-0412,Surabaya,Gubeng,-7.249719,112.755826,0.5,mixed,2362,562,upper_middle,0.212,0.332,0.338,0.121
-GRD-0413,Surabaya,Sukolilo,-7.283818,112.816828,0.5,mixed,1937,482,high,0.217,0.341,0.3,0.104
-GRD-0414,Surabaya,Gubeng,-7.26449,112.715412,0.5,commercial,1339,334,middle,0.182,0.323,0.307,0.099
-GRD-0415,Surabaya,Tegalsari,-7.309926,112.83712,0.5,residential,4544,1309,lower_middle,0.225,0.307,0.343,0.137
-GRD-0416,Surabaya,Sukolilo,-7.246193,112.785421,0.5,residential,5017,1150,low,0.253,0.306,0.31,0.122
-GRD-0417,Surabaya,Gubeng,-7.178427,112.711052,0.5,residential,2201,631,lower_middle,0.238,0.299,0.343,0.119
-GRD-0418,Surabaya,Tegalsari,-7.228441,112.651292,0.5,residential,3674,1092,lower_middle,0.252,0.274,0.298,0.161
-GRD-0419,Surabaya,Rungkut,-7.193082,112.787164,0.5,residential,3008,698,high,0.215,0.321,0.319,0.17
-GRD-0420,Surabaya,Rungkut,-7.328537,112.795667,0.5,residential,3553,1018,middle,0.266,0.327,0.345,0.164
+GRD-0001,Jakarta,Bogor,-6.290578,106.81691,0.5,mixed,1834,560,lower_middle,0.214,0.324,0.319,0.093
+GRD-0002,Jakarta,Bogor,-6.263121,106.944092,0.5,residential,3880,951,middle,0.224,0.277,0.343,0.125
+GRD-0003,Jakarta,Bekasi,-6.294038,106.753582,0.5,mixed,3341,809,lower_middle,0.184,0.344,0.34,0.108
+GRD-0004,Jakarta,Jakarta Pusat,-6.299977,106.846674,0.5,residential,4344,1126,middle,0.218,0.291,0.294,0.125
+GRD-0005,Jakarta,Bogor,-6.176016,106.765006,0.5,mixed,3366,938,upper_middle,0.21,0.376,0.308,0.097
+GRD-0006,Jakarta,Jakarta Utara,-6.226213,106.79519,0.5,residential,2662,751,middle,0.239,0.324,0.341,0.116
+GRD-0007,Jakarta,Jakarta Selatan,-6.10474,106.827887,0.5,residential,2335,622,middle,0.211,0.275,0.343,0.164
+GRD-0008,Jakarta,Bogor,-6.312054,106.906668,0.5,residential,2322,548,upper_middle,0.262,0.324,0.303,0.125
+GRD-0009,Jakarta,Bekasi,-6.259863,106.855437,0.5,office,316,74,high,0.123,0.421,0.394,0.06
+GRD-0010,Jakarta,Jakarta Timur,-6.356901,106.896329,0.5,residential,5025,1440,upper_middle,0.259,0.298,0.308,0.158
+GRD-0011,Jakarta,Jakarta Timur,-6.197339,106.92256,0.5,residential,2941,791,middle,0.269,0.302,0.346,0.117
+GRD-0012,Jakarta,Jakarta Utara,-6.064877,106.915323,0.5,residential,4243,1126,upper_middle,0.269,0.277,0.344,0.121
+GRD-0013,Jakarta,Bogor,-6.19544,106.81397,0.5,office,591,145,low,0.09,0.439,0.401,0.083
+GRD-0014,Jakarta,Bekasi,-6.126027,106.813067,0.5,residential,4655,1053,middle,0.251,0.324,0.327,0.128
+GRD-0015,Jakarta,Jakarta Utara,-6.208494,106.966345,0.5,residential,5018,1230,middle,0.241,0.318,0.348,0.154
+GRD-0016,Jakarta,Tangerang,-6.080128,106.817703,0.5,residential,4876,1438,upper_middle,0.213,0.329,0.327,0.156
+GRD-0017,Jakarta,Jakarta Timur,-6.280582,106.92869,0.5,mixed,3224,788,low,0.224,0.372,0.353,0.137
+GRD-0018,Jakarta,Bogor,-6.280318,106.871046,0.5,commercial,548,144,low,0.202,0.354,0.319,0.135
+GRD-0019,Jakarta,Bogor,-6.307806,106.888701,0.5,residential,4044,968,middle,0.26,0.287,0.337,0.139
+GRD-0020,Jakarta,Jakarta Utara,-6.179542,106.77144,0.5,residential,3175,859,lower_middle,0.219,0.283,0.315,0.13
+GRD-0021,Jakarta,Bekasi,-6.166591,106.94853,0.5,residential,4953,1544,lower_middle,0.231,0.315,0.341,0.167
+GRD-0022,Jakarta,Bogor,-6.313758,106.843952,0.5,mixed,3199,988,middle,0.19,0.361,0.324,0.1
+GRD-0023,Jakarta,Bogor,-6.129124,106.923142,0.5,residential,3413,1011,middle,0.238,0.273,0.313,0.123
+GRD-0024,Jakarta,Bekasi,-6.301278,106.852175,0.5,residential,3526,904,low,0.27,0.291,0.329,0.157
+GRD-0025,Jakarta,Jakarta Timur,-6.339669,106.849102,0.5,residential,1883,562,middle,0.267,0.298,0.305,0.132
+GRD-0026,Jakarta,Jakarta Pusat,-6.237314,106.969288,0.5,mixed,2474,686,low,0.211,0.377,0.324,0.133
+GRD-0027,Jakarta,Jakarta Timur,-6.250428,106.829208,0.5,residential,4964,1359,upper_middle,0.236,0.292,0.32,0.13
+GRD-0028,Jakarta,Jakarta Pusat,-6.343097,106.911602,0.5,residential,3283,847,lower_middle,0.249,0.307,0.345,0.156
+GRD-0029,Jakarta,Jakarta Utara,-6.307081,106.896548,0.5,residential,2805,737,lower_middle,0.247,0.293,0.292,0.161
+GRD-0030,Jakarta,Jakarta Utara,-6.141599,106.862,0.5,residential,4241,1281,high,0.253,0.299,0.335,0.151
+GRD-0031,Jakarta,Jakarta Selatan,-6.201288,106.714722,0.5,residential,2707,736,middle,0.243,0.291,0.35,0.143
+GRD-0032,Jakarta,Jakarta Utara,-6.181238,106.752906,0.5,residential,2294,517,upper_middle,0.251,0.281,0.334,0.127
+GRD-0033,Jakarta,Jakarta Utara,-6.333059,106.853628,0.5,office,519,161,lower_middle,0.102,0.436,0.408,0.073
+GRD-0034,Jakarta,Depok,-6.112274,106.941147,0.5,residential,1850,508,middle,0.268,0.285,0.342,0.117
+GRD-0035,Jakarta,Jakarta Selatan,-6.206651,106.803959,0.5,residential,5122,1527,high,0.256,0.306,0.337,0.124
+GRD-0036,Jakarta,Depok,-6.172936,106.733337,0.5,residential,4210,1054,middle,0.254,0.327,0.302,0.123
+GRD-0037,Jakarta,Jakarta Barat,-6.098856,106.918687,0.5,commercial,1136,298,middle,0.172,0.337,0.317,0.142
+GRD-0038,Jakarta,Jakarta Utara,-6.16577,106.850124,0.5,mixed,2010,497,middle,0.225,0.37,0.304,0.1
+GRD-0039,Jakarta,Jakarta Utara,-6.298738,106.845008,0.5,residential,3719,968,middle,0.215,0.272,0.316,0.129
+GRD-0040,Jakarta,Jakarta Selatan,-6.164753,106.914147,0.5,office,329,81,middle,0.125,0.431,0.385,0.078
+GRD-0041,Jakarta,Tangerang,-6.147122,106.941696,0.5,residential,3115,810,middle,0.25,0.294,0.336,0.112
+GRD-0042,Jakarta,Jakarta Pusat,-6.160684,106.84487,0.5,office,823,217,upper_middle,0.073,0.451,0.387,0.07
+GRD-0043,Jakarta,Jakarta Utara,-6.174447,106.948399,0.5,commercial,1292,321,low,0.218,0.363,0.319,0.091
+GRD-0044,Jakarta,Jakarta Pusat,-6.106526,106.862093,0.5,commercial,1320,321,lower_middle,0.195,0.349,0.328,0.117
+GRD-0045,Jakarta,Bogor,-6.151371,106.868216,0.5,mixed,1485,352,lower_middle,0.186,0.32,0.344,0.14
+GRD-0046,Jakarta,Jakarta Barat,-6.313042,106.779001,0.5,residential,3783,1025,upper_middle,0.266,0.322,0.349,0.124
+GRD-0047,Jakarta,Bekasi,-6.287702,106.907977,0.5,residential,4850,1147,high,0.249,0.279,0.348,0.118
+GRD-0048,Jakarta,Jakarta Pusat,-6.070153,106.766636,0.5,mixed,1608,475,low,0.222,0.378,0.304,0.137
+GRD-0049,Jakarta,Bekasi,-6.267181,106.785575,0.5,commercial,1078,248,middle,0.199,0.352,0.337,0.104
+GRD-0050,Jakarta,Jakarta Timur,-6.078329,106.814197,0.5,mixed,1603,447,lower_middle,0.172,0.339,0.303,0.112
+GRD-0051,Jakarta,Bekasi,-6.102449,106.849502,0.5,commercial,648,150,low,0.207,0.334,0.355,0.099
+GRD-0052,Jakarta,Jakarta Utara,-6.098713,106.842832,0.5,mixed,3105,942,middle,0.227,0.379,0.318,0.148
+GRD-0053,Jakarta,Jakarta Utara,-6.172706,106.715026,0.5,residential,3375,920,lower_middle,0.228,0.312,0.291,0.16
+GRD-0054,Jakarta,Jakarta Selatan,-6.203611,106.94809,0.5,office,385,105,middle,0.108,0.457,0.391,0.083
+GRD-0055,Jakarta,Jakarta Pusat,-6.320695,106.915391,0.5,office,601,164,low,0.078,0.475,0.37,0.065
+GRD-0056,Jakarta,Tangerang,-6.279561,106.862222,0.5,commercial,826,230,high,0.222,0.368,0.328,0.095
+GRD-0057,Jakarta,Bekasi,-6.069625,106.867219,0.5,office,242,75,upper_middle,0.102,0.447,0.39,0.08
+GRD-0058,Jakarta,Tangerang,-6.320169,106.900409,0.5,residential,2757,702,upper_middle,0.265,0.283,0.294,0.159
+GRD-0059,Jakarta,Bekasi,-6.062399,106.7955,0.5,residential,1985,566,low,0.242,0.293,0.312,0.167
+GRD-0060,Jakarta,Jakarta Barat,-6.242615,106.713786,0.5,mixed,1605,362,middle,0.172,0.342,0.327,0.147
+GRD-0061,Jakarta,Tangerang,-6.121134,106.968015,0.5,commercial,424,95,lower_middle,0.227,0.369,0.306,0.103
+GRD-0062,Jakarta,Jakarta Selatan,-6.232224,106.973898,0.5,mixed,1715,437,upper_middle,0.205,0.369,0.314,0.136
+GRD-0063,Jakarta,Jakarta Utara,-6.290478,106.726295,0.5,mixed,1732,400,low,0.178,0.341,0.347,0.125
+GRD-0064,Jakarta,Jakarta Barat,-6.188524,106.843624,0.5,mixed,1665,454,middle,0.206,0.347,0.313,0.127
+GRD-0065,Jakarta,Bogor,-6.283813,106.962462,0.5,residential,4435,1181,upper_middle,0.216,0.313,0.317,0.164
+GRD-0066,Jakarta,Jakarta Barat,-6.134913,106.900797,0.5,residential,4393,1129,high,0.237,0.306,0.296,0.152
+GRD-0067,Jakarta,Bogor,-6.330456,106.757762,0.5,mixed,2961,693,middle,0.194,0.364,0.319,0.109
+GRD-0068,Jakarta,Depok,-6.232335,106.924477,0.5,residential,2149,583,upper_middle,0.218,0.274,0.347,0.144
+GRD-0069,Jakarta,Bekasi,-6.138246,106.732503,0.5,mixed,1410,423,lower_middle,0.2,0.329,0.329,0.141
+GRD-0070,Jakarta,Jakarta Pusat,-6.242019,106.755051,0.5,mixed,2126,499,high,0.207,0.359,0.302,0.146
+GRD-0071,Jakarta,Jakarta Barat,-6.061998,106.829346,0.5,residential,4922,1137,low,0.244,0.294,0.299,0.148
+GRD-0072,Jakarta,Jakarta Timur,-6.237185,106.844902,0.5,residential,3658,1010,lower_middle,0.266,0.306,0.343,0.119
+GRD-0073,Jakarta,Jakarta Pusat,-6.165475,106.980413,0.5,residential,4511,1269,middle,0.255,0.277,0.316,0.127
+GRD-0074,Jakarta,Jakarta Utara,-6.197595,106.711712,0.5,residential,3418,984,lower_middle,0.218,0.285,0.31,0.11
+GRD-0075,Jakarta,Bekasi,-6.083643,106.909056,0.5,commercial,1025,246,lower_middle,0.196,0.348,0.305,0.109
+GRD-0076,Jakarta,Bekasi,-6.148761,106.757424,0.5,residential,3459,864,upper_middle,0.26,0.325,0.295,0.161
+GRD-0077,Jakarta,Bogor,-6.251181,106.77736,0.5,residential,3070,931,upper_middle,0.248,0.302,0.302,0.157
+GRD-0078,Jakarta,Jakarta Barat,-6.233733,106.938943,0.5,residential,2399,573,middle,0.249,0.281,0.336,0.14
+GRD-0079,Jakarta,Depok,-6.349381,106.854387,0.5,mixed,2523,662,middle,0.208,0.368,0.335,0.111
+GRD-0080,Jakarta,Jakarta Selatan,-6.198284,106.802447,0.5,residential,2975,804,middle,0.245,0.327,0.334,0.112
+GRD-0081,Jakarta,Jakarta Timur,-6.276083,106.705574,0.5,residential,3748,881,middle,0.26,0.329,0.295,0.149
+GRD-0082,Jakarta,Depok,-6.239752,106.837108,0.5,commercial,1045,282,upper_middle,0.216,0.361,0.303,0.128
+GRD-0083,Jakarta,Bogor,-6.126507,106.800301,0.5,mixed,2232,549,low,0.225,0.339,0.339,0.13
+GRD-0084,Jakarta,Jakarta Pusat,-6.265095,106.830618,0.5,residential,3342,754,middle,0.27,0.325,0.296,0.15
+GRD-0085,Jakarta,Jakarta Utara,-6.195583,106.961155,0.5,residential,2677,792,lower_middle,0.215,0.321,0.296,0.156
+GRD-0086,Jakarta,Jakarta Selatan,-6.307718,106.956596,0.5,mixed,1736,406,lower_middle,0.216,0.369,0.31,0.116
+GRD-0087,Jakarta,Jakarta Timur,-6.301815,106.798932,0.5,office,389,108,middle,0.119,0.448,0.4,0.062
+GRD-0088,Jakarta,Depok,-6.224205,107.00359,0.5,mixed,2764,810,middle,0.182,0.356,0.352,0.093
+GRD-0089,Jakarta,Jakarta Pusat,-6.127439,106.767565,0.5,mixed,1710,481,upper_middle,0.224,0.329,0.326,0.147
+GRD-0090,Jakarta,Tangerang,-6.185703,106.772332,0.5,office,664,179,lower_middle,0.075,0.433,0.369,0.046
+GRD-0091,Jakarta,Jakarta Barat,-6.090927,106.775186,0.5,residential,2975,744,middle,0.264,0.271,0.303,0.119
+GRD-0092,Jakarta,Bekasi,-6.308174,106.723023,0.5,residential,2980,796,low,0.258,0.297,0.297,0.164
+GRD-0093,Jakarta,Bogor,-6.195887,106.970936,0.5,commercial,896,245,low,0.204,0.331,0.34,0.121
+GRD-0094,Jakarta,Bogor,-6.236904,106.939385,0.5,commercial,341,105,upper_middle,0.193,0.342,0.345,0.111
+GRD-0095,Jakarta,Jakarta Pusat,-6.166716,106.847963,0.5,mixed,2561,704,lower_middle,0.209,0.37,0.341,0.149
+GRD-0096,Jakarta,Jakarta Barat,-6.106626,106.892178,0.5,residential,4979,1178,lower_middle,0.263,0.289,0.309,0.134
+GRD-0097,Jakarta,Jakarta Selatan,-6.18444,106.700356,0.5,mixed,2371,653,upper_middle,0.177,0.342,0.353,0.135
+GRD-0098,Jakarta,Jakarta Barat,-6.108561,106.72882,0.5,commercial,1363,329,upper_middle,0.175,0.356,0.349,0.123
+GRD-0099,Jakarta,Jakarta Utara,-6.164489,106.926594,0.5,residential,4268,1129,middle,0.254,0.325,0.327,0.136
+GRD-0100,Jakarta,Jakarta Selatan,-6.334097,106.879211,0.5,residential,4411,1080,upper_middle,0.267,0.279,0.326,0.157
+GRD-0101,Jakarta,Tangerang,-6.196398,106.873354,0.5,residential,4123,1120,middle,0.237,0.275,0.298,0.132
+GRD-0102,Jakarta,Jakarta Pusat,-6.119349,106.829202,0.5,residential,2562,764,upper_middle,0.256,0.312,0.303,0.147
+GRD-0103,Jakarta,Jakarta Timur,-6.209964,106.981482,0.5,residential,2103,635,middle,0.251,0.321,0.309,0.131
+GRD-0104,Jakarta,Jakarta Utara,-6.219622,106.805483,0.5,mixed,1913,427,lower_middle,0.218,0.334,0.33,0.112
+GRD-0105,Jakarta,Bogor,-6.183852,106.724781,0.5,residential,2153,521,high,0.242,0.316,0.339,0.114
+GRD-0106,Jakarta,Depok,-6.333495,106.744902,0.5,commercial,562,164,middle,0.228,0.346,0.355,0.093
+GRD-0107,Jakarta,Jakarta Barat,-6.161945,106.878497,0.5,residential,4705,1094,upper_middle,0.225,0.308,0.323,0.118
+GRD-0108,Jakarta,Bogor,-6.227433,106.757815,0.5,commercial,615,149,middle,0.206,0.371,0.334,0.14
+GRD-0109,Jakarta,Jakarta Utara,-6.201103,106.871963,0.5,mixed,3543,921,middle,0.208,0.337,0.357,0.119
+GRD-0110,Jakarta,Jakarta Utara,-6.342299,106.78748,0.5,commercial,623,164,middle,0.19,0.329,0.352,0.109
+GRD-0111,Jakarta,Bekasi,-6.075696,106.754152,0.5,residential,3317,987,lower_middle,0.237,0.278,0.293,0.167
+GRD-0112,Jakarta,Jakarta Barat,-6.134634,106.713586,0.5,mixed,2480,641,middle,0.2,0.339,0.301,0.147
+GRD-0113,Jakarta,Jakarta Timur,-6.232756,106.959038,0.5,commercial,876,204,middle,0.21,0.337,0.3,0.096
+GRD-0114,Jakarta,Tangerang,-6.149699,106.840179,0.5,mixed,1385,401,middle,0.203,0.324,0.33,0.136
+GRD-0115,Jakarta,Jakarta Pusat,-6.214674,106.931669,0.5,residential,2196,598,middle,0.219,0.306,0.314,0.112
+GRD-0116,Jakarta,Depok,-6.239956,106.838303,0.5,commercial,586,162,high,0.194,0.357,0.351,0.126
+GRD-0117,Jakarta,Depok,-6.215845,106.729633,0.5,mixed,3145,941,lower_middle,0.195,0.338,0.354,0.142
+GRD-0118,Jakarta,Jakarta Utara,-6.282376,106.73946,0.5,office,888,232,low,0.101,0.463,0.396,0.063
+GRD-0119,Jakarta,Jakarta Pusat,-6.061984,106.852847,0.5,residential,3606,1041,middle,0.24,0.307,0.318,0.161
+GRD-0120,Jakarta,Bogor,-6.341799,106.807438,0.5,residential,3131,914,lower_middle,0.265,0.291,0.311,0.156
+GRD-0121,Jakarta,Jakarta Utara,-6.316692,106.759555,0.5,commercial,871,197,lower_middle,0.229,0.366,0.342,0.131
+GRD-0122,Jakarta,Bogor,-6.194449,106.73245,0.5,office,274,70,middle,0.124,0.444,0.371,0.086
+GRD-0123,Jakarta,Jakarta Pusat,-6.192586,106.905861,0.5,residential,3611,926,lower_middle,0.266,0.312,0.298,0.147
+GRD-0124,Jakarta,Bogor,-6.084715,106.851519,0.5,residential,2753,722,lower_middle,0.251,0.278,0.348,0.169
+GRD-0125,Jakarta,Depok,-6.261618,106.808455,0.5,commercial,957,218,middle,0.175,0.354,0.332,0.133
+GRD-0126,Jakarta,Jakarta Barat,-6.290188,106.980582,0.5,residential,2520,604,lower_middle,0.262,0.287,0.292,0.128
+GRD-0127,Jakarta,Tangerang,-6.26351,106.959662,0.5,residential,4426,1312,upper_middle,0.24,0.286,0.339,0.13
+GRD-0128,Jakarta,Jakarta Barat,-6.320092,106.762407,0.5,residential,3180,789,middle,0.234,0.296,0.31,0.134
+GRD-0129,Jakarta,Depok,-6.214551,106.895645,0.5,residential,2816,674,lower_middle,0.267,0.288,0.333,0.111
+GRD-0130,Jakarta,Jakarta Selatan,-6.331523,106.799191,0.5,mixed,2456,558,middle,0.223,0.366,0.341,0.128
+GRD-0131,Jakarta,Jakarta Timur,-6.092504,106.739095,0.5,residential,2347,589,upper_middle,0.235,0.303,0.318,0.142
+GRD-0132,Jakarta,Jakarta Timur,-6.079245,106.87181,0.5,mixed,1535,418,middle,0.225,0.327,0.35,0.144
+GRD-0133,Jakarta,Jakarta Barat,-6.225446,106.774196,0.5,residential,3931,993,lower_middle,0.215,0.301,0.339,0.137
+GRD-0134,Jakarta,Jakarta Selatan,-6.177651,106.733018,0.5,commercial,344,107,lower_middle,0.183,0.324,0.325,0.132
+GRD-0135,Jakarta,Jakarta Pusat,-6.164707,106.957099,0.5,office,568,168,lower_middle,0.108,0.464,0.408,0.062
+GRD-0136,Jakarta,Bekasi,-6.160154,106.69958,0.5,residential,4596,1370,upper_middle,0.27,0.294,0.298,0.169
+GRD-0137,Jakarta,Jakarta Utara,-6.356854,106.851385,0.5,commercial,1168,334,lower_middle,0.198,0.329,0.311,0.143
+GRD-0138,Jakarta,Bekasi,-6.180275,106.985402,0.5,commercial,722,223,low,0.206,0.362,0.303,0.134
+GRD-0139,Jakarta,Jakarta Timur,-6.106447,106.855764,0.5,mixed,1431,408,high,0.225,0.355,0.335,0.136
+GRD-0140,Jakarta,Jakarta Barat,-6.062597,106.857729,0.5,office,457,116,lower_middle,0.106,0.464,0.361,0.081
+GRD-0141,Bandung,Batununggal,-6.897999,107.683845,0.5,office,476,128,middle,0.088,0.431,0.382,0.054
+GRD-0142,Bandung,Sukajadi,-6.950869,107.646044,0.5,mixed,3503,1038,middle,0.185,0.332,0.339,0.145
+GRD-0143,Bandung,Cidadap,-6.871991,107.688923,0.5,residential,3344,844,upper_middle,0.25,0.283,0.303,0.164
+GRD-0144,Bandung,Cidadap,-6.944344,107.661121,0.5,office,398,97,middle,0.094,0.434,0.369,0.057
+GRD-0145,Bandung,Buah Batu,-6.966975,107.582275,0.5,residential,3900,942,upper_middle,0.256,0.289,0.302,0.129
+GRD-0146,Bandung,Sukajadi,-6.932022,107.631848,0.5,residential,4066,1120,lower_middle,0.233,0.32,0.32,0.149
+GRD-0147,Bandung,Cicendo,-6.843025,107.615644,0.5,office,322,88,upper_middle,0.078,0.453,0.361,0.093
+GRD-0148,Bandung,Bandung Wetan,-6.9413,107.70617,0.5,mixed,1398,348,low,0.174,0.329,0.313,0.117
+GRD-0149,Bandung,Cicendo,-6.934364,107.604634,0.5,mixed,1227,381,middle,0.213,0.352,0.317,0.12
+GRD-0150,Bandung,Sukajadi,-6.885702,107.550388,0.5,residential,2194,565,lower_middle,0.259,0.286,0.314,0.132
+GRD-0151,Bandung,Cidadap,-6.940299,107.56603,0.5,residential,5191,1407,middle,0.239,0.308,0.332,0.115
+GRD-0152,Bandung,Batununggal,-6.982919,107.567922,0.5,commercial,387,89,lower_middle,0.223,0.349,0.303,0.094
+GRD-0153,Bandung,Bandung Wetan,-6.968748,107.689512,0.5,residential,3088,724,low,0.259,0.326,0.308,0.144
+GRD-0154,Bandung,Batununggal,-6.972506,107.659062,0.5,residential,4829,1323,upper_middle,0.216,0.284,0.295,0.146
+GRD-0155,Bandung,Batununggal,-6.957398,107.560446,0.5,residential,2919,660,lower_middle,0.236,0.311,0.33,0.115
+GRD-0156,Bandung,Coblong,-6.985152,107.640326,0.5,residential,2431,728,lower_middle,0.21,0.288,0.312,0.126
+GRD-0157,Bandung,Cicendo,-6.887211,107.631763,0.5,commercial,511,130,low,0.206,0.367,0.352,0.091
+GRD-0158,Bandung,Cidadap,-6.974483,107.629739,0.5,commercial,647,182,lower_middle,0.179,0.33,0.317,0.108
+GRD-0159,Bandung,Cidadap,-6.85645,107.567488,0.5,mixed,2000,623,low,0.194,0.37,0.323,0.142
+GRD-0160,Bandung,Sukajadi,-6.892259,107.564519,0.5,residential,4270,1149,lower_middle,0.229,0.314,0.328,0.168
+GRD-0161,Bandung,Buah Batu,-6.84672,107.58227,0.5,mixed,2695,599,lower_middle,0.181,0.366,0.302,0.134
+GRD-0162,Bandung,Buah Batu,-6.832813,107.641204,0.5,mixed,2875,818,middle,0.21,0.363,0.347,0.094
+GRD-0163,Bandung,Gedebage,-6.905834,107.52954,0.5,commercial,375,88,middle,0.206,0.375,0.307,0.105
+GRD-0164,Bandung,Bandung Wetan,-6.853967,107.656226,0.5,commercial,979,294,low,0.183,0.365,0.333,0.131
+GRD-0165,Bandung,Cicendo,-6.887385,107.589098,0.5,mixed,3249,849,high,0.188,0.375,0.305,0.14
+GRD-0166,Bandung,Batununggal,-6.854749,107.574181,0.5,commercial,1289,342,middle,0.212,0.339,0.318,0.139
+GRD-0167,Bandung,Coblong,-6.942318,107.637067,0.5,mixed,2199,606,middle,0.196,0.348,0.348,0.128
+GRD-0168,Bandung,Gedebage,-6.949982,107.59755,0.5,residential,4315,1346,middle,0.223,0.287,0.332,0.158
+GRD-0169,Bandung,Sukajadi,-6.982669,107.640203,0.5,residential,2607,680,middle,0.268,0.289,0.313,0.134
+GRD-0170,Bandung,Cicendo,-6.893091,107.600763,0.5,commercial,473,141,low,0.188,0.331,0.342,0.121
+GRD-0171,Bandung,Gedebage,-6.87311,107.657113,0.5,residential,3793,1061,lower_middle,0.221,0.321,0.327,0.162
+GRD-0172,Bandung,Cidadap,-6.909013,107.530975,0.5,mixed,3270,874,middle,0.22,0.349,0.305,0.092
+GRD-0173,Bandung,Buah Batu,-6.841639,107.598406,0.5,residential,2982,711,upper_middle,0.243,0.277,0.297,0.157
+GRD-0174,Bandung,Bandung Wetan,-6.85682,107.563927,0.5,mixed,3437,803,low,0.215,0.338,0.36,0.117
+GRD-0175,Bandung,Cicendo,-6.966083,107.640912,0.5,mixed,2170,502,middle,0.207,0.346,0.337,0.137
+GRD-0176,Bandung,Batununggal,-6.993877,107.64704,0.5,commercial,644,180,high,0.204,0.377,0.331,0.144
+GRD-0177,Bandung,Gedebage,-6.856287,107.673058,0.5,office,405,112,low,0.085,0.471,0.374,0.049
+GRD-0178,Bandung,Gedebage,-6.969047,107.568979,0.5,commercial,1125,274,upper_middle,0.223,0.347,0.329,0.125
+GRD-0179,Bandung,Coblong,-6.986307,107.667597,0.5,mixed,2667,598,lower_middle,0.219,0.35,0.319,0.107
+GRD-0180,Bandung,Cicendo,-6.868745,107.664876,0.5,mixed,1398,326,middle,0.171,0.376,0.309,0.117
+GRD-0181,Bandung,Sukajadi,-6.87818,107.537862,0.5,mixed,1851,525,middle,0.192,0.374,0.31,0.114
+GRD-0182,Bandung,Cidadap,-6.964804,107.603432,0.5,residential,2173,644,middle,0.224,0.311,0.291,0.152
+GRD-0183,Bandung,Gedebage,-6.923555,107.700906,0.5,mixed,1490,351,low,0.176,0.342,0.318,0.113
+GRD-0184,Bandung,Sukajadi,-6.975133,107.67679,0.5,residential,4107,1181,lower_middle,0.255,0.325,0.327,0.137
+GRD-0185,Bandung,Sukajadi,-6.942903,107.65278,0.5,mixed,2772,820,lower_middle,0.187,0.325,0.333,0.126
+GRD-0186,Bandung,Bandung Wetan,-6.986564,107.631905,0.5,mixed,2435,707,middle,0.194,0.359,0.347,0.138
+GRD-0187,Bandung,Cidadap,-6.888538,107.585634,0.5,commercial,1381,313,high,0.178,0.372,0.334,0.112
+GRD-0188,Bandung,Coblong,-6.991713,107.62509,0.5,residential,2076,633,low,0.257,0.3,0.328,0.14
+GRD-0189,Bandung,Coblong,-6.972925,107.601659,0.5,commercial,868,225,lower_middle,0.182,0.368,0.332,0.113
+GRD-0190,Bandung,Coblong,-6.979367,107.655706,0.5,residential,3591,954,low,0.237,0.307,0.309,0.155
+GRD-0191,Bandung,Sukajadi,-6.864623,107.67622,0.5,mixed,3233,757,middle,0.186,0.342,0.345,0.142
+GRD-0192,Bandung,Bandung Wetan,-6.865393,107.676381,0.5,residential,3558,796,lower_middle,0.248,0.3,0.321,0.113
+GRD-0193,Bandung,Sukajadi,-6.845118,107.661065,0.5,residential,2221,693,upper_middle,0.262,0.271,0.293,0.132
+GRD-0194,Bandung,Bandung Wetan,-6.839545,107.65668,0.5,commercial,759,173,lower_middle,0.189,0.37,0.334,0.097
+GRD-0195,Bandung,Cidadap,-6.893479,107.689526,0.5,mixed,2842,676,upper_middle,0.189,0.325,0.327,0.112
+GRD-0196,Bandung,Cidadap,-6.965009,107.629642,0.5,commercial,700,167,upper_middle,0.185,0.32,0.325,0.104
+GRD-0197,Bandung,Bandung Wetan,-6.962346,107.6476,0.5,office,256,57,lower_middle,0.095,0.478,0.408,0.049
+GRD-0198,Bandung,Cidadap,-6.904521,107.665291,0.5,mixed,2891,873,high,0.176,0.328,0.349,0.094
+GRD-0199,Bandung,Sukajadi,-6.890532,107.556343,0.5,residential,2869,792,upper_middle,0.237,0.284,0.347,0.118
+GRD-0200,Bandung,Coblong,-6.867499,107.680791,0.5,residential,3708,833,middle,0.222,0.288,0.306,0.117
+GRD-0201,Surabaya,Gubeng,-7.297002,112.73518,0.5,residential,3142,858,lower_middle,0.241,0.311,0.306,0.169
+GRD-0202,Surabaya,Lakarsantri,-7.246727,112.73625,0.5,commercial,493,116,low,0.177,0.324,0.347,0.103
+GRD-0203,Surabaya,Wonokromo,-7.229358,112.712751,0.5,commercial,344,85,lower_middle,0.219,0.326,0.351,0.139
+GRD-0204,Surabaya,Gubeng,-7.270925,112.787766,0.5,residential,4150,1015,low,0.22,0.283,0.301,0.127
+GRD-0205,Surabaya,Tegalsari,-7.235553,112.852114,0.5,commercial,1281,346,low,0.195,0.359,0.348,0.105
+GRD-0206,Surabaya,Gubeng,-7.286697,112.647504,0.5,office,707,194,upper_middle,0.104,0.439,0.366,0.042
+GRD-0207,Surabaya,Sukolilo,-7.242206,112.83489,0.5,residential,3732,836,high,0.216,0.309,0.306,0.159
+GRD-0208,Surabaya,Tegalsari,-7.221872,112.850101,0.5,commercial,1026,258,lower_middle,0.218,0.362,0.355,0.092
+GRD-0209,Surabaya,Rungkut,-7.286778,112.83841,0.5,commercial,932,281,middle,0.184,0.333,0.332,0.09
+GRD-0210,Surabaya,Rungkut,-7.158704,112.78345,0.5,residential,2526,614,low,0.218,0.277,0.322,0.132
+GRD-0211,Surabaya,Bubutan,-7.285436,112.74383,0.5,commercial,960,231,high,0.196,0.358,0.329,0.109
+GRD-0212,Surabaya,Mulyorejo,-7.292015,112.667315,0.5,residential,4212,1176,upper_middle,0.221,0.27,0.332,0.144
+GRD-0213,Surabaya,Gubeng,-7.356362,112.765219,0.5,residential,3103,744,low,0.224,0.329,0.3,0.163
+GRD-0214,Surabaya,Mulyorejo,-7.288638,112.743823,0.5,residential,2886,817,low,0.216,0.27,0.313,0.154
+GRD-0215,Surabaya,Lakarsantri,-7.328104,112.832375,0.5,mixed,3436,813,upper_middle,0.205,0.365,0.314,0.117
+GRD-0216,Surabaya,Gubeng,-7.237359,112.847388,0.5,residential,2228,654,upper_middle,0.215,0.327,0.349,0.13
+GRD-0217,Surabaya,Gubeng,-7.324212,112.836832,0.5,residential,4477,1233,low,0.268,0.295,0.323,0.166
+GRD-0218,Surabaya,Sukolilo,-7.324743,112.709438,0.5,residential,2003,625,low,0.215,0.319,0.328,0.139
+GRD-0219,Surabaya,Sukolilo,-7.225056,112.761168,0.5,office,557,128,middle,0.086,0.459,0.373,0.062
+GRD-0220,Surabaya,Gubeng,-7.195962,112.778216,0.5,residential,3704,1091,middle,0.252,0.276,0.33,0.158
+GRD-0221,Surabaya,Tegalsari,-7.327001,112.754944,0.5,commercial,1157,262,middle,0.204,0.334,0.318,0.114
+GRD-0222,Surabaya,Rungkut,-7.235874,112.85042,0.5,residential,4901,1153,high,0.218,0.295,0.349,0.136
+GRD-0223,Surabaya,Sukolilo,-7.3349,112.676228,0.5,residential,4778,1220,middle,0.261,0.301,0.345,0.111
+GRD-0224,Surabaya,Bubutan,-7.304811,112.674356,0.5,residential,2412,724,middle,0.227,0.302,0.311,0.135
+GRD-0225,Surabaya,Lakarsantri,-7.251448,112.684927,0.5,residential,2928,714,middle,0.212,0.323,0.31,0.124
+GRD-0226,Surabaya,Mulyorejo,-7.302046,112.834808,0.5,residential,5148,1193,upper_middle,0.251,0.328,0.304,0.128
+GRD-0227,Surabaya,Mulyorejo,-7.349671,112.766237,0.5,residential,3507,821,lower_middle,0.254,0.316,0.342,0.159
+GRD-0228,Surabaya,Sukolilo,-7.192248,112.794443,0.5,mixed,1755,509,low,0.22,0.37,0.315,0.117
+GRD-0229,Surabaya,Sukolilo,-7.356903,112.722737,0.5,residential,3701,906,high,0.225,0.299,0.317,0.168
+GRD-0230,Surabaya,Mulyorejo,-7.281107,112.680894,0.5,residential,2859,838,lower_middle,0.244,0.328,0.341,0.149
+GRD-0231,Surabaya,Bubutan,-7.169142,112.741368,0.5,commercial,1270,319,middle,0.171,0.335,0.348,0.108
+GRD-0232,Surabaya,Bubutan,-7.340568,112.68522,0.5,mixed,3080,755,middle,0.219,0.344,0.306,0.121
+GRD-0233,Surabaya,Mulyorejo,-7.330799,112.80116,0.5,commercial,911,277,low,0.229,0.358,0.352,0.106
+GRD-0234,Surabaya,Sukolilo,-7.314556,112.823776,0.5,residential,3918,1084,middle,0.218,0.272,0.32,0.128
+GRD-0235,Surabaya,Gubeng,-7.199417,112.666409,0.5,commercial,1002,245,middle,0.208,0.349,0.356,0.112
+GRD-0236,Surabaya,Rungkut,-7.205597,112.78087,0.5,residential,3728,889,upper_middle,0.221,0.311,0.31,0.115
+GRD-0237,Surabaya,Sukolilo,-7.321896,112.749737,0.5,residential,3157,733,lower_middle,0.238,0.322,0.325,0.167
+GRD-0238,Surabaya,Wonokromo,-7.27597,112.774442,0.5,mixed,3370,782,low,0.178,0.332,0.325,0.124
+GRD-0239,Surabaya,Mulyorejo,-7.230382,112.651997,0.5,mixed,1531,446,middle,0.208,0.32,0.316,0.136
+GRD-0240,Surabaya,Lakarsantri,-7.301707,112.756167,0.5,mixed,1560,415,middle,0.196,0.349,0.3,0.122
+GRD-0241,Surabaya,Mulyorejo,-7.286018,112.840709,0.5,mixed,1980,477,low,0.184,0.373,0.319,0.096
+GRD-0242,Surabaya,Wonokromo,-7.18552,112.7254,0.5,mixed,2391,616,middle,0.196,0.361,0.308,0.15
+GRD-0243,Surabaya,Rungkut,-7.333189,112.752155,0.5,office,383,85,lower_middle,0.083,0.421,0.38,0.047
+GRD-0244,Surabaya,Bubutan,-7.34549,112.776142,0.5,mixed,3390,835,high,0.209,0.321,0.341,0.115
+GRD-0245,Surabaya,Lakarsantri,-7.277015,112.687841,0.5,mixed,1238,305,middle,0.186,0.356,0.308,0.14
+GRD-0246,Surabaya,Wonokromo,-7.291845,112.745217,0.5,residential,5014,1191,middle,0.26,0.328,0.311,0.135
+GRD-0247,Surabaya,Tegalsari,-7.270396,112.710438,0.5,mixed,2554,770,low,0.177,0.354,0.33,0.147
+GRD-0248,Surabaya,Wonokromo,-7.214141,112.83782,0.5,office,453,139,lower_middle,0.119,0.472,0.401,0.062
+GRD-0249,Surabaya,Wonokromo,-7.21762,112.671964,0.5,residential,4905,1434,middle,0.231,0.296,0.327,0.163
+GRD-0250,Surabaya,Rungkut,-7.287752,112.765289,0.5,residential,3439,900,middle,0.235,0.323,0.3,0.118
+GRD-0251,Surabaya,Rungkut,-7.268146,112.844362,0.5,residential,4219,1001,middle,0.247,0.322,0.343,0.154
+GRD-0252,Surabaya,Lakarsantri,-7.246667,112.649767,0.5,residential,3484,965,lower_middle,0.252,0.311,0.336,0.145
+GRD-0253,Surabaya,Mulyorejo,-7.26875,112.833229,0.5,commercial,1186,310,upper_middle,0.21,0.358,0.309,0.14
+GRD-0254,Surabaya,Gubeng,-7.324015,112.674004,0.5,commercial,1261,382,upper_middle,0.199,0.334,0.358,0.093
+GRD-0255,Surabaya,Bubutan,-7.297479,112.72015,0.5,mixed,3080,714,middle,0.197,0.327,0.33,0.129
+GRD-0256,Surabaya,Gubeng,-7.239373,112.722348,0.5,mixed,2447,601,lower_middle,0.227,0.342,0.303,0.103
+GRD-0257,Surabaya,Lakarsantri,-7.284393,112.683817,0.5,mixed,3053,875,upper_middle,0.19,0.37,0.358,0.108
+GRD-0258,Surabaya,Gubeng,-7.332095,112.728757,0.5,mixed,1775,514,lower_middle,0.177,0.371,0.313,0.139
+GRD-0259,Surabaya,Bubutan,-7.217327,112.727131,0.5,residential,4393,989,middle,0.218,0.3,0.322,0.113
+GRD-0260,Surabaya,Lakarsantri,-7.346191,112.807911,0.5,office,898,269,upper_middle,0.109,0.456,0.369,0.093
+GRD-0261,Semarang,Semarang Barat,-7.026385,110.379361,0.5,residential,3204,804,low,0.263,0.301,0.341,0.143
+GRD-0262,Semarang,Candisari,-7.038472,110.416514,0.5,commercial,895,220,lower_middle,0.229,0.359,0.357,0.12
+GRD-0263,Semarang,Semarang Tengah,-6.932506,110.3904,0.5,mixed,3167,738,upper_middle,0.187,0.371,0.348,0.121
+GRD-0264,Semarang,Semarang Tengah,-6.982999,110.428238,0.5,residential,4872,1135,lower_middle,0.251,0.288,0.335,0.112
+GRD-0265,Semarang,Candisari,-6.949284,110.479244,0.5,mixed,3498,826,middle,0.212,0.362,0.303,0.113
+GRD-0266,Semarang,Gajahmungkur,-7.044038,110.432805,0.5,office,357,85,middle,0.122,0.47,0.405,0.082
+GRD-0267,Semarang,Candisari,-7.058417,110.422409,0.5,mixed,1992,487,lower_middle,0.181,0.33,0.331,0.113
+GRD-0268,Semarang,Semarang Barat,-7.01168,110.370172,0.5,residential,2844,836,middle,0.219,0.289,0.293,0.166
+GRD-0269,Semarang,Pedurungan,-7.047314,110.386602,0.5,mixed,2666,765,lower_middle,0.181,0.324,0.33,0.115
+GRD-0270,Semarang,Semarang Barat,-6.960751,110.470449,0.5,mixed,2559,577,lower_middle,0.207,0.348,0.334,0.135
+GRD-0271,Semarang,Gajahmungkur,-6.950079,110.469751,0.5,residential,4430,1199,upper_middle,0.258,0.277,0.305,0.153
+GRD-0272,Semarang,Gajahmungkur,-6.994548,110.407532,0.5,commercial,1296,320,lower_middle,0.189,0.325,0.306,0.148
+GRD-0273,Semarang,Semarang Tengah,-7.007969,110.350022,0.5,residential,4378,1024,lower_middle,0.263,0.314,0.316,0.159
+GRD-0274,Semarang,Semarang Tengah,-7.01324,110.41172,0.5,commercial,479,113,low,0.203,0.354,0.314,0.106
+GRD-0275,Semarang,Pedurungan,-7.030065,110.385517,0.5,residential,3395,848,middle,0.255,0.305,0.332,0.114
+GRD-0276,Semarang,Gajahmungkur,-6.944887,110.482136,0.5,commercial,1081,334,upper_middle,0.179,0.333,0.345,0.138
+GRD-0277,Semarang,Semarang Barat,-6.921435,110.399305,0.5,residential,5056,1494,upper_middle,0.213,0.304,0.314,0.143
+GRD-0278,Semarang,Gajahmungkur,-6.970285,110.42622,0.5,residential,4445,1111,lower_middle,0.225,0.277,0.33,0.144
+GRD-0279,Semarang,Candisari,-7.012109,110.420425,0.5,commercial,895,269,low,0.214,0.349,0.32,0.098
+GRD-0280,Semarang,Candisari,-6.9546,110.473794,0.5,residential,2592,639,lower_middle,0.252,0.279,0.324,0.158
+GRD-0281,Semarang,Gajahmungkur,-6.923962,110.45943,0.5,residential,2707,652,low,0.263,0.298,0.312,0.128
+GRD-0282,Semarang,Candisari,-6.93941,110.447584,0.5,residential,2949,735,upper_middle,0.254,0.324,0.341,0.148
+GRD-0283,Semarang,Candisari,-7.027969,110.355526,0.5,residential,1950,500,upper_middle,0.249,0.279,0.314,0.163
+GRD-0284,Semarang,Semarang Barat,-7.04187,110.459415,0.5,commercial,1112,274,middle,0.221,0.368,0.337,0.1
+GRD-0285,Semarang,Semarang Barat,-6.973927,110.365039,0.5,commercial,1290,308,low,0.184,0.336,0.314,0.13
+GRD-0286,Semarang,Pedurungan,-7.049581,110.435442,0.5,commercial,381,93,lower_middle,0.201,0.37,0.35,0.106
+GRD-0287,Semarang,Pedurungan,-6.940096,110.448049,0.5,residential,4476,1022,lower_middle,0.241,0.291,0.342,0.139
+GRD-0288,Semarang,Candisari,-7.027484,110.375311,0.5,mixed,1878,527,middle,0.179,0.329,0.336,0.139
+GRD-0289,Semarang,Gajahmungkur,-6.959503,110.363212,0.5,mixed,3161,782,middle,0.195,0.335,0.308,0.126
+GRD-0290,Semarang,Candisari,-6.995562,110.390411,0.5,residential,2481,623,high,0.244,0.271,0.333,0.15
+GRD-0291,Semarang,Pedurungan,-6.971051,110.45763,0.5,commercial,649,163,upper_middle,0.218,0.369,0.311,0.13
+GRD-0292,Semarang,Gajahmungkur,-7.034354,110.413516,0.5,office,537,161,lower_middle,0.082,0.472,0.38,0.065
+GRD-0293,Semarang,Pedurungan,-6.975364,110.446283,0.5,office,665,200,upper_middle,0.11,0.474,0.382,0.04
+GRD-0294,Semarang,Pedurungan,-7.063938,110.385972,0.5,commercial,1385,326,lower_middle,0.217,0.343,0.335,0.134
+GRD-0295,Semarang,Semarang Tengah,-7.060027,110.396873,0.5,residential,2842,655,lower_middle,0.235,0.281,0.333,0.157
+GRD-0296,Semarang,Semarang Tengah,-6.95162,110.466148,0.5,residential,2641,704,low,0.245,0.286,0.322,0.144
+GRD-0297,Semarang,Pedurungan,-6.996467,110.484114,0.5,mixed,3461,883,lower_middle,0.185,0.338,0.321,0.132
+GRD-0298,Semarang,Semarang Tengah,-7.048155,110.463247,0.5,mixed,1862,441,middle,0.218,0.357,0.341,0.093
+GRD-0299,Semarang,Semarang Tengah,-7.031322,110.386813,0.5,mixed,2983,810,lower_middle,0.207,0.363,0.356,0.114
+GRD-0300,Semarang,Candisari,-6.929237,110.40527,0.5,residential,4968,1154,low,0.266,0.301,0.302,0.157
+GRD-0301,Semarang,Candisari,-7.048122,110.401723,0.5,residential,1947,572,low,0.27,0.317,0.311,0.134
+GRD-0302,Semarang,Semarang Tengah,-7.000106,110.358151,0.5,office,505,142,high,0.106,0.432,0.406,0.074
+GRD-0303,Semarang,Semarang Tengah,-6.970374,110.385465,0.5,commercial,996,224,upper_middle,0.223,0.369,0.334,0.132
+GRD-0304,Semarang,Semarang Barat,-7.024006,110.346251,0.5,mixed,3079,805,upper_middle,0.185,0.343,0.347,0.103
+GRD-0305,Semarang,Pedurungan,-7.05775,110.441504,0.5,office,867,246,upper_middle,0.076,0.46,0.399,0.045
+GRD-0306,Semarang,Gajahmungkur,-6.981715,110.342317,0.5,residential,4149,1204,high,0.254,0.284,0.305,0.126
+GRD-0307,Semarang,Candisari,-7.02662,110.440196,0.5,residential,4990,1228,middle,0.247,0.316,0.322,0.113
+GRD-0308,Semarang,Pedurungan,-7.031918,110.379108,0.5,mixed,2325,530,high,0.187,0.333,0.335,0.093
+GRD-0309,Semarang,Candisari,-6.983356,110.347945,0.5,residential,3222,784,high,0.238,0.311,0.291,0.123
+GRD-0310,Semarang,Candisari,-6.93821,110.39188,0.5,mixed,3446,775,lower_middle,0.191,0.331,0.325,0.115
+GRD-0311,Semarang,Pedurungan,-6.940474,110.373421,0.5,residential,2536,596,middle,0.253,0.318,0.323,0.161
+GRD-0312,Semarang,Semarang Barat,-7.027342,110.431486,0.5,commercial,1163,267,low,0.208,0.352,0.319,0.119
+GRD-0313,Semarang,Semarang Tengah,-7.02474,110.446088,0.5,residential,4628,1212,upper_middle,0.248,0.297,0.31,0.132
+GRD-0314,Semarang,Gajahmungkur,-7.018404,110.475928,0.5,residential,3486,1008,high,0.245,0.309,0.3,0.157
+GRD-0315,Semarang,Pedurungan,-7.035999,110.397709,0.5,mixed,1521,378,lower_middle,0.179,0.33,0.348,0.11
+GRD-0316,Semarang,Semarang Tengah,-7.021227,110.361861,0.5,residential,3207,778,middle,0.246,0.294,0.343,0.157
+GRD-0317,Semarang,Candisari,-7.071753,110.419253,0.5,office,173,49,low,0.085,0.465,0.395,0.053
+GRD-0318,Semarang,Pedurungan,-6.964336,110.462772,0.5,commercial,1373,343,low,0.175,0.376,0.323,0.104
+GRD-0319,Semarang,Semarang Barat,-6.968856,110.35457,0.5,residential,2498,569,lower_middle,0.262,0.298,0.342,0.166
+GRD-0320,Semarang,Candisari,-6.948126,110.460278,0.5,residential,4247,1091,middle,0.265,0.299,0.304,0.115
+GRD-0321,Yogyakarta,Sleman,-7.774642,110.335124,0.5,residential,1800,462,lower_middle,0.251,0.3,0.335,0.128
+GRD-0322,Yogyakarta,Depok (Sleman),-7.85583,110.388397,0.5,residential,1829,466,middle,0.234,0.28,0.334,0.133
+GRD-0323,Yogyakarta,Kotagede,-7.751415,110.365855,0.5,commercial,883,208,upper_middle,0.195,0.371,0.311,0.107
+GRD-0324,Yogyakarta,Umbulharjo,-7.834371,110.326618,0.5,mixed,1969,441,lower_middle,0.171,0.378,0.317,0.098
+GRD-0325,Yogyakarta,Gondokusuman,-7.793141,110.417602,0.5,residential,3821,901,lower_middle,0.27,0.298,0.337,0.13
+GRD-0326,Yogyakarta,Gondokusuman,-7.815404,110.433252,0.5,residential,3407,793,lower_middle,0.259,0.32,0.297,0.156
+GRD-0327,Yogyakarta,Kotagede,-7.831242,110.374326,0.5,residential,1937,433,middle,0.238,0.311,0.309,0.129
+GRD-0328,Yogyakarta,Depok (Sleman),-7.780624,110.425186,0.5,commercial,911,279,lower_middle,0.21,0.378,0.314,0.116
+GRD-0329,Yogyakarta,Depok (Sleman),-7.804105,110.371958,0.5,residential,5032,1228,middle,0.251,0.279,0.336,0.125
+GRD-0330,Yogyakarta,Umbulharjo,-7.842487,110.349354,0.5,office,514,125,middle,0.117,0.428,0.364,0.099
+GRD-0331,Yogyakarta,Kotagede,-7.859544,110.372218,0.5,mixed,2747,629,low,0.199,0.346,0.318,0.132
+GRD-0332,Yogyakarta,Umbulharjo,-7.766659,110.381788,0.5,residential,3718,983,middle,0.259,0.302,0.317,0.157
+GRD-0333,Yogyakarta,Gondokusuman,-7.846595,110.364196,0.5,commercial,956,214,low,0.219,0.331,0.341,0.136
+GRD-0334,Yogyakarta,Kotagede,-7.767916,110.363598,0.5,commercial,1371,320,low,0.178,0.372,0.312,0.119
+GRD-0335,Yogyakarta,Kotagede,-7.805373,110.348878,0.5,mixed,2248,544,lower_middle,0.171,0.375,0.339,0.146
+GRD-0336,Yogyakarta,Gondokusuman,-7.782494,110.304476,0.5,residential,4845,1211,low,0.242,0.314,0.34,0.115
+GRD-0337,Yogyakarta,Gondokusuman,-7.79969,110.335952,0.5,mixed,2778,788,middle,0.208,0.331,0.345,0.115
+GRD-0338,Yogyakarta,Umbulharjo,-7.813509,110.354281,0.5,mixed,2949,753,upper_middle,0.2,0.359,0.332,0.126
+GRD-0339,Yogyakarta,Depok (Sleman),-7.835646,110.427,0.5,office,798,193,middle,0.107,0.454,0.363,0.086
+GRD-0340,Yogyakarta,Kotagede,-7.726263,110.367702,0.5,residential,3426,885,middle,0.27,0.288,0.308,0.123
+GRD-0341,Yogyakarta,Umbulharjo,-7.786537,110.436168,0.5,office,246,67,low,0.078,0.442,0.385,0.054
+GRD-0342,Yogyakarta,Kotagede,-7.760167,110.424391,0.5,commercial,964,226,lower_middle,0.211,0.355,0.354,0.126
+GRD-0343,Yogyakarta,Depok (Sleman),-7.834814,110.364699,0.5,residential,4995,1327,upper_middle,0.266,0.277,0.336,0.155
+GRD-0344,Yogyakarta,Kotagede,-7.824391,110.429922,0.5,residential,3947,1089,middle,0.252,0.279,0.33,0.17
+GRD-0345,Yogyakarta,Depok (Sleman),-7.86661,110.370779,0.5,commercial,893,246,low,0.199,0.365,0.333,0.106
+GRD-0346,Yogyakarta,Sleman,-7.777397,110.327413,0.5,mixed,3490,885,lower_middle,0.204,0.38,0.331,0.105
+GRD-0347,Yogyakarta,Depok (Sleman),-7.779779,110.33553,0.5,residential,4551,1258,lower_middle,0.246,0.271,0.308,0.169
+GRD-0348,Yogyakarta,Kotagede,-7.799096,110.426495,0.5,commercial,778,229,middle,0.214,0.325,0.344,0.105
+GRD-0349,Yogyakarta,Umbulharjo,-7.750144,110.403868,0.5,residential,4641,1278,middle,0.254,0.283,0.323,0.155
+GRD-0350,Yogyakarta,Sleman,-7.832886,110.330928,0.5,mixed,1275,328,upper_middle,0.185,0.324,0.312,0.132
+GRD-0351,Yogyakarta,Gondokusuman,-7.787402,110.332526,0.5,residential,4504,1041,low,0.249,0.284,0.313,0.169
+GRD-0352,Yogyakarta,Depok (Sleman),-7.774751,110.360322,0.5,commercial,1325,321,middle,0.172,0.375,0.318,0.119
+GRD-0353,Yogyakarta,Umbulharjo,-7.788438,110.431845,0.5,residential,3038,757,upper_middle,0.263,0.323,0.339,0.112
+GRD-0354,Yogyakarta,Sleman,-7.742874,110.359281,0.5,residential,3409,766,lower_middle,0.247,0.308,0.304,0.124
+GRD-0355,Yogyakarta,Depok (Sleman),-7.800785,110.397445,0.5,residential,4020,1030,low,0.258,0.322,0.309,0.152
+GRD-0356,Yogyakarta,Sleman,-7.756418,110.404254,0.5,mixed,1847,417,middle,0.177,0.339,0.353,0.134
+GRD-0357,Yogyakarta,Kotagede,-7.838726,110.41593,0.5,office,305,91,upper_middle,0.081,0.466,0.387,0.056
+GRD-0358,Yogyakarta,Sleman,-7.741718,110.376054,0.5,residential,1906,565,upper_middle,0.261,0.298,0.329,0.121
+GRD-0359,Yogyakarta,Sleman,-7.788261,110.324829,0.5,residential,1932,554,high,0.25,0.282,0.302,0.121
+GRD-0360,Yogyakarta,Depok (Sleman),-7.769383,110.303532,0.5,commercial,805,247,middle,0.214,0.343,0.319,0.127
+GRD-0361,Yogyakarta,Depok (Sleman),-7.83012,110.317395,0.5,commercial,1366,320,middle,0.173,0.38,0.331,0.114
+GRD-0362,Yogyakarta,Depok (Sleman),-7.817516,110.311182,0.5,mixed,1977,550,lower_middle,0.22,0.348,0.325,0.127
+GRD-0363,Yogyakarta,Sleman,-7.797391,110.352607,0.5,commercial,485,141,middle,0.205,0.374,0.333,0.114
+GRD-0364,Yogyakarta,Kotagede,-7.78921,110.410367,0.5,commercial,1231,300,lower_middle,0.224,0.368,0.343,0.097
+GRD-0365,Yogyakarta,Umbulharjo,-7.787987,110.346153,0.5,residential,4697,1272,high,0.233,0.316,0.345,0.144
+GRD-0366,Yogyakarta,Sleman,-7.748228,110.404197,0.5,residential,4716,1123,lower_middle,0.237,0.308,0.297,0.118
+GRD-0367,Yogyakarta,Umbulharjo,-7.818199,110.34598,0.5,residential,3838,1094,upper_middle,0.245,0.299,0.315,0.115
+GRD-0368,Yogyakarta,Depok (Sleman),-7.739799,110.371372,0.5,residential,4374,1337,lower_middle,0.231,0.279,0.292,0.145
+GRD-0369,Yogyakarta,Gondokusuman,-7.746734,110.341935,0.5,residential,3507,864,lower_middle,0.252,0.304,0.324,0.168
+GRD-0370,Yogyakarta,Gondokusuman,-7.747576,110.329304,0.5,residential,3025,723,upper_middle,0.261,0.274,0.318,0.117
+GRD-0371,Yogyakarta,Kotagede,-7.736891,110.337306,0.5,commercial,419,94,middle,0.202,0.325,0.343,0.126
+GRD-0372,Yogyakarta,Kotagede,-7.857243,110.352187,0.5,commercial,1376,376,high,0.178,0.354,0.331,0.128
+GRD-0373,Yogyakarta,Depok (Sleman),-7.749847,110.391263,0.5,residential,2989,745,low,0.217,0.321,0.338,0.17
+GRD-0374,Yogyakarta,Depok (Sleman),-7.755505,110.345979,0.5,mixed,1246,295,lower_middle,0.188,0.35,0.319,0.09
+GRD-0375,Yogyakarta,Depok (Sleman),-7.74548,110.336786,0.5,commercial,697,158,upper_middle,0.199,0.348,0.302,0.098
+GRD-0376,Yogyakarta,Depok (Sleman),-7.788642,110.341698,0.5,mixed,2895,699,lower_middle,0.189,0.352,0.312,0.131
+GRD-0377,Yogyakarta,Umbulharjo,-7.83729,110.419101,0.5,residential,2411,601,high,0.261,0.304,0.313,0.146
+GRD-0378,Yogyakarta,Umbulharjo,-7.862612,110.370155,0.5,mixed,2895,786,upper_middle,0.22,0.338,0.332,0.101
+GRD-0379,Yogyakarta,Sleman,-7.785336,110.412777,0.5,office,644,189,upper_middle,0.09,0.449,0.402,0.059
+GRD-0380,Yogyakarta,Gondokusuman,-7.836526,110.374582,0.5,mixed,1743,471,low,0.222,0.327,0.319,0.093
+GRD-0381,Malang,Blimbing,-8.008465,112.673245,0.5,commercial,1366,423,upper_middle,0.216,0.358,0.313,0.102
+GRD-0382,Malang,Sukun,-7.973399,112.599211,0.5,mixed,1811,407,low,0.204,0.326,0.333,0.123
+GRD-0383,Malang,Blimbing,-7.978055,112.663669,0.5,commercial,937,240,upper_middle,0.173,0.322,0.354,0.093
+GRD-0384,Malang,Sukun,-7.946482,112.666405,0.5,residential,4241,1227,lower_middle,0.256,0.319,0.295,0.165
+GRD-0385,Malang,Klojen,-7.989381,112.5819,0.5,mixed,3118,772,lower_middle,0.216,0.348,0.357,0.099
+GRD-0386,Malang,Blimbing,-7.906993,112.629552,0.5,residential,4665,1420,middle,0.217,0.299,0.341,0.127
+GRD-0387,Malang,Kedungkandang,-7.983437,112.599066,0.5,residential,5148,1217,middle,0.242,0.294,0.315,0.147
+GRD-0388,Malang,Sukun,-7.974223,112.679104,0.5,residential,2652,679,upper_middle,0.224,0.31,0.295,0.166
+GRD-0389,Malang,Kedungkandang,-7.96259,112.584518,0.5,commercial,499,112,lower_middle,0.174,0.327,0.349,0.136
+GRD-0390,Malang,Klojen,-7.965209,112.593428,0.5,residential,5146,1358,middle,0.227,0.307,0.317,0.122
+GRD-0391,Malang,Blimbing,-7.910389,112.614262,0.5,office,746,166,low,0.094,0.428,0.368,0.062
+GRD-0392,Malang,Kedungkandang,-7.951292,112.677173,0.5,mixed,1649,401,lower_middle,0.194,0.339,0.323,0.113
+GRD-0393,Malang,Sukun,-8.006298,112.608032,0.5,residential,4075,906,lower_middle,0.25,0.278,0.294,0.111
+GRD-0394,Malang,Sukun,-7.96213,112.578706,0.5,office,807,187,upper_middle,0.124,0.462,0.406,0.077
+GRD-0395,Malang,Sukun,-7.947093,112.594462,0.5,residential,2724,708,low,0.254,0.313,0.306,0.166
+GRD-0396,Malang,Klojen,-7.956608,112.679878,0.5,commercial,531,130,middle,0.179,0.364,0.359,0.149
+GRD-0397,Malang,Klojen,-7.954437,112.577761,0.5,commercial,802,197,middle,0.21,0.361,0.332,0.125
+GRD-0398,Malang,Kedungkandang,-7.994716,112.673585,0.5,mixed,3059,842,middle,0.191,0.379,0.318,0.1
+GRD-0399,Malang,Blimbing,-7.996868,112.589192,0.5,mixed,2266,663,middle,0.173,0.379,0.349,0.127
+GRD-0400,Malang,Kedungkandang,-7.949865,112.662222,0.5,residential,5010,1408,middle,0.225,0.314,0.326,0.165
+GRD-0401,Malang,Blimbing,-8.012217,112.603024,0.5,mixed,2167,502,upper_middle,0.191,0.325,0.309,0.146
+GRD-0402,Malang,Sukun,-7.96597,112.607607,0.5,mixed,3002,699,middle,0.173,0.336,0.349,0.093
+GRD-0403,Malang,Sukun,-7.960209,112.589706,0.5,mixed,3381,912,middle,0.186,0.352,0.326,0.107
+GRD-0404,Malang,Blimbing,-7.928573,112.590665,0.5,office,694,156,middle,0.096,0.475,0.402,0.06
+GRD-0405,Malang,Kedungkandang,-7.94773,112.659432,0.5,residential,4966,1212,lower_middle,0.221,0.303,0.33,0.16
+GRD-0406,Malang,Klojen,-7.962627,112.638293,0.5,mixed,2098,649,lower_middle,0.176,0.376,0.339,0.14
+GRD-0407,Malang,Klojen,-8.013497,112.592455,0.5,residential,4276,1058,upper_middle,0.258,0.281,0.297,0.121
+GRD-0408,Malang,Klojen,-7.995554,112.614169,0.5,commercial,962,292,lower_middle,0.217,0.343,0.32,0.094
+GRD-0409,Malang,Sukun,-7.905214,112.626872,0.5,residential,2621,774,middle,0.256,0.283,0.329,0.165
+GRD-0410,Malang,Klojen,-7.934363,112.67551,0.5,residential,4780,1409,upper_middle,0.248,0.326,0.33,0.126
+GRD-0411,Malang,Kedungkandang,-7.996363,112.676594,0.5,residential,4698,1133,middle,0.259,0.274,0.304,0.133
+GRD-0412,Malang,Klojen,-8.018039,112.642451,0.5,commercial,920,205,low,0.209,0.342,0.351,0.11
+GRD-0413,Malang,Blimbing,-8.024314,112.636433,0.5,commercial,380,106,middle,0.193,0.326,0.341,0.119
+GRD-0414,Malang,Lowokwaru,-7.944061,112.577179,0.5,residential,2590,612,lower_middle,0.249,0.3,0.348,0.159
+GRD-0415,Malang,Blimbing,-7.960215,112.694872,0.5,residential,5026,1241,lower_middle,0.241,0.326,0.342,0.142
+GRD-0416,Malang,Klojen,-7.912622,112.638449,0.5,residential,2379,594,upper_middle,0.225,0.309,0.291,0.148
+GRD-0417,Malang,Klojen,-8.020754,112.658642,0.5,commercial,517,122,middle,0.183,0.368,0.326,0.139
+GRD-0418,Malang,Blimbing,-8.02288,112.605156,0.5,residential,4602,1088,upper_middle,0.256,0.306,0.31,0.117
+GRD-0419,Malang,Blimbing,-7.954555,112.61199,0.5,commercial,383,89,low,0.207,0.367,0.301,0.119
+GRD-0420,Malang,Klojen,-7.962061,112.634777,0.5,mixed,2362,562,upper_middle,0.212,0.332,0.338,0.121
+GRD-0421,Malang,Kedungkandang,-7.981952,112.670421,0.5,mixed,1937,482,high,0.217,0.341,0.3,0.104
+GRD-0422,Malang,Klojen,-7.970677,112.611163,0.5,commercial,1339,334,middle,0.182,0.323,0.307,0.099
+GRD-0423,Malang,Sukun,-7.997182,112.682277,0.5,residential,4544,1309,lower_middle,0.225,0.307,0.343,0.137
+GRD-0424,Malang,Kedungkandang,-7.960004,112.652069,0.5,residential,5017,1150,low,0.253,0.306,0.31,0.122
+GRD-0425,Malang,Klojen,-7.920474,112.608616,0.5,residential,2201,631,lower_middle,0.238,0.299,0.343,0.119
+GRD-0426,Malang,Sukun,-7.949649,112.573698,0.5,residential,3674,1092,lower_middle,0.252,0.274,0.298,0.161
+GRD-0427,Malang,Blimbing,-7.929023,112.653088,0.5,residential,3008,698,high,0.215,0.321,0.319,0.17
+GRD-0428,Malang,Blimbing,-8.008038,112.658056,0.5,residential,3553,1018,middle,0.266,0.327,0.345,0.164
+GRD-0429,Malang,Sukun,-7.955419,112.672179,0.5,mixed,1337,314,lower_middle,0.212,0.326,0.33,0.095
+GRD-0430,Malang,Sukun,-8.017873,112.613282,0.5,office,394,119,middle,0.099,0.438,0.392,0.091
+GRD-0431,Malang,Sukun,-7.95827,112.687,0.5,commercial,678,165,middle,0.17,0.358,0.323,0.131
+GRD-0432,Malang,Blimbing,-7.922604,112.619211,0.5,mixed,3421,787,low,0.214,0.323,0.357,0.13
+GRD-0433,Malang,Blimbing,-7.928443,112.678602,0.5,commercial,1050,255,middle,0.204,0.366,0.308,0.11
+GRD-0434,Malang,Kedungkandang,-8.003913,112.604877,0.5,mixed,2059,580,lower_middle,0.211,0.337,0.304,0.111
+GRD-0435,Malang,Klojen,-7.973938,112.58882,0.5,commercial,898,212,middle,0.227,0.369,0.356,0.094
+GRD-0436,Malang,Klojen,-7.95102,112.574557,0.5,residential,2532,757,lower_middle,0.219,0.279,0.302,0.167
+GRD-0437,Malang,Kedungkandang,-7.961844,112.624297,0.5,office,604,187,upper_middle,0.081,0.421,0.398,0.09
+GRD-0438,Malang,Kedungkandang,-7.9276,112.609017,0.5,residential,4446,1143,middle,0.243,0.297,0.324,0.164
+GRD-0439,Malang,Lowokwaru,-8.000456,112.64121,0.5,commercial,603,136,lower_middle,0.207,0.33,0.332,0.101
+GRD-0440,Malang,Lowokwaru,-7.992099,112.625662,0.5,residential,2278,644,low,0.221,0.304,0.292,0.129

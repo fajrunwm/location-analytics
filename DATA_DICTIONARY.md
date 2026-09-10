@@ -1,58 +1,114 @@
-# Data Dictionary — F&B Location Analytics (Dummy Data)
+# Data Dictionary — F&B Location Analytics (Real Locations + Synthetic Data)
 
-Semua data di sini **sintetis**, di-generate dengan `generate_dummy_data.py`
-(seed=42, reproducible). Titik koordinat di-jitter di sekitar pusat kota asli
-(Jakarta, Bandung, Surabaya) agar distribusi spasial realistis, tapi tidak
-merepresentasikan outlet, alamat, atau orang sungguhan.
+Data di sini **provenance campuran** — lihat §Provenance data lokasi di bawah
+untuk mana yang real dan mana yang sintetis, jangan asumsikan semuanya
+sintetis. Semua digenerate lewat `generate_dummy_data.py` (seed=42,
+reproducible untuk bagian yang sintetis).
 
-Saat data asli dari brand sudah tersedia, tinggal mapping ke skema yang sama
-— pipeline analitik & integrasi GenAI di tahap berikutnya tidak perlu berubah.
+Saat data POS/GIS asli dari brand sudah tersedia (lengkap, bukan cuma yang
+terindeks di Google Maps), tinggal mapping ke skema yang sama — pipeline
+analitik & integrasi GenAI di tahap berikutnya tidak perlu berubah.
+
+## Provenance data lokasi
+
+`outlets.csv` kolom `outlet_name`, `city`, `district`, `location_type`,
+`latitude`, `longitude`, `rating`, `review_count` adalah **REAL** — di-scrape
+dari Google Maps (via Claude Desktop, 2026-09-10) untuk brand "Marugame
+Udon" dan "The Harvest" di Indonesia. Sumber mentahnya, sebelum difilter,
+ada di `marugame_outlets_indonesia.csv` (60 baris, seluruh Indonesia) dan
+`harvest_outlets_indonesia.csv` (38 baris) — kolomnya: Nama Outlet,
+Kota/Wilayah, Alamat, Latitude, Longitude, Rating, Jumlah Ulasan, Telepon,
+Jam Operasional, Website, Google Maps URL. `generate_dummy_data.py`
+memfilter kedua file ini ke **pulau Jawa saja** (lihat di bawah), lalu
+mem-parsing `district` dari teks Alamat dan mengklasifikasi `location_type`
+dari kata kunci mall pada nama/alamat. Kolom lain di `outlets.csv` (luas,
+seating, tier, tanggal buka) tetap sintetis — Google Maps tidak menyimpan
+data itu. `outlet_type` dan `store_tier` diturunkan dari `review_count` real
+(lihat rasional §1 di bawah), bukan pure random. Seluruh file lain
+(`demographics_grid.csv`, `competitor_pois.csv`, `foot_traffic_transactions.csv`,
+`customer_origin_sample.csv`) 100% sintetis, tidak merepresentasikan lokasi,
+transaksi, atau orang sungguhan.
+
+**Cakupan & yang di-exclude:** data mentah Google Maps mencakup seluruh
+Indonesia (Jabodetabek, Bandung, Surabaya, Semarang, Yogyakarta, Malang,
+Medan, Makassar, Palembang, Denpasar/Bali, Balikpapan). Repo ini sengaja
+**membatasi ke pulau Jawa** — 6 metro: Jakarta (termasuk Jabodetabek),
+Bandung, Surabaya, Semarang, Yogyakarta, Malang — supaya scope geografis
+tool tetap satu pulau yang koheren. Outlet di Medan, Makassar, Palembang,
+Denpasar, dan Balikpapan **di-exclude**, bukan disembunyikan — datanya tetap
+ada di kedua CSV mentah kalau suatu saat scope mau diperluas.
+
+Hasilnya: **44 outlet Marugame Udon real + 28 outlet The Harvest real = 72
+outlet** di Jawa, dengan sebaran (Marugame/Harvest per kota): Jakarta metro
+20/16, Bandung 6/4, Surabaya 8/3, Semarang 4/2, Yogyakarta 4/1, Malang 2/2.
+Jakarta metro paling padat (36 dari 72) — realistis untuk brand F&B rantai
+yang basis ekspansinya dari Jabodetabek.
+
+`location_type` (`mall`/`standalone_ruko`) diklasifikasi dari kata kunci di
+teks nama+alamat real (mis. "mall", "plaza", "square", "trans studio",
+"wtc") — bukan diverifikasi ke denah toko sungguhan, jadi anggap sebagai
+heuristik dari data real, bukan fakta yang sudah tervalidasi 100%. `district`
+di-parse dari struktur alamat (ambil segmen kecamatan kalau ada, kalau tidak
+fallback ke nama kota administratif) — juga real, dengan presisi yang
+bervariasi tergantung selengkap apa format alamat aslinya.
 
 ---
 
-## 1. `outlets.csv` (42 baris)
+## 1. `outlets.csv` (72 baris — REAL lokasi & rating, sintetis atribut lain)
 Master data lokasi toko.
 
-| Kolom | Tipe | Keterangan |
-|---|---|---|
-| outlet_id | string | ID unik (`MRG-xxx` / `HVT-xxx`) |
-| brand | string | `Marugame Udon` / `The Harvest` |
-| outlet_name | string | Nama outlet |
-| city | string | Jakarta / Bandung / Surabaya |
-| district | string | Kecamatan/area |
-| location_type | string | `mall`, `standalone_ruko` |
-| outlet_type | string | `destination_hub` / `transit_adjacent` / `neighborhood` — lihat rasional di bawah |
-| latitude, longitude | float | Koordinat |
-| gross_floor_area_sqm | int | Luas outlet |
-| seating_capacity | int/null | Hanya relevan untuk Marugame (dine-in) |
-| store_tier | string | `flagship` / `standard` |
-| open_date | date | Tanggal buka |
+| Kolom | Tipe | Provenance | Keterangan |
+|---|---|---|---|
+| outlet_id | string | derived | ID unik (`MRG-xxx` / `HVT-xxx`) |
+| brand | string | real | `Marugame Udon` / `The Harvest` |
+| outlet_name | string | **real** | Nama outlet, dari Google Maps |
+| city | string | **real** | Jakarta / Bandung / Surabaya / Semarang / Yogyakarta / Malang (metro bucket) |
+| district | string | **real** (parsed) | Kecamatan/area asli dari alamat Google Maps |
+| location_type | string | **real** (heuristik) | `mall`, `standalone_ruko` |
+| outlet_type | string | derived dari real | `destination_hub` / `transit_adjacent` / `neighborhood` — lihat rasional di bawah |
+| latitude, longitude | float | **real** | Koordinat Google Maps |
+| rating | float | **real** | Rating Google Maps (1–5) |
+| review_count | int | **real** | Jumlah ulasan Google Maps — dipakai sebagai proxy popularitas |
+| gross_floor_area_sqm | int | sintetis | Luas outlet |
+| seating_capacity | int/null | sintetis | Hanya relevan untuk Marugame (dine-in) |
+| store_tier | string | derived dari real | `flagship` / `standard` — probabilitas flagship naik kalau `outlet_type=destination_hub` atau `review_count` tinggi |
+| open_date | date | sintetis | Tanggal buka |
 
-**Rasional desain:** Marugame 100% `mall`-based (fast-casual dine-in, butuh
-foot-traffic mall tinggi). The Harvest mix `mall` (counter kecil) vs
-`standalone_ruko` (butik, occasion-based) — mencerminkan pola bisnis nyata
-kedua brand.
+**Rasional desain:** dari 44 outlet real Marugame, 34 memang mall (kata
+kunci mall di nama/alamat), 10 street-front — mengoreksi asumsi awal
+"Marugame 100% mall-based": data real menunjukkan modelnya campuran, meski
+tetap mall-dominan. The Harvest yang real 26 dari 28 street-front, 2 di
+komplek ruko/plaza kecil — konsisten dengan narasi awal brand sebagai chain
+boutique/occasion-based.
 
-**`outlet_type` — outlet bukan titik yang flat/seragam.** Dua outlet dengan
-`location_type=mall` dan luas serupa bisa punya "power" (jangkauan tarik
-customer) yang jauh berbeda tergantung peran mall-nya:
-- `destination_hub`: mall besar yang jadi assembly point/meeting point (mis.
-  Grand Indonesia, Senayan City, Central Park) atau outlet flagship — menarik
-  customer dari radius jauh & catchment tidak simetris (dipengaruhi
-  transit/corridor, bukan lingkaran rapi).
-- `transit_adjacent`: dekat jalur commuter/transit — catchment memanjang
-  mengikuti sumbu koridor perjalanan, bukan melebar ke segala arah.
-- `neighborhood`: outlet lokal (ruko/counter kecil) — catchment sempit &
+**`outlet_type` — outlet bukan titik yang flat/seragam.** Diklasifikasi dari
+`location_type` REAL + `review_count` REAL (lihat `assign_outlet_type()` di
+`generate_dummy_data.py`) — bukan tebak-tebakan dari nama:
+
+- `destination_hub`: `location_type=mall` **dan** `review_count >= 500` —
+  mall yang benar-benar ramai secara riil (Grand Indonesia 1.506 ulasan,
+  Tunjungan Plaza 1.870, dst.). Menarik customer dari radius jauh & catchment
+  tidak simetris.
+- `transit_adjacent`: `location_type=mall` tapi `review_count < 500` — mall
+  yang lebih kecil/sepi secara riil, pull-nya moderat.
+- `neighborhood`: `location_type=standalone_ruko` — catchment sempit &
   didominasi proximity ke rumah/kantor sekitarnya.
 
-`outlet_type` inilah yang menentukan bentuk & lebar catchment tiap outlet di
-`customer_origin_sample.csv` (lihat §5) dan, di tahap analitik berikutnya,
-akan dipakai untuk beda-kan attractiveness dan distance-decay (beta) per tipe
-alih-alih satu parameter global untuk semua outlet.
+Karena pembaginya `review_count` riil (bukan kata kunci nama yang bisa
+kosong), ketiga tipe muncul proporsional di data ini (Marugame: 17 hub / 17
+transit / 10 neighborhood; The Harvest: 0 hub / 2 transit / 26
+neighborhood) — tidak ada kategori yang kosong seperti versi data
+sebelumnya.
 
-## 2. `demographics_grid.csv` (420 baris)
-Grid sintetis 500m menutupi area metro tiap kota — pengganti data sensus/BPS
-riil untuk keperluan POC.
+`outlet_type` inilah yang menentukan bentuk & lebar catchment tiap outlet di
+`customer_origin_sample.csv` (lihat §5) dan dipakai untuk beda-kan
+attractiveness dan distance-decay (beta) per tipe di analytics engine.
+
+## 2. `demographics_grid.csv` (~440 baris)
+Grid sintetis 500m menutupi area 6 metro — pengganti data sensus/BPS riil
+untuk keperluan POC. Jumlah cell per kota proporsional terhadap bobot metro
+di `CITIES` (Jakarta terbanyak, Malang/Yogyakarta paling sedikit, dengan
+lantai minimum 60 cell supaya whitespace analysis tetap bermakna).
 
 | Kolom | Keterangan |
 |---|---|
@@ -74,7 +130,7 @@ POI kompetitor & kontekstual di sekitar outlet.
 | poi_type | `competitor_noodle_asian`, `competitor_bakery_cake`, `mall`, `office_building`, `school_campus`, `transit_station`, `residential_complex` |
 | name | Nama generik/sintetis (bukan brand asli, kecuali kategori kompetitor umum sbg placeholder) |
 
-## 4. `foot_traffic_transactions.csv` (18,900 baris)
+## 4. `foot_traffic_transactions.csv` (~32,400 baris)
 Simulasi harian x daypart selama 90 hari per outlet.
 
 | Kolom | Keterangan |
@@ -89,7 +145,7 @@ Simulasi harian x daypart selama 90 hari per outlet.
 - **Marugame Udon**: puncak di `lunch` & `dinner` (0.38 & 0.35 dari total), weekend multiplier 1.35x
 - **The Harvest**: lebih rata sepanjang hari, plus "event day" acak (~4% hari) dengan spike 1.6–2.4x (simulasi hampers/ulang tahun/hari raya)
 
-## 5. `customer_origin_sample.csv` (~15,000 baris)
+## 5. `customer_origin_sample.csv` (~27,600 baris)
 Sampel sintetis per-customer: dari mana pelanggan datang untuk mengunjungi
 tiap outlet, dipakai untuk mengukur **origin dispersion** (seberapa jauh &
 seberapa tersebar wilayah asal pelanggan tiap outlet) — proxy untuk "power"
@@ -121,11 +177,22 @@ asli, dan parameter dispersion per tipe di atas dikalibrasi ulang.
 ```bash
 python3 generate_dummy_data.py
 ```
-Ubah `n_marugame`, `n_harvest`, `n_days`, atau bobot di `daypart_profile()`
-untuk skenario lain. Ganti isi `CITIES` dict untuk menambah kota lain.
+Tambah/ubah outlet real dengan mengedit `REAL_OUTLETS_MARUGAME` /
+`REAL_OUTLETS_HARVEST` di `generate_dummy_data.py`. Untuk memasukkan kota di
+luar Jawa (Medan, Makassar, Palembang, Denpasar, Balikpapan — sudah ada di
+`marugame_outlets_indonesia.csv`/`harvest_outlets_indonesia.csv` mentah),
+tambah entrinya ke `CITIES`/`DISTRICTS` dict lalu filter ulang dari kedua
+CSV sumber itu. Ubah `n_days` atau bobot di `daypart_profile()` untuk
+skenario simulasi lain.
 
 ## Batasan yang perlu diingat
-- Ini **bukan** data riil — jangan dipakai untuk keputusan bisnis, hanya untuk
-  membangun & menguji pipeline (schema, join logic, model analitik, dashboard).
-- Saat data asli (POS, GIS outlet, data demografi vendor/BPS) tersedia, mapping
-  ke kolom yang sama di atas → downstream code tidak perlu ditulis ulang.
+- Lokasi outlet real, tapi **jumlahnya bukan daftar lengkap** — cuma yang
+  berhasil ter-scrape dari Google Maps per 2026-09-10 dan berada di Jawa,
+  kemungkinan besar brand punya outlet lain (termasuk di luar Jawa, atau
+  yang belum terindeks Google Maps). Jangan dipakai sebagai jumlah outlet
+  resmi kedua brand.
+- Seluruh angka demand/transaksi/demografi **bukan** data riil — jangan
+  dipakai untuk keputusan bisnis, hanya untuk membangun & menguji pipeline
+  (schema, join logic, model analitik, dashboard).
+- Saat data POS/GIS asli tersedia, mapping ke kolom yang sama di atas →
+  downstream code tidak perlu ditulis ulang.

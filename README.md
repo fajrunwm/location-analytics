@@ -1,15 +1,19 @@
 # Location Analytics POC — Marugame Udon & The Harvest
 
-GeoAI location analytics untuk dua brand F&B (Marugame Udon, The Harvest),
-dibangun dengan dummy data, dirancang untuk diintegrasikan dengan existing
-GenAI marketing (image generation) solution.
+GeoAI location analytics untuk dua brand F&B (Marugame Udon, The Harvest).
+Lokasi outlet (nama, kota, distrik, tipe lokasi, koordinat, rating & jumlah
+ulasan) adalah data **REAL**, di-scrape dari Google Maps (via Claude
+Desktop) dan difilter ke pulau Jawa — sisanya (demografi, POI kompetitor,
+foot traffic, customer origin, dan atribut non-lokasi outlet) tetap
+**sintetis**. Dirancang untuk diintegrasikan dengan existing GenAI marketing
+(image generation) solution.
 
 ## Alur end-to-end
 
 ```
-Data sources (dummy)  →  Spatial database  →  Analytics engine  →
-Location insight layer  →  ┬→ Dashboard & API (analis)
-                            └→ GenAI marketing (image-gen service existing)
+Data sources (lokasi real + atribut sintetis)  →  Spatial database  →
+Analytics engine  →  Location insight layer  →  ┬→ Dashboard & API (analis)
+                                                  └→ GenAI marketing (image-gen service existing)
 ```
 
 Setiap tahap di bawah = satu file yang bisa langsung dijalankan. Semua
@@ -17,26 +21,28 @@ reproducible (seed=42) dan saling terhubung lewat `outlet_id`.
 
 ## 1. Data sources — `generate_dummy_data.py`
 
-Menghasilkan 4 dataset sintetis (koordinat di-jitter di sekitar Jakarta/
-Bandung/Surabaya asli, tapi tidak merepresentasikan lokasi/orang sungguhan):
+Menghasilkan 5 dataset (lihat `DATA_DICTIONARY.md` §Provenance data lokasi
+untuk rincian mana yang real vs sintetis):
 
 | File | Isi |
 |---|---|
-| `outlets.csv` | 42 outlet (18 Marugame Udon, 24 The Harvest) — lokasi, tipe, luas, tier, `outlet_type` (destination_hub/transit_adjacent/neighborhood) |
-| `demographics_grid.csv` | 420 grid cell 500m — populasi, income bracket, distribusi usia |
-| `competitor_pois.csv` | 90 POI kompetitor & kontekstual (mall, kantor, transit) |
-| `foot_traffic_transactions.csv` | 18,900 baris — simulasi 90 hari × daypart per outlet |
-| `customer_origin_sample.csv` | ~15,000 baris — per-customer home→outlet trip, dipakai untuk mengukur origin dispersion (jangkauan tarik) tiap outlet |
+| `outlets.csv` | 72 outlet real (44 Marugame Udon, 28 The Harvest) di Jawa — nama, kota, distrik, tipe lokasi, koordinat, rating & jumlah ulasan REAL (Google Maps); luas, tier, tanggal buka tetap sintetis (`outlet_type`/`store_tier` diturunkan dari review_count real) |
+| `demographics_grid.csv` | ~440 grid cell 500m (sintetis) di 6 metro — populasi, income bracket, distribusi usia |
+| `competitor_pois.csv` | 90 POI kompetitor & kontekstual (sintetis) |
+| `foot_traffic_transactions.csv` | ~32,400 baris — simulasi 90 hari × daypart per outlet (sintetis) |
+| `customer_origin_sample.csv` | ~27,600 baris — per-customer home→outlet trip (sintetis), dipakai untuk mengukur origin dispersion (jangkauan tarik) tiap outlet |
 
 Dokumentasi skema lengkap: `DATA_DICTIONARY.md`.
-Saat data asli dari brand tersedia, tinggal mapping ke skema yang sama —
-tahap 2 & 3 di bawah tidak perlu berubah.
+Sumber mentah (`marugame_outlets_indonesia.csv` / `harvest_outlets_indonesia.csv`,
+hasil scrape Google Maps se-Indonesia) juga ada di repo — `generate_dummy_data.py`
+memfilternya ke Jawa saja. Saat data POS/GIS asli dari brand tersedia, tinggal
+mapping ke skema yang sama — tahap 2 & 3 di bawah tidak perlu berubah.
 
 ## 2 & 3. Analytics engine — `site_scoring_huff.py`
 
 Huff gravity model: `P_ij = (A_j^α / D_ij^β) / Σ(A_k^α / D_ik^β)`
 
-Menghasilkan tiga output analitik dari data di tahap 1:
+Menghasilkan lima output analitik dari data di tahap 1:
 
 | File | Isi |
 |---|---|
@@ -50,11 +56,12 @@ Menghasilkan tiga output analitik dari data di tahap 1:
 Metodologi & batasan (termasuk kalibrasi beta, asumsi jarak lurus):
 `SITE_SCORING_METHODOLOGY.md`.
 
-**Temuan kunci dari run ini**: `MRG-017` & `MRG-018` (dua-duanya destination_hub
-di Surabaya — Pakuwon Mall & Ciputra World Surabaya) overlap 95.7% demand
-cell, dengan demand-at-risk directional 97.0% vs 93.8% — kandidat evaluasi
-jarak sebelum ekspansi baru di area itu. Grid cell `GRD-0199` (Bandung)
-konsisten whitespace tertinggi untuk kedua brand — kandidat lokasi baru.
+**Temuan kunci dari run ini**: `MRG-027` (neighborhood, outlet street-front
+di Jl. Raya Darmo) & `MRG-032` (destination_hub, Royal Plaza) — dua-duanya
+di kecamatan Wonokromo, Surabaya — overlap cuma 6.7% demand cell, tapi
+demand-at-risk directional-nya 78.6% vs 6.5%: outlet kecil kehilangan hampir
+80% basisnya sendiri, outlet mall besar nyaris tidak terasa. Sinyal jelas
+untuk evaluasi jarak sebelum ekspansi baru Marugame di area itu.
 
 ## 4. Location insight → GenAI marketing — `prompt_builder.py`
 
@@ -85,12 +92,16 @@ python3 prompt_builder.py           # → contoh prompt siap kirim ke image-gen
 
 ## Status & langkah selanjutnya
 
-Ini POC dengan data dummy — cocok untuk uji skema, logic, dan integrasi
-pipeline, **bukan** untuk keputusan bisnis nyata. Yang masih perlu
-diputuskan/dikerjakan sebelum produksi:
+Lokasi & rating outlet sudah real (Google Maps, Jawa), tapi seluruh angka
+demand/transaksi/demografi masih sintetis — **bukan** untuk keputusan bisnis
+nyata. Yang masih perlu diputuskan/dikerjakan sebelum produksi:
 
-- Sumber data riil per brand (POS, GIS outlet, demografi vendor/BPS) dan
-  proses mapping ke skema yang sama
+- Sumber data riil per brand (POS, jumlah outlet lengkap dari internal
+  brand — bukan cuma yang terindeks di Google Maps per 2026-09-10, demografi
+  vendor/BPS) dan proses mapping ke skema yang sama
+- Perluas cakupan pulau/kota kalau brand memang punya outlet signifikan di
+  luar Jawa (data mentah sudah mencakup Medan, Makassar, Palembang,
+  Denpasar, Balikpapan — sengaja belum dipakai)
 - Kalibrasi parameter Huff model (`beta`, tier multiplier) terhadap data
   transaksi riil
 - Ganti jarak garis-lurus dengan travel-time (routing API) untuk akurasi
