@@ -312,7 +312,7 @@ footer a{color:var(--ink-muted)}
     <p class="intro"><code class="id">beta</code>, multiplier attractiveness, dan circuity factor semuanya masih asumsi, belum dikalibrasi ke data riil. <code>compute_uncertainty_bands()</code> menjalankan ulang Huff scoring 30x sambil men-jitter ketiga asumsi itu — grafik di bawah membaca hasilnya sebagai deviasi relatif dari median, supaya outlet kecil dan besar bisa dibandingkan di satu skala yang sama.</p>
     <figure>
       <div class="fig-scroll">
-        <svg viewBox="0 0 820 210" role="img" aria-label="Grafik rentang ketidakpastian relatif tiga outlet: MRG-032 hampir tidak bergeser dari mediannya (confidence tinggi), sementara MRG-011 dan HVT-011 bisa bergeser sekitar 40 sampai 65 persen dari mediannya (confidence rendah).">
+        <svg viewBox="0 0 820 210" role="img" aria-label="Grafik rentang ketidakpastian relatif tiga outlet: MRG-032 hampir tidak bergeser dari mediannya (confidence tinggi), sementara MRG-011 dan MRG-021 bisa bergeser sekitar 35 sampai 65 persen dari mediannya (confidence rendah).">
           <line x1="410" y1="30" x2="410" y2="185" stroke="currentColor" stroke-opacity="0.3"/>
           <g font-family="var(--mono)" font-size="10" fill="currentColor" fill-opacity="0.55" text-anchor="middle">
             <text x="410" y="20">p50</text>
@@ -339,12 +339,12 @@ footer a{color:var(--ink-muted)}
             <text x="640" y="119" font-family="var(--mono)" font-size="10.5" fill="currentColor" fill-opacity="0.65">-46.1% / +65.4% · neighborhood</text>
           </g>
 
-          <!-- HVT-011: low confidence, wide range -->
+          <!-- MRG-021: low confidence, wide range -->
           <g>
-            <line x1="222" y1="160" x2="733" y2="160" stroke="var(--warn)" stroke-width="6" stroke-linecap="round"/>
+            <line x1="248" y1="160" x2="740" y2="160" stroke="var(--warn)" stroke-width="6" stroke-linecap="round"/>
             <circle cx="410" cy="160" r="4.5" fill="var(--warn)"/>
-            <text x="70" y="164" font-family="var(--mono)" font-size="12" font-weight="600">HVT-011</text>
-            <text x="640" y="164" font-family="var(--mono)" font-size="10.5" fill="currentColor" fill-opacity="0.65">-38.7% / +66.4% · transit_adjacent</text>
+            <text x="70" y="164" font-family="var(--mono)" font-size="12" font-weight="600">MRG-021</text>
+            <text x="640" y="164" font-family="var(--mono)" font-size="10.5" fill="currentColor" fill-opacity="0.65">-33.3% / +68.0% · neighborhood</text>
           </g>
         </svg>
       </div>

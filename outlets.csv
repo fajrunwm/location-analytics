@@ -24,7 +24,7 @@ MRG-022,Marugame Udon,Marugame Udon Summarecon Mall Bandung,Bandung,Gedebage,mal
 MRG-023,Marugame Udon,Marugame Udon Tenth Avenue Mall,Bandung,Buah Batu,mall,transit_adjacent,-6.9468236,107.640954,4.8,110,200,91.0,standard,2021-01-01
 MRG-024,Marugame Udon,Marugame Udon Paskal Hyper Square,Bandung,Cicendo,mall,destination_hub,-6.9150499,107.5958171,4.5,845,265,80.0,flagship,2020-05-20
 MRG-025,Marugame Udon,Marugame Udon Trans Studio Bandung,Bandung,Batununggal,mall,destination_hub,-6.9248958,107.636887,4.6,695,221,98.0,standard,2019-08-09
-MRG-026,Marugame Udon,Marugame Udon Paris Van Java,Bandung,Sukajadi,standalone_ruko,neighborhood,-6.8903644,107.5965799,4.5,417,183,108.0,standard,2020-12-12
+MRG-026,Marugame Udon,Marugame Udon Paris Van Java,Bandung,Sukajadi,mall,destination_hub,-6.8903644,107.5965799,4.5,417,183,108.0,flagship,2020-12-12
 MRG-027,Marugame Udon,Marugame Udon Darmo Surabaya,Surabaya,Wonokromo,standalone_ruko,neighborhood,-7.2900595,112.739221,4.7,862,229,91.0,standard,2022-01-22
 MRG-028,Marugame Udon,Marugame Udon MERR Surabaya,Surabaya,Mulyorejo,standalone_ruko,neighborhood,-7.2987185,112.7816787,4.4,360,155,105.0,standard,2023-07-15
 MRG-029,Marugame Udon,Marugame Udon Pakuwon City Mall,Surabaya,Mulyorejo,mall,transit_adjacent,-7.275638,112.8052552,5.0,12,132,54.0,standard,2019-09-19
@@ -53,7 +53,7 @@ HVT-007,The Harvest,The Harvest Cakes - Kelapa Gading,Jakarta,Klp. Gading Tim.,s
 HVT-008,The Harvest,The Harvest Cakes - Bendungan Hilir,Jakarta,Tanah Abang,standalone_ruko,neighborhood,-6.214708,106.8147157,4.2,358,67,,standard,2020-02-19
 HVT-009,The Harvest,The Harvest Cakes - Bekasi,Jakarta,Bekasi Utara,standalone_ruko,neighborhood,-6.2274402,107.0039993,4.5,495,64,,flagship,2022-05-30
 HVT-010,The Harvest,The Harvest Cakes - Pajajaran Bogor,Jakarta,Bogor Utara,standalone_ruko,neighborhood,-6.5781793,106.8074234,4.4,950,90,,flagship,2021-03-31
-HVT-011,The Harvest,The Harvest Cakes - Grand Wisata,Jakarta,Tambun Sel.,mall,transit_adjacent,-6.2815184,107.0464786,4.4,327,48,,standard,2017-12-19
+HVT-011,The Harvest,The Harvest Cakes - Grand Wisata,Jakarta,Tambun Sel.,standalone_ruko,neighborhood,-6.2815184,107.0464786,4.4,327,87,,standard,2017-12-19
 HVT-012,The Harvest,The Harvest - Cibubur,Jakarta,Gn. Putri,standalone_ruko,neighborhood,-6.3882233,106.9429229,4.3,887,172,,standard,2025-08-08
 HVT-013,The Harvest,The Harvest Cakes - Depok,Jakarta,Beji,standalone_ruko,neighborhood,-6.3777795,106.8312243,4.4,1223,120,,standard,2024-02-17
 HVT-014,The Harvest,The Harvest Cakes - Tajur,Jakarta,Bogor Tim.,standalone_ruko,neighborhood,-6.6255419,106.8213064,4.5,355,72,,standard,2024-09-01
@@ -65,7 +65,7 @@ HVT-019,The Harvest,The Harvest Cakes - Setiabudi Bandung,Bandung,Sukasari,stand
 HVT-020,The Harvest,The Harvest Cakes - Burangrang,Bandung,Lengkong,standalone_ruko,neighborhood,-6.925949,107.6198315,4.7,498,83,,standard,2021-03-31
 HVT-021,The Harvest,The Harvest Cakes - Bengawan,Surabaya,Wonokromo,standalone_ruko,neighborhood,-7.2901214,112.7377761,4.5,2584,171,,standard,2016-09-09
 HVT-022,The Harvest,The Harvest Cakes - Dharmahusada,Surabaya,Mulyorejo,standalone_ruko,neighborhood,-7.2722908,112.7821872,4.6,281,170,,standard,2017-03-13
-HVT-023,The Harvest,The Harvest Cakes - Graha Famili,Surabaya,Dukuhpakis,mall,transit_adjacent,-7.2920622,112.6764679,4.3,332,69,,flagship,2015-05-01
+HVT-023,The Harvest,The Harvest Cakes - Graha Famili,Surabaya,Dukuhpakis,standalone_ruko,neighborhood,-7.2920622,112.6764679,4.3,332,129,,flagship,2015-05-01
 HVT-024,The Harvest,The Harvest Semarang,Semarang,Gajahmungkur,standalone_ruko,neighborhood,-6.9961751,110.4077057,4.5,1288,178,,standard,2020-04-20
 HVT-025,The Harvest,The Harvest Cakes - Semarang Majapahit,Semarang,Pedurungan,standalone_ruko,neighborhood,-7.0064535,110.455851,4.3,230,122,,standard,2025-10-18
 HVT-026,The Harvest,The Harvest Cakes - Yogyakarta,Yogyakarta,Gondokusuman,standalone_ruko,neighborhood,-7.782795,110.3721849,4.3,797,111,,standard,2016-04-25

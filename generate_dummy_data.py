@@ -110,11 +110,6 @@ def point_at_distance_bearing(lat, lon, distance_km, bearing_deg):
     dlon = km_to_deg_lon(distance_km * math.sin(math.radians(bearing_deg)), lat)
     return lat + dlat, lon + dlon
 
-# A real place name containing one of these reads as an assembly-point /
-# large-footfall complex (mega mall, transit-linked commercial hub, airport
-# terminal) rather than a plain neighborhood stop — these pull customers from
-# a much wider and less circular catchment than their floor size alone would
-# suggest.
 def assign_outlet_type(location_type, review_count):
     """Classify an outlet's catchment behaviour from REAL signals.
 
@@ -131,6 +126,15 @@ def assign_outlet_type(location_type, review_count):
     if location_type != "mall":
         return "neighborhood"
     return "destination_hub" if (review_count or 0) >= 500 else "transit_adjacent"
+
+# Manual overrides for cases where this outlet's own review_count understates
+# the real scale of the mall it's in — confirmed via external sources (Ayo
+# Bandung's "4 mal terbesar di Bandung", Tripadvisor), not just the address
+# text. Applied AFTER assign_outlet_type(); keep this list short and cited,
+# it's an exception path, not the default classification mechanism.
+OUTLET_TYPE_OVERRIDES = {
+    "Marugame Udon Paris Van Java": "destination_hub",  # one of Bandung's biggest/best-known malls; this branch's own review_count (417) undercounts that
+}
 
 def assign_store_tier(outlet_type, review_count):
     """flagship more likely for busy hubs — informed by real review_count,
@@ -185,7 +189,7 @@ REAL_OUTLETS_MARUGAME = [
     ("Marugame Udon Tenth Avenue Mall",                    "Bandung",     "Buah Batu",        "mall",             -6.9468236, 107.6409540, 4.8,    110),
     ("Marugame Udon Paskal Hyper Square",                  "Bandung",     "Cicendo",          "mall",             -6.9150499, 107.5958171, 4.5,    845),
     ("Marugame Udon Trans Studio Bandung",                 "Bandung",     "Batununggal",      "mall",             -6.9248958, 107.6368870, 4.6,    695),
-    ("Marugame Udon Paris Van Java",                       "Bandung",     "Sukajadi",         "standalone_ruko",  -6.8903644, 107.5965799, 4.5,    417),
+    ("Marugame Udon Paris Van Java",                       "Bandung",     "Sukajadi",         "mall",             -6.8903644, 107.5965799, 4.5,    417),
     ("Marugame Udon Darmo Surabaya",                       "Surabaya",    "Wonokromo",        "standalone_ruko",  -7.2900595, 112.7392210, 4.7,    862),
     ("Marugame Udon MERR Surabaya",                        "Surabaya",    "Mulyorejo",        "standalone_ruko",  -7.2987185, 112.7816787, 4.4,    360),
     ("Marugame Udon Pakuwon City Mall",                    "Surabaya",    "Mulyorejo",        "mall",             -7.2756380, 112.8052552, 5.0,    12),
@@ -217,7 +221,7 @@ REAL_OUTLETS_HARVEST = [
     ("The Harvest Cakes - Bendungan Hilir",                "Jakarta",     "Tanah Abang",      "standalone_ruko",  -6.2147080, 106.8147157, 4.2, 358),
     ("The Harvest Cakes - Bekasi",                         "Jakarta",     "Bekasi Utara",     "standalone_ruko",  -6.2274402, 107.0039993, 4.5, 495),
     ("The Harvest Cakes - Pajajaran Bogor",                "Jakarta",     "Bogor Utara",      "standalone_ruko",  -6.5781793, 106.8074234, 4.4, 950),
-    ("The Harvest Cakes - Grand Wisata",                   "Jakarta",     "Tambun Sel.",      "mall",             -6.2815184, 107.0464786, 4.4, 327),
+    ("The Harvest Cakes - Grand Wisata",                   "Jakarta",     "Tambun Sel.",      "standalone_ruko",  -6.2815184, 107.0464786, 4.4, 327),
     ("The Harvest - Cibubur",                              "Jakarta",     "Gn. Putri",        "standalone_ruko",  -6.3882233, 106.9429229, 4.3, 887),
     ("The Harvest Cakes - Depok",                          "Jakarta",     "Beji",             "standalone_ruko",  -6.3777795, 106.8312243, 4.4, 1223),
     ("The Harvest Cakes - Tajur",                          "Jakarta",     "Bogor Tim.",       "standalone_ruko",  -6.6255419, 106.8213064, 4.5, 355),
@@ -229,7 +233,7 @@ REAL_OUTLETS_HARVEST = [
     ("The Harvest Cakes - Burangrang",                     "Bandung",     "Lengkong",         "standalone_ruko",  -6.9259490, 107.6198315, 4.7, 498),
     ("The Harvest Cakes - Bengawan",                       "Surabaya",    "Wonokromo",        "standalone_ruko",  -7.2901214, 112.7377761, 4.5, 2584),
     ("The Harvest Cakes - Dharmahusada",                   "Surabaya",    "Mulyorejo",        "standalone_ruko",  -7.2722908, 112.7821872, 4.6, 281),
-    ("The Harvest Cakes - Graha Famili",                   "Surabaya",    "Dukuhpakis",       "mall",             -7.2920622, 112.6764679, 4.3, 332),
+    ("The Harvest Cakes - Graha Famili",                   "Surabaya",    "Dukuhpakis",       "standalone_ruko",  -7.2920622, 112.6764679, 4.3, 332),
     ("The Harvest Semarang",                               "Semarang",    "Gajahmungkur",     "standalone_ruko",  -6.9961751, 110.4077057, 4.5, 1288),
     ("The Harvest Cakes - Semarang Majapahit",              "Semarang",    "Pedurungan",       "standalone_ruko",  -7.0064535, 110.4558510, 4.3, 230),
     ("The Harvest Cakes - Yogyakarta",                     "Yogyakarta",  "Gondokusuman",     "standalone_ruko",  -7.7827950, 110.3721849, 4.3, 797),
@@ -241,7 +245,7 @@ def generate_outlets():
     rows = []
 
     for i, (outlet_name, city, district, location_type, lat, lon, rating, review_count) in enumerate(REAL_OUTLETS_MARUGAME, start=1):
-        outlet_type = assign_outlet_type(location_type, review_count)
+        outlet_type = OUTLET_TYPE_OVERRIDES.get(outlet_name, assign_outlet_type(location_type, review_count))
         store_tier = assign_store_tier(outlet_type, review_count)
         rows.append({
             "outlet_id": f"MRG-{i:03d}",
@@ -262,7 +266,7 @@ def generate_outlets():
         })
 
     for i, (outlet_name, city, district, location_type, lat, lon, rating, review_count) in enumerate(REAL_OUTLETS_HARVEST, start=1):
-        outlet_type = assign_outlet_type(location_type, review_count)
+        outlet_type = OUTLET_TYPE_OVERRIDES.get(outlet_name, assign_outlet_type(location_type, review_count))
         store_tier = assign_store_tier(outlet_type, review_count)
         rows.append({
             "outlet_id": f"HVT-{i:03d}",

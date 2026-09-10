@@ -74,31 +74,58 @@ Master data lokasi toko.
 | store_tier | string | derived dari real | `flagship` / `standard` — probabilitas flagship naik kalau `outlet_type=destination_hub` atau `review_count` tinggi |
 | open_date | date | sintetis | Tanggal buka |
 
-**Rasional desain:** dari 44 outlet real Marugame, 34 memang mall (kata
-kunci mall di nama/alamat), 10 street-front — mengoreksi asumsi awal
+**Rasional desain:** dari 44 outlet real Marugame, 35 memang mall (kata
+kunci mall di nama/alamat), 9 street-front — mengoreksi asumsi awal
 "Marugame 100% mall-based": data real menunjukkan modelnya campuran, meski
-tetap mall-dominan. The Harvest yang real 26 dari 28 street-front, 2 di
-komplek ruko/plaza kecil — konsisten dengan narasi awal brand sebagai chain
-boutique/occasion-based.
+tetap mall-dominan. The Harvest yang real 28 dari 28 street-front —
+konsisten dengan narasi awal brand sebagai chain boutique/occasion-based.
+
+**QA pass (2026-09-10):** klasifikasi `location_type` awal (kata kunci mall
+di nama/alamat) sempat salah untuk 3 outlet, ditemukan lewat spot-check
+manual + verifikasi web search — bukan cuma dipercaya mentah-mentah dari
+heuristik:
+- **Marugame Udon Paris Van Java** sempat ke-tag `standalone_ruko` karena
+  alamat scrape-nya tidak menyebut kata "mall"/"plaza" — padahal PVJ adalah
+  salah satu mall terbesar & paling dikenal di Bandung. Diperbaiki jadi
+  `mall`, dan `outlet_type`-nya di-override manual jadi `destination_hub`
+  lewat `OUTLET_TYPE_OVERRIDES` di `generate_dummy_data.py` — `review_count`
+  outlet ini sendiri (417) di bawah ambang 500 sehingga otomatis akan jatuh
+  ke `transit_adjacent`, meleset dari skala mall-nya yang sebenarnya besar.
+  Ini contoh eksplisit di mana `review_count` per-outlet bisa meremehkan
+  skala mall aslinya kalau outlet baru dibuka di sana atau ulasannya belum
+  banyak menumpuk.
+- **The Harvest Cakes - Grand Wisata** dan **The Harvest Cakes - Graha
+  Famili** sempat ke-tag `mall` karena alamatnya mengandung kata "Walk"/
+  "Plaza" ("Ruko Fashion Walk", "Komplek Ruko Plaza Graha Famili") — padahal
+  keduanya komplek ruko biasa, bukan mall. Diperbaiki jadi `standalone_ruko`.
+
+Pelajarannya: heuristik kata kunci rentan false-positive kalau nama jalan/
+komplek kebetulan memuat kata seperti "Walk"/"Plaza", dan bisa false-negative
+kalau alamat singkat tidak menyebut nama mall sama sekali. `review_count`
+sebagai sinyal tambahan membantu, tapi juga bukan sempurna (kasus PVJ). Kalau
+menambah outlet baru ke `REAL_OUTLETS_MARUGAME`/`REAL_OUTLETS_HARVEST`,
+jangan percaya heuristik mentah-mentah — cek manual dulu, terutama untuk
+mall besar yang dikenal publik.
 
 **`outlet_type` — outlet bukan titik yang flat/seragam.** Diklasifikasi dari
 `location_type` REAL + `review_count` REAL (lihat `assign_outlet_type()` di
 `generate_dummy_data.py`) — bukan tebak-tebakan dari nama:
 
-- `destination_hub`: `location_type=mall` **dan** `review_count >= 500` —
-  mall yang benar-benar ramai secara riil (Grand Indonesia 1.506 ulasan,
-  Tunjungan Plaza 1.870, dst.). Menarik customer dari radius jauh & catchment
-  tidak simetris.
+- `destination_hub`: `location_type=mall` **dan** `review_count >= 500`
+  (atau di-override manual, lihat QA pass di atas) — mall yang benar-benar
+  ramai secara riil (Grand Indonesia 1.506 ulasan, Tunjungan Plaza 1.870,
+  dst.). Menarik customer dari radius jauh & catchment tidak simetris.
 - `transit_adjacent`: `location_type=mall` tapi `review_count < 500` — mall
   yang lebih kecil/sepi secara riil, pull-nya moderat.
 - `neighborhood`: `location_type=standalone_ruko` — catchment sempit &
   didominasi proximity ke rumah/kantor sekitarnya.
 
 Karena pembaginya `review_count` riil (bukan kata kunci nama yang bisa
-kosong), ketiga tipe muncul proporsional di data ini (Marugame: 17 hub / 17
-transit / 10 neighborhood; The Harvest: 0 hub / 2 transit / 26
-neighborhood) — tidak ada kategori yang kosong seperti versi data
-sebelumnya.
+kosong), ketiga tipe muncul proporsional untuk Marugame (18 hub / 17
+transit / 9 neighborhood). The Harvest 100% `neighborhood` (28/28) setelah
+QA pass di atas — bukan kekosongan kategori, tapi temuan nyata: sampel real
+brand ini memang murni street-front, tidak ada satupun yang benar-benar di
+dalam mall.
 
 `outlet_type` inilah yang menentukan bentuk & lebar catchment tiap outlet di
 `customer_origin_sample.csv` (lihat §5) dan dipakai untuk beda-kan
