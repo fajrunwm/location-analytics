@@ -7,7 +7,11 @@ Model:  P_ij = (A_j^alpha / D_ij^beta_j) / sum_k(A_k^alpha / D_ik^beta_k)
 
   P_ij   = probabilitas demand di grid cell i "tertarik" ke outlet j
   A_j    = attractiveness outlet j (luas outlet x tier x outlet_type multiplier)
-  D_ij   = jarak (km) antara grid cell i dan outlet j
+  D_ij   = jarak EFEKTIF (km) antara grid cell i dan outlet j — jarak lurus
+           (haversine) dikali circuity factor (kota x land use), BUKAN jarak
+           lurus mentah. Lihat ROAD_CIRCUITY_BY_CITY / LAND_USE_CIRCUITY_ADJ
+           dan SITE_SCORING_METHODOLOGY.md §Road-distance proxy untuk rasional
+           dan batasannya (ini masih proxy, bukan travel-time dari routing API).
   alpha  = 1.0     (elastisitas attractiveness)
   beta_j = per outlet_type, BUKAN satu angka global (lihat BETA_BY_OUTLET_TYPE
            di bawah) — outlet `destination_hub` (mis. flagship di Grand
@@ -86,6 +90,33 @@ INCOME_SPEND_MULTIPLIER = {
     "low": 0.6, "lower_middle": 0.8, "middle": 1.0, "upper_middle": 1.3, "high": 1.8,
 }
 
+# --- Road-distance proxy -----------------------------------------------
+# Straight-line (as-the-crow-flies) distance systematically understates real
+# travel distance/time in Indonesian metros — grid-locked roads, toll
+# detours, one-way systems, rivers. Until a routing API/OSRM is wired in,
+# approximate this with a circuity factor: effective_distance = straight_km
+# x city_factor x land_use_factor. Typical urban circuity indices are
+# ~1.2-1.4x; these are placeholder estimates, NOT fitted to real trip data.
+ROAD_CIRCUITY_BY_CITY = {
+    "Jakarta": 1.35,   # dense grid, toll detours, one-ways
+    "Bandung": 1.25,   # hillier but smaller/more direct grid
+    "Surabaya": 1.30,
+}
+# Adjustment on top of the city factor based on the ORIGIN cell's land use —
+# dense CBD/office grids add detour, residential streets tend more direct.
+LAND_USE_CIRCUITY_ADJ = {
+    "office": 1.10,
+    "commercial": 1.05,
+    "mixed": 1.00,
+    "residential": 0.95,
+}
+
+
+def effective_distance_km(straight_km, city, land_use_type):
+    city_factor = ROAD_CIRCUITY_BY_CITY.get(city, 1.3)
+    land_use_factor = LAND_USE_CIRCUITY_ADJ.get(land_use_type, 1.0)
+    return straight_km * city_factor * land_use_factor
+
 
 def haversine_km(lat1, lon1, lat2, lon2):
     R = 6371.0
@@ -134,8 +165,9 @@ def compute_huff_scores(outlets, grid):
             for _, cell in city_grid.iterrows():
                 weights = []
                 for _, o in city_outlets.iterrows():
-                    d = max(haversine_km(cell["centroid_lat"], cell["centroid_lon"],
-                                          o["latitude"], o["longitude"]), MIN_DIST_KM)
+                    straight_d = haversine_km(cell["centroid_lat"], cell["centroid_lon"],
+                                               o["latitude"], o["longitude"])
+                    d = max(effective_distance_km(straight_d, city, cell["land_use_type"]), MIN_DIST_KM)
                     w = (o["attractiveness"] ** ALPHA) / (d ** outlet_beta(o))
                     weights.append((o["outlet_id"], w))
 
@@ -211,8 +243,9 @@ def compute_cannibalization(outlets, grid, overlap_threshold=0.15):
             for _, cell in city_grid.iterrows():
                 weights = {}
                 for _, o in city_outlets.iterrows():
-                    d = max(haversine_km(cell["centroid_lat"], cell["centroid_lon"],
-                                          o["latitude"], o["longitude"]), MIN_DIST_KM)
+                    straight_d = haversine_km(cell["centroid_lat"], cell["centroid_lon"],
+                                               o["latitude"], o["longitude"])
+                    d = max(effective_distance_km(straight_d, city, cell["land_use_type"]), MIN_DIST_KM)
                     weights[o["outlet_id"]] = (o["attractiveness"] ** ALPHA) / (d ** outlet_beta(o))
                 total_w = sum(weights.values())
                 p_matrix.append({k: v / total_w for k, v in weights.items()})

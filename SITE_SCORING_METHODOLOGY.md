@@ -90,6 +90,29 @@ per outlet (dari `customer_origin_sample.csv`) dibandingkan dengan
 `expected_mean_km` asumsi `outlet_type`-nya, plus flag `reclassify_review`
 untuk outlet yang menyimpang signifikan. Lihat §Heterogeneous pull.
 
+## Road-distance proxy (bukan lagi jarak lurus mentah)
+
+`D_ij` sekarang adalah **jarak efektif**: haversine (garis lurus) dikali
+`circuity factor` — `ROAD_CIRCUITY_BY_CITY` (Jakarta 1.35x, Bandung 1.25x,
+Surabaya 1.30x, mencerminkan kepadatan grid jalan/toll detour tiap metro)
+dikali `LAND_USE_CIRCUITY_ADJ` (office/CBD 1.10x lebih berbelok, residential
+0.95x lebih langsung). Ini dipakai konsisten di `compute_huff_scores()` dan
+`compute_cannibalization()` lewat `effective_distance_km()`.
+
+**Kenapa ini penting:** di kota macet dengan grid jalan tidak beraturan
+(Jakarta/Bandung/Surabaya), jarak lurus 2km bisa berarti 5 menit atau 30
+menit tempuh tergantung rute. Tanpa koreksi ini, catchment terutama untuk
+outlet `neighborhood` (The Harvest residential) bisa jauh lebih optimis dari
+kenyataan — pelanggan sebenarnya menempuh jarak jalan yang jauh lebih
+panjang dari garis lurusnya.
+
+**Ini masih proxy, bukan solusi final** — nilai circuity factor di atas
+adalah *estimasi placeholder*, bukan hasil fit terhadap data trip riil.
+Upgrade berikutnya: ganti `effective_distance_km()` dengan travel-time dari
+routing engine (OSRM self-hosted atau API komersial) begitu data alamat/GPS
+pelanggan riil tersedia — lihat `customer_origin_sample.csv` sebagai titik
+mula validasi (bandingkan `distance_km` lurus vs travel-time riil di sana).
+
 ## Batasan penting (karena data masih dummy)
 
 - Grid demografi di-generate independen dari lokasi outlet (scatter acak per
@@ -99,13 +122,16 @@ untuk outlet yang menyimpang signifikan. Lihat §Heterogeneous pull.
   begitu ada data transaksi & alamat pelanggan riil, sebaiknya di-*calibrate*
   (fit beta per tipe terhadap actual catchment behavior, misal via regresi
   terhadap data visit riil), bukan cuma divalidasi seperti sekarang.
-- Model ini tidak memperhitungkan barrier fisik (macet, sungai, tol) —
-  jarak yang dipakai garis lurus (as-the-crow-flies), bukan travel time.
-  Upgrade lanjutan: ganti `D_ij` dengan travel-time dari routing API.
+- Circuity factor per kota/land-use di atas juga asumsi awal, belum di-fit
+  ke data travel-time riil — lihat §Road-distance proxy.
+- Model belum memperhitungkan barrier fisik spesifik (sungai, rel, area
+  macet spesifik jam tertentu) — circuity factor hanya rata-rata per
+  kota+land-use, bukan rute per-pasangan titik yang presisi.
 
 ## Cara pakai ulang
 ```bash
 python3 site_scoring_huff.py
 ```
-Ubah `ALPHA`, `BETA`, `TIER_MULTIPLIER`, atau `INCOME_SPEND_MULTIPLIER` di
-bagian atas file untuk skenario/kalibrasi lain.
+Ubah `ALPHA`, `BETA_BY_OUTLET_TYPE`, `TIER_MULTIPLIER`,
+`INCOME_SPEND_MULTIPLIER`, atau `ROAD_CIRCUITY_BY_CITY`/
+`LAND_USE_CIRCUITY_ADJ` di bagian atas file untuk skenario/kalibrasi lain.
