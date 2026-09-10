@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Outlet Intelligence Board</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+:root{
+  --bg:#F5F4F0; --surface:#FFFFFF; --surface-2:#EDEBE3;
+  --ink:#1B211F; --ink-muted:#5C655F; --border:#DBD9CE;
+  --accent:#1E6E62; --accent-soft:#DCEAE6; --accent-ink:#0F3D36;
+  --transit:#3E5C8A; --transit-soft:#DEE4EF;
+  --warn:#A9691F; --warn-soft:#F3E4D0; --warn-ink:#5C3B10;
+  --critical:#A13E32; --critical-soft:#F5DEDA;
+  --mono:"IBM Plex Mono", ui-monospace, monospace;
+  --sans:"IBM Plex Sans", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#12181A; --surface:#182422; --surface-2:#1E2B28;
+    --ink:#E7EDEA; --ink-muted:#9BAAA4; --border:#2A3634;
+    --accent:#4FB3A0; --accent-soft:#1D3A34; --accent-ink:#C9EEE5;
+    --transit:#8FADDD; --transit-soft:#232D40;
+    --warn:#D99A4E; --warn-soft:#3A2E1A; --warn-ink:#F0D2A5;
+    --critical:#E08579; --critical-soft:#3D211D;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#12181A; --surface:#182422; --surface-2:#1E2B28;
+  --ink:#E7EDEA; --ink-muted:#9BAAA4; --border:#2A3634;
+  --accent:#4FB3A0; --accent-soft:#1D3A34; --accent-ink:#C9EEE5;
+  --transit:#8FADDD; --transit-soft:#232D40;
+  --warn:#D99A4E; --warn-soft:#3A2E1A; --warn-ink:#F0D2A5;
+  --critical:#E08579; --critical-soft:#3D211D;
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans); font-size:14.5px; line-height:1.5}
+.wrap{max-width:1320px; margin:0 auto; padding:28px 24px 60px}
+
+header{display:flex; justify-content:space-between; align-items:flex-start; gap:20px; flex-wrap:wrap; margin-bottom:6px}
+header h1{font-size:22px; margin:0 0 4px; font-weight:700; letter-spacing:-0.01em}
+header p{margin:0; color:var(--ink-muted); font-size:13.5px; max-width:52ch}
+.kpi-row{display:flex; gap:10px; flex-wrap:wrap}
+.kpi{
+  background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:10px 14px; min-width:108px;
+}
+.kpi .v{font-family:var(--mono); font-size:19px; font-weight:600; font-variant-numeric:tabular-nums}
+.kpi .l{font-size:11px; color:var(--ink-muted); text-transform:uppercase; letter-spacing:.03em; margin-top:2px}
+
+.controls{
+  display:flex; gap:20px; flex-wrap:wrap; align-items:center; margin:20px 0 18px;
+  padding:14px 16px; background:var(--surface); border:1px solid var(--border); border-radius:8px;
+}
+.control-group{display:flex; gap:6px; align-items:center; flex-wrap:wrap}
+.control-group .label{font-family:var(--mono); font-size:11px; color:var(--ink-muted); text-transform:uppercase; letter-spacing:.03em; margin-right:4px}
+.chip-btn{
+  font-family:var(--mono); font-size:12px; padding:5px 11px; border-radius:14px; border:1px solid var(--border);
+  background:var(--bg); color:var(--ink-muted); cursor:pointer; display:inline-flex; align-items:center; gap:6px;
+  transition:all .12s;
+}
+.chip-btn .sw{width:8px; height:8px; border-radius:50%; background:currentColor}
+.chip-btn.on{background:var(--accent-soft); color:var(--accent-ink); border-color:var(--accent)}
+.chip-btn.on.transit{background:var(--transit-soft); color:var(--transit); border-color:var(--transit)}
+.chip-btn.on.warn{background:var(--warn-soft); color:var(--warn-ink); border-color:var(--warn)}
+label.toggle{font-family:var(--mono); font-size:12px; color:var(--ink-muted); display:flex; align-items:center; gap:6px; cursor:pointer}
+
+.layout{display:grid; grid-template-columns:1fr 300px; gap:20px; align-items:start}
+@media (max-width:900px){.layout{grid-template-columns:1fr}}
+
+.maps-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:14px}
+@media (max-width:760px){.maps-grid{grid-template-columns:1fr}}
+.map-card{background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:10px}
+.map-card .city-label{font-family:var(--mono); font-size:12px; font-weight:600; padding:2px 4px 8px}
+.map-card svg{width:100%; height:auto; display:block; cursor:default}
+.map-card svg circle, .map-card svg polygon.marker{cursor:pointer}
+
+.legend{display:flex; gap:16px; flex-wrap:wrap; margin-top:14px; font-size:12px; color:var(--ink-muted); align-items:center}
+.legend .item{display:flex; align-items:center; gap:6px}
+.legend svg{flex:none}
+
+aside{
+  position:sticky; top:20px; background:var(--surface); border:1px solid var(--border); border-radius:8px;
+  padding:18px; min-height:260px;
+}
+aside h2{font-size:14px; margin:0 0 12px}
+.detail-empty{color:var(--ink-muted); font-size:13px}
+.detail-id{font-family:var(--mono); font-size:12px; color:var(--ink-muted)}
+.detail-name{font-size:16px; font-weight:600; margin:2px 0 10px}
+.badge{font-family:var(--mono); font-size:11px; padding:2px 8px; border-radius:10px; display:inline-flex; align-items:center; gap:5px; font-weight:500}
+.badge.high{background:var(--accent-soft); color:var(--accent-ink)}
+.badge.medium{background:var(--transit-soft); color:var(--transit)}
+.badge.low{background:var(--warn-soft); color:var(--warn-ink)}
+.badge::before{content:""; width:6px; height:6px; border-radius:50%; background:currentColor}
+.detail-row{display:flex; justify-content:space-between; padding:8px 0; border-top:1px solid var(--border); font-size:13px}
+.detail-row .k{color:var(--ink-muted)}
+.detail-row .v{font-family:var(--mono); font-variant-numeric:tabular-nums}
+.range-bar{position:relative; height:6px; background:var(--surface-2); border-radius:3px; margin:10px 0 4px}
+.range-bar .fill{position:absolute; top:0; bottom:0; background:var(--accent); border-radius:3px}
+.range-bar .mid{position:absolute; top:-3px; width:2px; height:12px; background:var(--ink)}
+.range-labels{display:flex; justify-content:space-between; font-family:var(--mono); font-size:10.5px; color:var(--ink-muted)}
+.neighbor-link{
+  font-family:var(--mono); font-size:12.5px; color:var(--accent-ink); background:var(--accent-soft);
+  border:none; padding:6px 10px; border-radius:5px; cursor:pointer; margin-top:10px; width:100%; text-align:left;
+}
+
+table{width:100%; border-collapse:collapse; margin-top:22px; font-size:13px}
+th,td{text-align:left; padding:8px 10px; border-bottom:1px solid var(--border)}
+th{
+  font-family:var(--mono); font-size:10.5px; text-transform:uppercase; letter-spacing:.03em; color:var(--ink-muted);
+  cursor:pointer; user-select:none; white-space:nowrap;
+}
+th.num, td.num{text-align:right; font-variant-numeric:tabular-nums}
+th:hover{color:var(--ink)}
+tbody tr{cursor:pointer}
+tbody tr:hover{background:var(--surface-2)}
+tbody tr.selected{background:var(--accent-soft)}
+td code{font-family:var(--mono); font-size:12px}
+
+footer{margin-top:36px; padding-top:16px; border-top:1px solid var(--border); font-size:12px; color:var(--ink-muted); display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px}
+footer a{color:var(--ink-muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div>
+      <h1>Outlet Intelligence Board</h1>
+      <p>42 outlet Marugame Udon &amp; The Harvest — site score, cannibalization, dan confidence band dari <code>site_scoring_huff.py</code>. Data 100% sintetis (POC).</p>
+    </div>
+    <div class="kpi-row" id="kpiRow"></div>
+  </header>
+
+  <div class="controls">
+    <div class="control-group">
+      <span class="label">Brand</span>
+      <button class="chip-btn on" data-filter="brand" data-value="Marugame Udon"><span class="sw"></span>Marugame Udon</button>
+      <button class="chip-btn on" data-filter="brand" data-value="The Harvest"><span class="sw"></span>The Harvest</button>
+    </div>
+    <div class="control-group">
+      <span class="label">Outlet type</span>
+      <button class="chip-btn on" data-filter="type" data-value="destination_hub"><span class="sw"></span>hub</button>
+      <button class="chip-btn on transit" data-filter="type" data-value="transit_adjacent"><span class="sw"></span>transit</button>
+      <button class="chip-btn on warn" data-filter="type" data-value="neighborhood"><span class="sw"></span>neighborhood</button>
+    </div>
+    <label class="toggle"><input type="checkbox" id="whitespaceToggle"> tampilkan whitespace candidates</label>
+  </div>
+
+  <div class="layout">
+    <div>
+      <div class="maps-grid" id="mapsGrid"></div>
+      <div class="legend">
+        <span class="item"><svg width="14" height="14"><circle cx="7" cy="7" r="6" fill="var(--accent)"/></svg> Marugame · lingkaran</span>
+        <span class="item"><svg width="14" height="14"><polygon points="7,1 13,7 7,13 1,7" fill="var(--warn)"/></svg> The Harvest · diamond</span>
+        <span class="item"><svg width="14" height="14"><circle cx="7" cy="7" r="6" fill="var(--accent)"/></svg><svg width="14" height="14"><circle cx="7" cy="7" r="6" fill="var(--transit)"/></svg><svg width="14" height="14"><circle cx="7" cy="7" r="6" fill="var(--warn)"/></svg> warna = outlet_type (hub / transit / neighborhood)</span>
+        <span class="item">opacity pudar = confidence rendah</span>
+        <span class="item">ukuran = captured demand</span>
+        <span class="item"><svg width="14" height="14"><circle cx="7" cy="7" r="6" fill="none" stroke="var(--critical)" stroke-width="2" stroke-dasharray="2 2"/></svg> outlet terpilih</span>
+      </div>
+
+      <table id="outletTable">
+        <thead>
+          <tr>
+            <th data-key="outlet_id">Outlet</th>
+            <th data-key="brand">Brand</th>
+            <th data-key="city">Kota</th>
+            <th data-key="outlet_type">Tipe</th>
+            <th class="num" data-key="estimated_captured_demand">Captured demand</th>
+            <th class="num" data-key="market_share_pct">Share%</th>
+            <th data-key="confidence_label">Confidence</th>
+            <th class="num" data-key="total_demand_at_risk_pct">Risk%</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </div>
+
+    <aside id="detailPanel">
+      <h2>Detail outlet</h2>
+      <div class="detail-empty" id="detailContent">Klik outlet di peta atau tabel untuk lihat detail site score, confidence, dan cannibalization-nya.</div>
+    </aside>
+  </div>
+
+  <footer>
+    <span>Location Analytics POC — data sintetis, bukan untuk keputusan bisnis nyata.</span>
+    <span><a href="https://github.com/fajrunwm/location-analytics" target="_blank" rel="noopener">Repo &amp; source →</a></span>
+  </footer>
+</div>
+
+<script type="application/json" id="dashboard-data">
+{"outlets": [{"outlet_id": "MRG-001", "brand": "Marugame Udon", "outlet_name": "Marugame Udon Central Park", "city": "Bandung", "district": "Bandung Wetan", "outlet_type": "destination_hub", "location_type": "mall", "store_tier": "standard", "latitude": -6.903428, "longitude": 107.616852, "gross_floor_area_sqm": 293, "estimated_captured_demand": 96859.48125002511, "market_share_pct": 26.8, "estimated_captured_demand_p10": 95577.8, "estimated_captured_demand_p50": 96612.7, "estimated_captured_demand_p90": 98328.3, "coefficient_of_variation": 0.012, "confidence_label": "high", "n_contested_neighbors": 5.0, "total_demand_at_risk_pct": 206.1, "most_threatening_neighbor": "MRG-003", "most_threatening_neighbor_risk_pct": 85.3}, {"outlet_id": "MRG-002", "brand": "Marugame Udon", "outlet_name": "Marugame Udon Grand Indonesia", "city": "Bandung", "district": "Buah Batu", "outlet_type": "destination_hub", "location_type": "mall", "store_tier": "standard", "latitude": -6.908582, "longitude": 107.632555, "gross_floor_area_sqm": 126, "estimated_captured_demand": 48499.66168181906, "market_share_pct": 13.4, "estimated_captured_demand_p10": 48056.7, "estimated_captured_demand_p50": 48483.3, "estimated_captured_demand_p90": 49102.0, "coefficient_of_variation": 0.009, "confidence_label": "high", "n_contested_neighbors": 4.0, "total_demand_at_risk_pct": 109.7, "most_threatening_neighbor": "MRG-001", "most_threatening_neighbor_risk_pct": 47.9}, {"outlet_id": "MRG-003", "brand": "Marugame Udon", "outlet_name": "Marugame Udon Kota Kasablanka", "city": "Bandung", "district": "Bandung Wetan", "outlet_type": "destination_hub", "location_type": "mall", "store_tier": "standard", "latitude": -6.899193, "longitude": 107.563288, "gross_floor_area_sqm": 314, "estimated_captured_demand": 90618.67346552468, "market_share_pct": 25.1, "estimated_captured_demand_p10": 89215.8, "estimated_captured_demand_p50": 90250.9, "estimated_captured_demand_p90": 92569.2, "coefficient_of_variation": 0.017, "confidence_label": "high", "n_contested_neighbors": 5.0, "total_demand_at_risk_pct": 173.4, "most_threatening_neighbor": "MRG-001", "most_threatening_neighbor_risk_pct": 84.5}, {"outlet_id": "MRG-004", "brand": "Marugame Udon", "outlet_name": "Marugame Udon Senayan City", "city": "Jakarta", "district": "Jakarta Pusat", "outlet_type": "destination_hub", "location_type": "mall", "store_tier": "standard", "latitude": -6.225784, "longitude": 106.907609, "gross_floor_area_sqm": 217, "estimated_captured_demand": 95057.71482993406, "market_share_pct": 26.0, "estimated_captured_demand_p10": 91998.4, "estimated_captured_demand_p50": 95215.8, "estimated_captured_demand_p90": 97425.6, "coefficient_of_variation": 0.022, "confidence_label": "high", "n_contested_neighbors": 4.0, "total_demand_at_risk_pct": 178.5, "most_threatening_neighbor": "MRG-010", "most_threatening_neighbor_risk_pct": 89.5}, {"outlet_id": "MRG-005", "brand": "Marugame Udon", "outlet_name": "Marugame Udon Pondok Indah Mall", "city": "Surabaya", "district": "Sukolilo", "outlet_type": "destination_hub", "location_type": "mall", "store_tier": "standard", "latitude": -7.336146, "longitude": 112.781847, "gross_floor_area_sqm": 151, "estimated_captured_demand": 65057.349452022194, "market_share_pct": 18.7, "estimated_captured_demand_p10": 63490.9, "estimated_captured_demand_p50": 65114.1, "estimated_captured_demand_p90": 66246.8, "coefficient_of_variation": 0.016, "confidence_label": "high", "n_contested_neighbors": 4.0, "total_demand_at_risk_pct": 143.5, "most_threatening_neighbor": "MRG-015", "most_threatening_neighbor_risk_pct": 68.4}, {"outlet_id": "MRG-006", "brand": "Marugame Udon", "outlet_name": "Marugame Udon Summarecon Mall", "city": "Bandung", "district": "Buah Batu", "outlet_type": "transit_adjacent", "location_type": "mall", "store_tier": "standard", "latitude": -6.973106, "longitude": 107.558328, "gross_floor_area_sqm": 137, "estimated_captured_demand": 12947.104015768047, "market_share_pct": 3.6, "estimated_captured_demand_p10": 9145.1, "estimated_captured_demand_p50": 13053.6, "estimated_captured_demand_p90": 16259.5, "coefficient_of_variation": 0.237, "confidence_label": "medium", "n_contested_neighbors": 2.0, "total_demand_at_risk_pct": 44.8, "most_threatening_neighbor": "MRG-001", "most_threatening_neighbor_risk_pct": 22.4}, {"outlet_id": "MRG-007", "brand": "Marugame Udon", "outlet_name": "Marugame Udon Living World", "city": "Jakarta", "district": "Jakarta Pusat", "outlet_type": "neighborhood", "location_type": "mall", "store_tier": "standard", "latitude": -6.166874, "longitude": 106.922551, "gross_floor_area_sqm": 236, "estimated_captured_demand": 6654.154997587445, "market_share_pct": 1.8, "estimated_captured_demand_p10": 4108.1, "estimated_captured_demand_p50": 6664.3, "estimated_captured_demand_p90": 9565.4, "coefficient_of_variation": 0.298, "confidence_label": "low", "n_contested_neighbors": 3.0, "total_demand_at_risk_pct": 128.7, "most_threatening_neighbor": "MRG-004", "most_threatening_neighbor_risk_pct": 42.9}, {"outlet_id": "MRG-008", "brand": "Marugame Udon", "outlet_name": "Marugame Udon Trans Studio Mall", "city": "Jakarta", "district": "Jakarta Pusat", "outlet_type": "destination_hub", "location_type": "mall", "store_tier": "standard", "latitude": -6.134997, "longitude": 106.83765, "gross_floor_area_sqm": 275, "estimated_captured_demand": 125118.33762776542, "market_share_pct": 34.3, "estimated_captured_demand_p10": 121575.7, "estimated_captured_demand_p50": 125149.1, "estimated_captured_demand_p90": 128097.6, "coefficient_of_variation": 0.02, "confidence_label": "high", "n_contested_neighbors": 4.0, "total_demand_at_risk_pct": 171.2, "most_threatening_neighbor": "MRG-010", "most_threatening_neighbor_risk_pct": 96.3}, {"outlet_id": "MRG-009", "brand": "Marugame Udon", "outlet_name": "Marugame Udon Ciputra World", "city": "Bandung", "district": "Buah Batu", "outlet_type": "destination_hub", "location_type": "mall", "store_tier": "standard", "latitude": -6.89248, "longitude": 107.592444, "gross_floor_area_sqm": 176, "estimated_captured_demand": 57367.47412260396, "market_share_pct": 15.9, "estimated_captured_demand_p10": 56704.8, "estimated_captured_demand_p50": 57257.1, "estimated_captured_demand_p90": 58144.1, "coefficient_of_variation": 0.01, "confidence_label": "high", "n_contested_neighbors": 4.0, "total_demand_at_risk_pct": 117.8, "most_threatening_neighbor": "MRG-001", "most_threatening_neighbor_risk_pct": 52.6}, {"outlet_id": "MRG-010", "brand": "Marugame Udon", "outlet_name": "Marugame Udon Pakuwon Mall", "city": "Jakarta", "district": "Jakarta Timur", "outlet_type": "destination_hub", "location_type": "mall", "store_tier": "standard", "latitude": -6.182169, "longitude": 106.833917, "gross_floor_area_sqm": 265, "estimated_captured_demand": 124648.13188117478, "market_share_pct": 34.1, "estimated_captured_demand_p10": 121101.4, "estimated_captured_demand_p50": 124782.1, "estimated_captured_demand_p90": 127342.5, "coefficient_of_variation": 0.02, "confidence_label": "high", "n_contested_neighbors": 4.0, "total_demand_at_risk_pct": 184.4, "most_threatening_neighbor": "MRG-008", "most_threatening_neighbor_risk_pct": 98.6}, {"outlet_id": "MRG-011", "brand": "Marugame Udon", "outlet_name": "Marugame Udon Tunjungan Plaza", "city": "Bandung", "district": "Sukajadi", "outlet_type": "destination_hub", "location_type": "mall", "store_tier": "standard", "latitude": -6.946484, "longitude": 107.66815, "gross_floor_area_sqm": 155, "estimated_captured_demand": 55281.70546425918, "market_share_pct": 15.3, "estimated_captured_demand_p10": 54527.6, "estimated_captured_demand_p50": 55315.3, "estimated_captured_demand_p90": 56263.8, "coefficient_of_variation": 0.014, "confidence_label": "high", "n_contested_neighbors": 4.0, "total_demand_at_risk_pct": 141.8, "most_threatening_neighbor": "MRG-001", "most_threatening_neighbor_risk_pct": 68.3}, {"outlet_id": "MRG-012", "brand": "Marugame Udon", "outlet_name": "Marugame Udon Paris Van Java", "city": "Jakarta", "district": "Tangerang", "outlet_type": "neighborhood", "location_type": "mall", "store_tier": "standard", "latitude": -6.147879, "longitude": 106.718631, "gross_floor_area_sqm": 155, "estimated_captured_demand": 7374.178388298781, "market_share_pct": 2.0, "estimated_captured_demand_p10": 4875.0, "estimated_captured_demand_p50": 7290.1, "estimated_captured_demand_p90": 10186.8, "coefficient_of_variation": 0.273, "confidence_label": "low", "n_contested_neighbors": 3.0, "total_demand_at_risk_pct": 100.6, "most_threatening_neighbor": "MRG-008", "most_threatening_neighbor_risk_pct": 42.0}, {"outlet_id": "MRG-013", "brand": "Marugame Udon", "outlet_name": "Marugame Udon Cihampelas Walk", "city": "Jakarta", "district": "Bekasi", "outlet_type": "neighborhood", "location_type": "mall", "store_tier": "standard", "latitude": -6.186423, "longitude": 106.872931, "gross_floor_area_sqm": 218, "estimated_captured_demand": 2837.182781749699, "market_share_pct": 0.8, "estimated_captured_demand_p10": 1580.7, "estimated_captured_demand_p50": 2805.9, "estimated_captured_demand_p90": 4913.6, "coefficient_of_variation": 0.45, "confidence_label": "low", "n_contested_neighbors": null, "total_demand_at_risk_pct": null, "most_threatening_neighbor": null, "most_threatening_neighbor_risk_pct": null}, {"outlet_id": "MRG-014", "brand": "Marugame Udon", "outlet_name": "Marugame Udon AEON Mall", "city": "Surabaya", "district": "Gubeng", "outlet_type": "neighborhood", "location_type": "mall", "store_tier": "standard", "latitude": -7.271712, "longitude": 112.830068, "gross_floor_area_sqm": 149, "estimated_captured_demand": 9391.162057958269, "market_share_pct": 2.7, "estimated_captured_demand_p10": 7528.7, "estimated_captured_demand_p50": 9078.8, "estimated_captured_demand_p90": 12072.3, "coefficient_of_variation": 0.183, "confidence_label": "medium", "n_contested_neighbors": 3.0, "total_demand_at_risk_pct": 74.7, "most_threatening_neighbor": "MRG-015", "most_threatening_neighbor_risk_pct": 29.0}, {"outlet_id": "MRG-015", "brand": "Marugame Udon", "outlet_name": "Marugame Udon Bintaro Xchange", "city": "Surabaya", "district": "Gubeng", "outlet_type": "destination_hub", "location_type": "mall", "store_tier": "flagship", "latitude": -7.196787, "longitude": 112.734943, "gross_floor_area_sqm": 304, "estimated_captured_demand": 159908.8563847622, "market_share_pct": 45.9, "estimated_captured_demand_p10": 157806.0, "estimated_captured_demand_p50": 159898.6, "estimated_captured_demand_p90": 161430.6, "coefficient_of_variation": 0.009, "confidence_label": "high", "n_contested_neighbors": 4.0, "total_demand_at_risk_pct": 129.3, "most_threatening_neighbor": "MRG-016", "most_threatening_neighbor_risk_pct": 90.7}, {"outlet_id": "MRG-016", "brand": "Marugame Udon", "outlet_name": "Marugame Udon Gandaria City", "city": "Surabaya", "district": "Sukolilo", "outlet_type": "destination_hub", "location_type": "mall", "store_tier": "standard", "latitude": -7.209751, "longitude": 112.813032, "gross_floor_area_sqm": 275, "estimated_captured_demand": 108909.62512248826, "market_share_pct": 31.2, "estimated_captured_demand_p10": 106966.2, "estimated_captured_demand_p50": 108808.5, "estimated_captured_demand_p90": 110434.2, "coefficient_of_variation": 0.014, "confidence_label": "high", "n_contested_neighbors": 3.0, "total_demand_at_risk_pct": 134.8, "most_threatening_neighbor": "MRG-015", "most_threatening_neighbor_risk_pct": 95.3}, {"outlet_id": "MRG-017", "brand": "Marugame Udon", "outlet_name": "Marugame Udon PIK Avenue", "city": "Jakarta", "district": "Jakarta Selatan", "outlet_type": "neighborhood", "location_type": "mall", "store_tier": "standard", "latitude": -6.227573, "longitude": 106.908384, "gross_floor_area_sqm": 245, "estimated_captured_demand": 3534.399493489895, "market_share_pct": 1.0, "estimated_captured_demand_p10": 1987.3, "estimated_captured_demand_p50": 3510.3, "estimated_captured_demand_p90": 5950.4, "coefficient_of_variation": 0.428, "confidence_label": "low", "n_contested_neighbors": null, "total_demand_at_risk_pct": null, "most_threatening_neighbor": null, "most_threatening_neighbor_risk_pct": null}, {"outlet_id": "MRG-018", "brand": "Marugame Udon", "outlet_name": "Marugame Udon Lippo Mall Puri", "city": "Surabaya", "district": "Gubeng", "outlet_type": "neighborhood", "location_type": "mall", "store_tier": "standard", "latitude": -7.34579, "longitude": 112.80225, "gross_floor_area_sqm": 265, "estimated_captured_demand": 5316.206982769167, "market_share_pct": 1.5, "estimated_captured_demand_p10": 3305.1, "estimated_captured_demand_p50": 5013.1, "estimated_captured_demand_p90": 7891.3, "coefficient_of_variation": 0.33, "confidence_label": "low", "n_contested_neighbors": 2.0, "total_demand_at_risk_pct": 37.5, "most_threatening_neighbor": "MRG-005", "most_threatening_neighbor_risk_pct": 27.9}, {"outlet_id": "HVT-019", "brand": "The Harvest", "outlet_name": "The Harvest Boutique 01", "city": "Bandung", "district": "Cidadap", "outlet_type": "neighborhood", "location_type": "standalone_ruko", "store_tier": "flagship", "latitude": -6.928722, "longitude": 107.700296, "gross_floor_area_sqm": 81, "estimated_captured_demand": 39304.66942741768, "market_share_pct": 10.9, "estimated_captured_demand_p10": 33667.2, "estimated_captured_demand_p50": 39915.3, "estimated_captured_demand_p90": 44713.6, "coefficient_of_variation": 0.12, "confidence_label": "high", "n_contested_neighbors": 3.0, "total_demand_at_risk_pct": 71.6, "most_threatening_neighbor": "HVT-035", "most_threatening_neighbor_risk_pct": 34.5}, {"outlet_id": "HVT-020", "brand": "The Harvest", "outlet_name": "The Harvest Boutique 02", "city": "Jakarta", "district": "Jakarta Timur", "outlet_type": "neighborhood", "location_type": "standalone_ruko", "store_tier": "standard", "latitude": -6.236844, "longitude": 106.969472, "gross_floor_area_sqm": 111, "estimated_captured_demand": 6803.628631561629, "market_share_pct": 1.9, "estimated_captured_demand_p10": 4392.7, "estimated_captured_demand_p50": 7091.3, "estimated_captured_demand_p90": 10294.9, "coefficient_of_variation": 0.36, "confidence_label": "low", "n_contested_neighbors": 2.0, "total_demand_at_risk_pct": 55.5, "most_threatening_neighbor": "HVT-029", "most_threatening_neighbor_risk_pct": 45.7}, {"outlet_id": "HVT-021", "brand": "The Harvest", "outlet_name": "The Harvest Counter 03", "city": "Jakarta", "district": "Jakarta Timur", "outlet_type": "neighborhood", "location_type": "mall", "store_tier": "standard", "latitude": -6.128403, "longitude": 106.930638, "gross_floor_area_sqm": 35, "estimated_captured_demand": 1489.780544050273, "market_share_pct": 0.4, "estimated_captured_demand_p10": 936.0, "estimated_captured_demand_p50": 1529.9, "estimated_captured_demand_p90": 2348.4, "coefficient_of_variation": 0.396, "confidence_label": "low", "n_contested_neighbors": null, "total_demand_at_risk_pct": null, "most_threatening_neighbor": null, "most_threatening_neighbor_risk_pct": null}, {"outlet_id": "HVT-022", "brand": "The Harvest", "outlet_name": "The Harvest Counter 04", "city": "Bandung", "district": "Buah Batu", "outlet_type": "neighborhood", "location_type": "mall", "store_tier": "standard", "latitude": -6.908517, "longitude": 107.639174, "gross_floor_area_sqm": 77, "estimated_captured_demand": 53625.0245706261, "market_share_pct": 14.8, "estimated_captured_demand_p10": 46965.4, "estimated_captured_demand_p50": 54138.7, "estimated_captured_demand_p90": 59539.9, "coefficient_of_variation": 0.094, "confidence_label": "high", "n_contested_neighbors": 4.0, "total_demand_at_risk_pct": 128.0, "most_threatening_neighbor": "HVT-038", "most_threatening_neighbor_risk_pct": 57.9}, {"outlet_id": "HVT-023", "brand": "The Harvest", "outlet_name": "The Harvest Boutique 05", "city": "Jakarta", "district": "Depok", "outlet_type": "neighborhood", "location_type": "standalone_ruko", "store_tier": "standard", "latitude": -6.232051, "longitude": 106.90013, "gross_floor_area_sqm": 84, "estimated_captured_demand": 6085.890462257445, "market_share_pct": 1.7, "estimated_captured_demand_p10": 3879.2, "estimated_captured_demand_p50": 6347.0, "estimated_captured_demand_p90": 9366.2, "coefficient_of_variation": 0.371, "confidence_label": "low", "n_contested_neighbors": 1.0, "total_demand_at_risk_pct": 23.5, "most_threatening_neighbor": "HVT-029", "most_threatening_neighbor_risk_pct": 23.5}, {"outlet_id": "HVT-024", "brand": "The Harvest", "outlet_name": "The Harvest Boutique 06", "city": "Jakarta", "district": "Jakarta Pusat", "outlet_type": "transit_adjacent", "location_type": "standalone_ruko", "store_tier": "standard", "latitude": -6.15962, "longitude": 106.750616, "gross_floor_area_sqm": 153, "estimated_captured_demand": 78122.17766077552, "market_share_pct": 21.4, "estimated_captured_demand_p10": 74635.4, "estimated_captured_demand_p50": 78100.0, "estimated_captured_demand_p90": 80520.2, "coefficient_of_variation": 0.038, "confidence_label": "high", "n_contested_neighbors": 8.0, "total_demand_at_risk_pct": 51.0, "most_threatening_neighbor": "HVT-033", "most_threatening_neighbor_risk_pct": 17.5}, {"outlet_id": "HVT-025", "brand": "The Harvest", "outlet_name": "The Harvest Boutique 07", "city": "Surabaya", "district": "Wonokromo", "outlet_type": "neighborhood", "location_type": "standalone_ruko", "store_tier": "flagship", "latitude": -7.224144, "longitude": 112.765026, "gross_floor_area_sqm": 91, "estimated_captured_demand": 65987.14851201739, "market_share_pct": 18.9, "estimated_captured_demand_p10": 64558.8, "estimated_captured_demand_p50": 65861.6, "estimated_captured_demand_p90": 67282.7, "coefficient_of_variation": 0.015, "confidence_label": "high", "n_contested_neighbors": 4.0, "total_demand_at_risk_pct": 154.3, "most_threatening_neighbor": "HVT-034", "most_threatening_neighbor_risk_pct": 75.7}, {"outlet_id": "HVT-026", "brand": "The Harvest", "outlet_name": "The Harvest Counter 08", "city": "Jakarta", "district": "Jakarta Selatan", "outlet_type": "neighborhood", "location_type": "mall", "store_tier": "standard", "latitude": -6.2556, "longitude": 106.701717, "gross_floor_area_sqm": 83, "estimated_captured_demand": 5786.662473274528, "market_share_pct": 1.6, "estimated_captured_demand_p10": 4195.5, "estimated_captured_demand_p50": 5991.9, "estimated_captured_demand_p90": 8069.0, "coefficient_of_variation": 0.287, "confidence_label": "low", "n_contested_neighbors": 3.0, "total_demand_at_risk_pct": 43.6, "most_threatening_neighbor": "HVT-031", "most_threatening_neighbor_risk_pct": 32.4}, {"outlet_id": "HVT-027", "brand": "The Harvest", "outlet_name": "The Harvest Boutique 09", "city": "Jakarta", "district": "Bekasi", "outlet_type": "transit_adjacent", "location_type": "standalone_ruko", "store_tier": "flagship", "latitude": -6.098712, "longitude": 106.87127, "gross_floor_area_sqm": 109, "estimated_captured_demand": 43535.29141552279, "market_share_pct": 11.9, "estimated_captured_demand_p10": 40297.5, "estimated_captured_demand_p50": 43300.6, "estimated_captured_demand_p90": 45665.3, "coefficient_of_variation": 0.055, "confidence_label": "high", "n_contested_neighbors": 5.0, "total_demand_at_risk_pct": 50.1, "most_threatening_neighbor": "HVT-037", "most_threatening_neighbor_risk_pct": 18.9}, {"outlet_id": "HVT-028", "brand": "The Harvest", "outlet_name": "The Harvest Boutique 10", "city": "Surabaya", "district": "Sukolilo", "outlet_type": "neighborhood", "location_type": "standalone_ruko", "store_tier": "standard", "latitude": -7.164048, "longitude": 112.730887, "gross_floor_area_sqm": 122, "estimated_captured_demand": 60570.78530077852, "market_share_pct": 17.4, "estimated_captured_demand_p10": 60072.4, "estimated_captured_demand_p50": 60523.7, "estimated_captured_demand_p90": 61096.4, "coefficient_of_variation": 0.006, "confidence_label": "high", "n_contested_neighbors": 3.0, "total_demand_at_risk_pct": 99.0, "most_threatening_neighbor": "HVT-034", "most_threatening_neighbor_risk_pct": 40.8}, {"outlet_id": "HVT-029", "brand": "The Harvest", "outlet_name": "The Harvest Boutique 11", "city": "Jakarta", "district": "Tangerang", "outlet_type": "transit_adjacent", "location_type": "standalone_ruko", "store_tier": "flagship", "latitude": -6.181619, "longitude": 106.916628, "gross_floor_area_sqm": 134, "estimated_captured_demand": 65026.35212835367, "market_share_pct": 17.8, "estimated_captured_demand_p10": 59946.4, "estimated_captured_demand_p50": 64689.6, "estimated_captured_demand_p90": 68459.2, "coefficient_of_variation": 0.059, "confidence_label": "high", "n_contested_neighbors": 9.0, "total_demand_at_risk_pct": 78.5, "most_threatening_neighbor": "HVT-042", "most_threatening_neighbor_risk_pct": 37.4}, {"outlet_id": "HVT-030", "brand": "The Harvest", "outlet_name": "The Harvest Boutique 12", "city": "Jakarta", "district": "Jakarta Barat", "outlet_type": "transit_adjacent", "location_type": "standalone_ruko", "store_tier": "flagship", "latitude": -6.083677, "longitude": 106.928352, "gross_floor_area_sqm": 68, "estimated_captured_demand": 19499.91397089385, "market_share_pct": 5.3, "estimated_captured_demand_p10": 17404.3, "estimated_captured_demand_p50": 19376.3, "estimated_captured_demand_p90": 20861.7, "coefficient_of_variation": 0.076, "confidence_label": "high", "n_contested_neighbors": 2.0, "total_demand_at_risk_pct": 16.4, "most_threatening_neighbor": "HVT-042", "most_threatening_neighbor_risk_pct": 12.0}, {"outlet_id": "HVT-031", "brand": "The Harvest", "outlet_name": "The Harvest Boutique 13", "city": "Jakarta", "district": "Jakarta Pusat", "outlet_type": "neighborhood", "location_type": "standalone_ruko", "store_tier": "flagship", "latitude": -6.275508, "longitude": 106.702243, "gross_floor_area_sqm": 134, "estimated_captured_demand": 13811.887079623908, "market_share_pct": 3.8, "estimated_captured_demand_p10": 10957.4, "estimated_captured_demand_p50": 14179.0, "estimated_captured_demand_p90": 17861.3, "coefficient_of_variation": 0.224, "confidence_label": "medium", "n_contested_neighbors": 3.0, "total_demand_at_risk_pct": 14.9, "most_threatening_neighbor": "HVT-033", "most_threatening_neighbor_risk_pct": 7.8}, {"outlet_id": "HVT-032", "brand": "The Harvest", "outlet_name": "The Harvest Counter 14", "city": "Surabaya", "district": "Rungkut", "outlet_type": "neighborhood", "location_type": "mall", "store_tier": "standard", "latitude": -7.305261, "longitude": 112.741716, "gross_floor_area_sqm": 83, "estimated_captured_demand": 87480.74053229422, "market_share_pct": 25.1, "estimated_captured_demand_p10": 84340.7, "estimated_captured_demand_p50": 87787.0, "estimated_captured_demand_p90": 90988.9, "coefficient_of_variation": 0.028, "confidence_label": "high", "n_contested_neighbors": 4.0, "total_demand_at_risk_pct": 80.8, "most_threatening_neighbor": "HVT-025", "most_threatening_neighbor_risk_pct": 32.0}, {"outlet_id": "HVT-033", "brand": "The Harvest", "outlet_name": "The Harvest Counter 15", "city": "Jakarta", "district": "Jakarta Utara", "outlet_type": "transit_adjacent", "location_type": "mall", "store_tier": "standard", "latitude": -6.258075, "longitude": 106.726979, "gross_floor_area_sqm": 57, "estimated_captured_demand": 31933.526611330613, "market_share_pct": 8.7, "estimated_captured_demand_p10": 29150.5, "estimated_captured_demand_p50": 31913.2, "estimated_captured_demand_p90": 33453.3, "coefficient_of_variation": 0.059, "confidence_label": "high", "n_contested_neighbors": 4.0, "total_demand_at_risk_pct": 60.3, "most_threatening_neighbor": "HVT-024", "most_threatening_neighbor_risk_pct": 47.8}, {"outlet_id": "HVT-034", "brand": "The Harvest", "outlet_name": "The Harvest Boutique 16", "city": "Surabaya", "district": "Sukolilo", "outlet_type": "neighborhood", "location_type": "standalone_ruko", "store_tier": "standard", "latitude": -7.202517, "longitude": 112.788386, "gross_floor_area_sqm": 163, "estimated_captured_demand": 85725.97518793945, "market_share_pct": 24.6, "estimated_captured_demand_p10": 83397.9, "estimated_captured_demand_p50": 85523.6, "estimated_captured_demand_p90": 87791.5, "coefficient_of_variation": 0.019, "confidence_label": "high", "n_contested_neighbors": 4.0, "total_demand_at_risk_pct": 103.5, "most_threatening_neighbor": "HVT-025", "most_threatening_neighbor_risk_pct": 58.7}, {"outlet_id": "HVT-035", "brand": "The Harvest", "outlet_name": "The Harvest Counter 17", "city": "Bandung", "district": "Sukajadi", "outlet_type": "transit_adjacent", "location_type": "mall", "store_tier": "standard", "latitude": -6.945395, "longitude": 107.680565, "gross_floor_area_sqm": 41, "estimated_captured_demand": 99726.83624238551, "market_share_pct": 27.6, "estimated_captured_demand_p10": 68680.8, "estimated_captured_demand_p50": 96274.4, "estimated_captured_demand_p90": 132880.1, "coefficient_of_variation": 0.261, "confidence_label": "low", "n_contested_neighbors": 4.0, "total_demand_at_risk_pct": 166.9, "most_threatening_neighbor": "HVT-038", "most_threatening_neighbor_risk_pct": 86.5}, {"outlet_id": "HVT-036", "brand": "The Harvest", "outlet_name": "The Harvest Counter 18", "city": "Jakarta", "district": "Jakarta Utara", "outlet_type": "neighborhood", "location_type": "mall", "store_tier": "standard", "latitude": -6.332313, "longitude": 106.819962, "gross_floor_area_sqm": 51, "estimated_captured_demand": 6579.071534900691, "market_share_pct": 1.8, "estimated_captured_demand_p10": 4590.6, "estimated_captured_demand_p50": 6860.0, "estimated_captured_demand_p90": 9246.6, "coefficient_of_variation": 0.274, "confidence_label": "low", "n_contested_neighbors": 1.0, "total_demand_at_risk_pct": 0.9, "most_threatening_neighbor": "HVT-029", "most_threatening_neighbor_risk_pct": 0.9}, {"outlet_id": "HVT-037", "brand": "The Harvest", "outlet_name": "The Harvest Counter 19", "city": "Jakarta", "district": "Jakarta Utara", "outlet_type": "transit_adjacent", "location_type": "mall", "store_tier": "standard", "latitude": -6.10474, "longitude": 106.827887, "gross_floor_area_sqm": 63, "estimated_captured_demand": 27148.612567722645, "market_share_pct": 7.4, "estimated_captured_demand_p10": 26178.5, "estimated_captured_demand_p50": 27152.3, "estimated_captured_demand_p90": 27843.7, "coefficient_of_variation": 0.03, "confidence_label": "high", "n_contested_neighbors": 3.0, "total_demand_at_risk_pct": 65.7, "most_threatening_neighbor": "HVT-027", "most_threatening_neighbor_risk_pct": 44.3}, {"outlet_id": "HVT-038", "brand": "The Harvest", "outlet_name": "The Harvest Boutique 20", "city": "Bandung", "district": "Bandung Wetan", "outlet_type": "neighborhood", "location_type": "standalone_ruko", "store_tier": "flagship", "latitude": -6.927698, "longitude": 107.647663, "gross_floor_area_sqm": 134, "estimated_captured_demand": 98071.2514609727, "market_share_pct": 27.1, "estimated_captured_demand_p10": 83831.8, "estimated_captured_demand_p50": 100117.9, "estimated_captured_demand_p90": 111663.9, "coefficient_of_variation": 0.117, "confidence_label": "high", "n_contested_neighbors": 4.0, "total_demand_at_risk_pct": 149.0, "most_threatening_neighbor": "HVT-035", "most_threatening_neighbor_risk_pct": 79.3}, {"outlet_id": "HVT-039", "brand": "The Harvest", "outlet_name": "The Harvest Boutique 21", "city": "Jakarta", "district": "Jakarta Selatan", "outlet_type": "neighborhood", "location_type": "standalone_ruko", "store_tier": "standard", "latitude": -6.183874, "longitude": 106.823593, "gross_floor_area_sqm": 86, "estimated_captured_demand": 6045.727270994464, "market_share_pct": 1.7, "estimated_captured_demand_p10": 3746.0, "estimated_captured_demand_p50": 6334.7, "estimated_captured_demand_p90": 9494.9, "coefficient_of_variation": 0.394, "confidence_label": "low", "n_contested_neighbors": 2.0, "total_demand_at_risk_pct": 55.6, "most_threatening_neighbor": "HVT-024", "most_threatening_neighbor_risk_pct": 32.6}, {"outlet_id": "HVT-040", "brand": "The Harvest", "outlet_name": "The Harvest Boutique 22", "city": "Bandung", "district": "Coblong", "outlet_type": "neighborhood", "location_type": "standalone_ruko", "store_tier": "standard", "latitude": -6.937187, "longitude": 107.568905, "gross_floor_area_sqm": 90, "estimated_captured_demand": 70846.318298598, "market_share_pct": 19.6, "estimated_captured_demand_p10": 64386.0, "estimated_captured_demand_p50": 71360.1, "estimated_captured_demand_p90": 76768.7, "coefficient_of_variation": 0.069, "confidence_label": "high", "n_contested_neighbors": 3.0, "total_demand_at_risk_pct": 96.9, "most_threatening_neighbor": "HVT-035", "most_threatening_neighbor_risk_pct": 49.6}, {"outlet_id": "HVT-041", "brand": "The Harvest", "outlet_name": "The Harvest Counter 23", "city": "Surabaya", "district": "Rungkut", "outlet_type": "neighborhood", "location_type": "mall", "store_tier": "standard", "latitude": -7.323502, "longitude": 112.824228, "gross_floor_area_sqm": 61, "estimated_captured_demand": 48818.55046697048, "market_share_pct": 14.0, "estimated_captured_demand_p10": 48071.9, "estimated_captured_demand_p50": 48887.3, "estimated_captured_demand_p90": 49565.3, "coefficient_of_variation": 0.011, "confidence_label": "high", "n_contested_neighbors": 3.0, "total_demand_at_risk_pct": 41.1, "most_threatening_neighbor": "HVT-032", "most_threatening_neighbor_risk_pct": 16.9}, {"outlet_id": "HVT-042", "brand": "The Harvest", "outlet_name": "The Harvest Boutique 24", "city": "Jakarta", "district": "Jakarta Timur", "outlet_type": "transit_adjacent", "location_type": "standalone_ruko", "store_tier": "standard", "latitude": -6.118412, "longitude": 106.958222, "gross_floor_area_sqm": 177, "estimated_captured_demand": 53355.57764873792, "market_share_pct": 14.6, "estimated_captured_demand_p10": 49594.1, "estimated_captured_demand_p50": 53081.0, "estimated_captured_demand_p90": 55860.8, "coefficient_of_variation": 0.052, "confidence_label": "high", "n_contested_neighbors": 5.0, "total_demand_at_risk_pct": 48.1, "most_threatening_neighbor": "HVT-029", "most_threatening_neighbor_risk_pct": 36.0}], "whitespace": [{"grid_id": "GRD-0355", "city": "Surabaya", "brand": "Marugame Udon", "centroid_lat": -7.246081, "centroid_lon": 112.717123, "demand_potential": 8454.6, "whitespace_score": 0.98}, {"grid_id": "GRD-0197", "city": "Bandung", "brand": "Marugame Udon", "centroid_lat": -6.904755, "centroid_lon": 107.688041, "demand_potential": 6717.6, "whitespace_score": 0.944}, {"grid_id": "GRD-0267", "city": "Bandung", "brand": "Marugame Udon", "centroid_lat": -6.837761, "centroid_lon": 107.595776, "demand_potential": 6572.8, "whitespace_score": 0.916}, {"grid_id": "GRD-0234", "city": "Bandung", "brand": "Marugame Udon", "centroid_lat": -6.990825, "centroid_lon": 107.639121, "demand_potential": 6102.0, "whitespace_score": 0.889}, {"grid_id": "GRD-0296", "city": "Surabaya", "brand": "Marugame Udon", "centroid_lat": -7.242186, "centroid_lon": 112.648063, "demand_potential": 7468.2, "whitespace_score": 0.878}, {"grid_id": "GRD-0025", "city": "Jakarta", "brand": "Marugame Udon", "centroid_lat": -6.206651, "centroid_lon": 106.803959, "demand_potential": 9219.6, "whitespace_score": 0.853}, {"grid_id": "GRD-0261", "city": "Bandung", "brand": "Marugame Udon", "centroid_lat": -6.869588, "centroid_lon": 107.674037, "demand_potential": 5759.0, "whitespace_score": 0.814}, {"grid_id": "GRD-0229", "city": "Bandung", "brand": "Marugame Udon", "centroid_lat": -6.85423, "centroid_lon": 107.673627, "demand_potential": 5371.6, "whitespace_score": 0.774}, {"grid_id": "GRD-0333", "city": "Surabaya", "brand": "Marugame Udon", "centroid_lat": -7.316321, "centroid_lon": 112.744908, "demand_potential": 6493.5, "whitespace_score": 0.755}, {"grid_id": "GRD-0036", "city": "Jakarta", "brand": "Marugame Udon", "centroid_lat": -6.159086, "centroid_lon": 106.702345, "demand_potential": 7308.0, "whitespace_score": 0.751}, {"grid_id": "GRD-0304", "city": "Surabaya", "brand": "Marugame Udon", "centroid_lat": -7.291106, "centroid_lon": 112.826313, "demand_potential": 6274.8, "whitespace_score": 0.727}, {"grid_id": "GRD-0408", "city": "Surabaya", "brand": "Marugame Udon", "centroid_lat": -7.35398, "centroid_lon": 112.705132, "demand_potential": 5982.6, "whitespace_score": 0.703}, {"grid_id": "GRD-0017", "city": "Jakarta", "brand": "Marugame Udon", "centroid_lat": -6.145784, "centroid_lon": 106.968103, "demand_potential": 6453.2, "whitespace_score": 0.661}, {"grid_id": "GRD-0090", "city": "Jakarta", "brand": "Marugame Udon", "centroid_lat": -6.242971, "centroid_lon": 106.827035, "demand_potential": 6605.3, "whitespace_score": 0.639}, {"grid_id": "GRD-0046", "city": "Jakarta", "brand": "Marugame Udon", "centroid_lat": -6.095077, "centroid_lon": 106.829299, "demand_potential": 6730.1, "whitespace_score": 0.631}, {"grid_id": "GRD-0197", "city": "Bandung", "brand": "The Harvest", "centroid_lat": -6.904755, "centroid_lon": 107.688041, "demand_potential": 6717.6, "whitespace_score": 0.998}, {"grid_id": "GRD-0355", "city": "Surabaya", "brand": "The Harvest", "centroid_lat": -7.246081, "centroid_lon": 112.717123, "demand_potential": 8454.6, "whitespace_score": 0.994}, {"grid_id": "GRD-0025", "city": "Jakarta", "brand": "The Harvest", "centroid_lat": -6.206651, "centroid_lon": 106.803959, "demand_potential": 9219.6, "whitespace_score": 0.989}, {"grid_id": "GRD-0267", "city": "Bandung", "brand": "The Harvest", "centroid_lat": -6.837761, "centroid_lon": 107.595776, "demand_potential": 6572.8, "whitespace_score": 0.977}, {"grid_id": "GRD-0213", "city": "Bandung", "brand": "The Harvest", "centroid_lat": -6.908702, "centroid_lon": 107.63562, "demand_potential": 6719.7, "whitespace_score": 0.936}, {"grid_id": "GRD-0234", "city": "Bandung", "brand": "The Harvest", "centroid_lat": -6.990825, "centroid_lon": 107.639121, "demand_potential": 6102.0, "whitespace_score": 0.905}, {"grid_id": "GRD-0296", "city": "Surabaya", "brand": "The Harvest", "centroid_lat": -7.242186, "centroid_lon": 112.648063, "demand_potential": 7468.2, "whitespace_score": 0.882}, {"grid_id": "GRD-0155", "city": "Bandung", "brand": "The Harvest", "centroid_lat": -6.887385, "centroid_lon": 107.589098, "demand_potential": 5848.2, "whitespace_score": 0.866}, {"grid_id": "GRD-0020", "city": "Jakarta", "brand": "The Harvest", "centroid_lat": -6.141599, "centroid_lon": 106.862, "demand_potential": 7633.8, "whitespace_score": 0.806}, {"grid_id": "GRD-0036", "city": "Jakarta", "brand": "The Harvest", "centroid_lat": -6.159086, "centroid_lon": 106.702345, "demand_potential": 7308.0, "whitespace_score": 0.78}, {"grid_id": "GRD-0304", "city": "Surabaya", "brand": "The Harvest", "centroid_lat": -7.291106, "centroid_lon": 112.826313, "demand_potential": 6274.8, "whitespace_score": 0.734}, {"grid_id": "GRD-0400", "city": "Surabaya", "brand": "The Harvest", "centroid_lat": -7.202237, "centroid_lon": 112.825539, "demand_potential": 6214.0, "whitespace_score": 0.723}, {"grid_id": "GRD-0333", "city": "Surabaya", "brand": "The Harvest", "centroid_lat": -7.316321, "centroid_lon": 112.744908, "demand_potential": 6493.5, "whitespace_score": 0.705}, {"grid_id": "GRD-0090", "city": "Jakarta", "brand": "The Harvest", "centroid_lat": -6.242971, "centroid_lon": 106.827035, "demand_potential": 6605.3, "whitespace_score": 0.703}, {"grid_id": "GRD-0046", "city": "Jakarta", "brand": "The Harvest", "centroid_lat": -6.095077, "centroid_lon": 106.829299, "demand_potential": 6730.1, "whitespace_score": 0.687}]}
+</script>
+
+<script>
+(function(){
+  var DATA = JSON.parse(document.getElementById('dashboard-data').textContent);
+  var outlets = DATA.outlets;
+  var whitespace = DATA.whitespace;
+  var cities = ['Jakarta','Bandung','Surabaya'];
+
+  var state = {
+    brands: new Set(['Marugame Udon','The Harvest']),
+    types: new Set(['destination_hub','transit_adjacent','neighborhood']),
+    showWhitespace: false,
+    selected: null,
+    sortKey: 'estimated_captured_demand',
+    sortDir: 'desc'
+  };
+
+  var byId = {};
+  outlets.forEach(function(o){ byId[o.outlet_id] = o; });
+
+  // ---- projection per city ----
+  var bounds = {};
+  cities.forEach(function(city){
+    var pts = outlets.filter(function(o){ return o.city===city; })
+      .concat(whitespace.filter(function(w){ return w.city===city; }).map(function(w){ return {latitude:w.centroid_lat, longitude:w.centroid_lon}; }));
+    var lats = pts.map(function(p){ return p.latitude; });
+    var lons = pts.map(function(p){ return p.longitude; });
+    bounds[city] = {
+      minLat: Math.min.apply(null, lats), maxLat: Math.max.apply(null, lats),
+      minLon: Math.min.apply(null, lons), maxLon: Math.max.apply(null, lons)
+    };
+  });
+
+  function project(city, lat, lon){
+    var b = bounds[city], pad = 24, W = 300, H = 260;
+    var spanLat = (b.maxLat - b.minLat) || 1, spanLon = (b.maxLon - b.minLon) || 1;
+    var x = pad + (lon - b.minLon) / spanLon * (W - 2*pad);
+    var y = pad + (b.maxLat - lat) / spanLat * (H - 2*pad);
+    return [x, y];
+  }
+
+  function radiusFor(cd){
+    return Math.max(5, Math.min(22, 4 + Math.sqrt(cd || 0) / 22));
+  }
+  function typeColor(t){
+    return t==='destination_hub' ? 'var(--accent)' : t==='transit_adjacent' ? 'var(--transit)' : 'var(--warn)';
+  }
+  function confOpacity(c){
+    return c==='high' ? 0.88 : c==='medium' ? 0.62 : 0.38;
+  }
+  function fmt(n){
+    if(n==null) return '–';
+    return Math.round(n).toLocaleString('id-ID');
+  }
+
+  function passesFilter(o){
+    return state.brands.has(o.brand) && state.types.has(o.outlet_type);
+  }
+
+  // ---- render maps ----
+  function renderMaps(){
+    var grid = document.getElementById('mapsGrid');
+    grid.innerHTML = '';
+    cities.forEach(function(city){
+      var card = document.createElement('div');
+      card.className = 'map-card';
+      var svgParts = [];
+      svgParts.push('<div class="city-label">'+city+'</div>');
+      svgParts.push('<svg viewBox="0 0 300 260" role="img" aria-label="Peta scatter outlet di '+city+'">');
+
+      if(state.showWhitespace){
+        whitespace.filter(function(w){ return w.city===city && state.brands.has(w.brand); }).forEach(function(w){
+          var p = project(city, w.centroid_lat, w.centroid_lon);
+          svgParts.push('<polygon class="marker" points="'+p[0]+','+(p[1]-6)+' '+(p[0]+6)+','+p[1]+' '+p[0]+','+(p[1]+6)+' '+(p[0]-6)+','+p[1]+'" fill="none" stroke="currentColor" stroke-opacity="0.4" stroke-dasharray="2 2"><title>Whitespace '+w.grid_id+' ('+w.brand+') — score '+w.whitespace_score+'</title></polygon>');
+        });
+      }
+
+      outlets.filter(function(o){ return o.city===city; }).forEach(function(o){
+        var visible = passesFilter(o);
+        var p = project(city, o.latitude, o.longitude);
+        var r = radiusFor(o.estimated_captured_demand);
+        var color = typeColor(o.outlet_type);
+        var op = visible ? confOpacity(o.confidence_label) : 0.08;
+        var titleTxt = o.outlet_id+' · '+o.outlet_name+' · captured '+fmt(o.estimated_captured_demand)+' · '+o.confidence_label;
+        if(o.brand==='Marugame Udon'){
+          svgParts.push('<circle class="marker" data-id="'+o.outlet_id+'" cx="'+p[0]+'" cy="'+p[1]+'" r="'+r+'" fill="'+color+'" fill-opacity="'+op+'" stroke="'+color+'" stroke-width="1.3"><title>'+titleTxt+'</title></circle>');
+        } else {
+          svgParts.push('<polygon class="marker" data-id="'+o.outlet_id+'" points="'+p[0]+','+(p[1]-r)+' '+(p[0]+r)+','+p[1]+' '+p[0]+','+(p[1]+r)+' '+(p[0]-r)+','+p[1]+'" fill="'+color+'" fill-opacity="'+op+'" stroke="'+color+'" stroke-width="1.3"><title>'+titleTxt+'</title></polygon>');
+        }
+        if(state.selected===o.outlet_id){
+          svgParts.push('<circle cx="'+p[0]+'" cy="'+p[1]+'" r="'+(r+6)+'" fill="none" stroke="var(--critical)" stroke-width="1.8" stroke-dasharray="3 2"/>');
+        }
+      });
+
+      svgParts.push('</svg>');
+      card.innerHTML = svgParts.join('');
+      card.querySelectorAll('.marker[data-id]').forEach(function(el){
+        el.addEventListener('click', function(){ select(el.getAttribute('data-id')); });
+      });
+      grid.appendChild(card);
+    });
+  }
+
+  // ---- render KPIs ----
+  function renderKpis(){
+    var visible = outlets.filter(passesFilter);
+    var totalDemand = visible.reduce(function(s,o){ return s+o.estimated_captured_demand; }, 0);
+    var lowConf = visible.filter(function(o){ return o.confidence_label==='low'; }).length;
+    var atRisk = visible.filter(function(o){ return o.total_demand_at_risk_pct!=null && o.total_demand_at_risk_pct > 100; }).length;
+    var kpis = [
+      [visible.length, 'Outlet tampil'],
+      [fmt(totalDemand), 'Total captured demand'],
+      [lowConf, 'Low confidence'],
+      [atRisk, 'Risk > 100%']
+    ];
+    document.getElementById('kpiRow').innerHTML = kpis.map(function(k){
+      return '<div class="kpi"><div class="v">'+k[0]+'</div><div class="l">'+k[1]+'</div></div>';
+    }).join('');
+  }
+
+  // ---- render table ----
+  function renderTable(){
+    var rows = outlets.filter(passesFilter).slice();
+    rows.sort(function(a,b){
+      var av = a[state.sortKey], bv = b[state.sortKey];
+      if(av==null) av = state.sortDir==='asc' ? Infinity : -Infinity;
+      if(bv==null) bv = state.sortDir==='asc' ? Infinity : -Infinity;
+      if(typeof av === 'string') return state.sortDir==='asc' ? av.localeCompare(bv) : bv.localeCompare(av);
+      return state.sortDir==='asc' ? av-bv : bv-av;
+    });
+    var body = document.getElementById('tableBody');
+    body.innerHTML = rows.map(function(o){
+      var sel = state.selected===o.outlet_id ? ' class="selected"' : '';
+      return '<tr'+sel+' data-id="'+o.outlet_id+'">'+
+        '<td><code>'+o.outlet_id+'</code></td>'+
+        '<td>'+o.brand+'</td>'+
+        '<td>'+o.city+'</td>'+
+        '<td>'+o.outlet_type.replace('_',' ')+'</td>'+
+        '<td class="num">'+fmt(o.estimated_captured_demand)+'</td>'+
+        '<td class="num">'+o.market_share_pct+'%</td>'+
+        '<td><span class="badge '+o.confidence_label+'">'+o.confidence_label+'</span></td>'+
+        '<td class="num">'+(o.total_demand_at_risk_pct!=null ? o.total_demand_at_risk_pct+'%' : '–')+'</td>'+
+        '</tr>';
+    }).join('');
+    body.querySelectorAll('tr').forEach(function(tr){
+      tr.addEventListener('click', function(){ select(tr.getAttribute('data-id')); });
+    });
+  }
+
+  // ---- render detail panel ----
+  function renderDetail(){
+    var el = document.getElementById('detailContent');
+    if(!state.selected || !byId[state.selected]){
+      el.innerHTML = 'Klik outlet di peta atau tabel untuk lihat detail site score, confidence, dan cannibalization-nya.';
+      el.className = 'detail-empty';
+      return;
+    }
+    var o = byId[state.selected];
+    el.className = '';
+    var p10 = o.estimated_captured_demand_p10, p50 = o.estimated_captured_demand_p50, p90 = o.estimated_captured_demand_p90;
+    var rangeHtml = '';
+    if(p10!=null && p90!=null && p90>p10){
+      var fillPct = 100;
+      rangeHtml = '<div class="range-bar"><div class="fill" style="left:0%; width:100%"></div>'+
+        '<div class="mid" style="left:'+((p50-p10)/(p90-p10)*100)+'%"></div></div>'+
+        '<div class="range-labels"><span>p10 '+fmt(p10)+'</span><span>p90 '+fmt(p90)+'</span></div>';
+    }
+    var neighborHtml = '';
+    if(o.most_threatening_neighbor){
+      neighborHtml = '<button class="neighbor-link" data-goto="'+o.most_threatening_neighbor+'">→ Lihat '+o.most_threatening_neighbor+' (paling mengancam, '+o.most_threatening_neighbor_risk_pct+'% dari demand outlet ini)</button>';
+    }
+    el.innerHTML =
+      '<div class="detail-id">'+o.outlet_id+' · '+o.city+' · '+o.district+'</div>'+
+      '<div class="detail-name">'+o.outlet_name+'</div>'+
+      '<span class="badge '+o.confidence_label+'">'+o.confidence_label+' confidence</span>'+
+      '<div class="detail-row"><span class="k">Brand</span><span class="v">'+o.brand+'</span></div>'+
+      '<div class="detail-row"><span class="k">Outlet type</span><span class="v">'+o.outlet_type.replace('_',' ')+'</span></div>'+
+      '<div class="detail-row"><span class="k">Captured demand</span><span class="v">'+fmt(o.estimated_captured_demand)+'</span></div>'+
+      '<div class="detail-row"><span class="k">Market share (kota+brand)</span><span class="v">'+o.market_share_pct+'%</span></div>'+
+      rangeHtml+
+      '<div class="detail-row"><span class="k">Tetangga overlap</span><span class="v">'+(o.n_contested_neighbors!=null ? o.n_contested_neighbors : '–')+'</span></div>'+
+      '<div class="detail-row"><span class="k">Total demand-at-risk</span><span class="v">'+(o.total_demand_at_risk_pct!=null ? o.total_demand_at_risk_pct+'%' : '–')+'</span></div>'+
+      neighborHtml;
+
+    var btn = el.querySelector('[data-goto]');
+    if(btn){ btn.addEventListener('click', function(){ select(btn.getAttribute('data-goto')); }); }
+  }
+
+  function select(id){
+    state.selected = id;
+    renderMaps(); renderTable(); renderDetail();
+  }
+
+  function renderAll(){
+    renderKpis(); renderMaps(); renderTable(); renderDetail();
+  }
+
+  // ---- controls wiring ----
+  document.querySelectorAll('.chip-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var filter = btn.getAttribute('data-filter'), value = btn.getAttribute('data-value');
+      var set = filter==='brand' ? state.brands : state.types;
+      if(set.has(value)) set.delete(value); else set.add(value);
+      btn.classList.toggle('on');
+      renderAll();
+    });
+  });
+  document.getElementById('whitespaceToggle').addEventListener('change', function(e){
+    state.showWhitespace = e.target.checked;
+    renderMaps();
+  });
+  document.querySelectorAll('#outletTable th[data-key]').forEach(function(th){
+    th.addEventListener('click', function(){
+      var key = th.getAttribute('data-key');
+      if(state.sortKey===key) state.sortDir = state.sortDir==='asc' ? 'desc' : 'asc';
+      else { state.sortKey = key; state.sortDir = 'desc'; }
+      renderTable();
+    });
+  });
+
+  renderAll();
+})();
+</script>
+</body>
+</html>
