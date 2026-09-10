@@ -3,14 +3,19 @@ Site Scoring Engine — Huff Gravity Model
 =========================================
 Bagian "analytics engine" dari arsitektur location analytics.
 
-Model:  P_ij = (A_j^alpha / D_ij^beta) / sum_k(A_k^alpha / D_ik^beta)
+Model:  P_ij = (A_j^alpha / D_ij^beta_j) / sum_k(A_k^alpha / D_ik^beta_k)
 
-  P_ij  = probabilitas demand di grid cell i "tertarik" ke outlet j
-  A_j   = attractiveness outlet j (luas outlet x multiplier tier)
-  D_ij  = jarak (km) antara grid cell i dan outlet j
-  alpha = 1.0   (elastisitas attractiveness)
-  beta  = 1.8   (decay jarak — makin besar makin sensitif ke jarak,
-                 wajar untuk kategori fast-casual/bakery yang convenience-driven)
+  P_ij   = probabilitas demand di grid cell i "tertarik" ke outlet j
+  A_j    = attractiveness outlet j (luas outlet x tier x outlet_type multiplier)
+  D_ij   = jarak (km) antara grid cell i dan outlet j
+  alpha  = 1.0     (elastisitas attractiveness)
+  beta_j = per outlet_type, BUKAN satu angka global (lihat BETA_BY_OUTLET_TYPE
+           di bawah) — outlet `destination_hub` (mis. flagship di Grand
+           Indonesia) menarik demand dari radius jauh & catchment tidak
+           simetris, sedangkan outlet `neighborhood` didominasi proximity.
+           Memakai satu beta untuk semua outlet akan meremehkan jangkauan
+           hub dan melebih-lebihkan jangkauan neighborhood. Lihat
+           SITE_SCORING_METHODOLOGY.md §Heterogeneous pull untuk rasional.
 
 Kompetisi dimodelkan HANYA antar outlet brand yang SAMA di kota yang sama
 (pelanggan Marugame tidak "bersaing" melawan pilihan The Harvest dalam model
@@ -18,10 +23,15 @@ ini — beda kategori kebutuhan). Kalau nanti mau model cross-brand/cross-
 category, cukup ubah filter `same_brand` di compute_huff_scores().
 
 Output:
-  1. outlet_site_scores.csv       - estimasi demand tertangkap per outlet
-  2. cannibalization_pairs.csv    - pasangan outlet brand sama yang overlap
-  3. whitespace_candidates.csv    - grid cell dengan demand tinggi tapi
-                                     exposure ke outlet existing rendah
+  1. outlet_site_scores.csv        - estimasi demand tertangkap per outlet
+  2. cannibalization_pairs.csv     - pasangan outlet brand sama yang overlap
+  3. whitespace_candidates.csv     - grid cell dengan demand tinggi tapi
+                                      exposure ke outlet existing rendah
+  4. outlet_catchment_validation.csv - dispersion jarak customer OBSERVED
+                                      (dari customer_origin_sample.csv) per
+                                      outlet, dibandingkan dengan asumsi
+                                      beta/outlet_type di atas — dipakai untuk
+                                      flag outlet yang mungkin salah klasifikasi
 
 Run: python3 site_scoring_huff.py
 """
@@ -34,8 +44,37 @@ import numpy as np
 DATA_DIR = os.path.dirname(__file__)
 
 ALPHA = 1.0
-BETA = 1.8
 MIN_DIST_KM = 0.15  # floor jarak, hindari division blow-up untuk cell sangat dekat outlet
+
+# Distance-decay steepness per outlet_type. Landai (kecil) = customer mau
+# menempuh jarak jauh (hub); curam (besar) = demand didominasi proximity
+# (neighborhood). Nilai ini paralel dengan mean_km di ORIGIN_TYPE_PARAMS pada
+# generate_dummy_data.py — keduanya harus dikalibrasi bersama saat data riil
+# tersedia, bukan diubah sendiri-sendiri.
+BETA_BY_OUTLET_TYPE = {
+    "destination_hub": 1.1,
+    "transit_adjacent": 1.5,
+    "neighborhood": 2.3,
+}
+DEFAULT_BETA = 1.8  # fallback kalau outlet_type tidak ada (mis. data lama)
+
+# Attractiveness tidak hanya soal luas fisik — outlet destination_hub punya
+# daya tarik ekstra (assembly point, transit/event traffic) yang tidak
+# tercermin dari gross_floor_area_sqm saja.
+OUTLET_TYPE_ATTRACT_MULTIPLIER = {
+    "destination_hub": 1.6,
+    "transit_adjacent": 1.2,
+    "neighborhood": 1.0,
+}
+
+# Expected mean home-to-outlet distance (km) per outlet_type, mirrored from
+# generate_dummy_data.py's ORIGIN_TYPE_PARAMS — used only as a sanity-check
+# reference in compute_catchment_validation(), not fed back into the model.
+EXPECTED_MEAN_KM_BY_TYPE = {
+    "destination_hub": 6.0,
+    "transit_adjacent": 3.2,
+    "neighborhood": 1.3,
+}
 
 TIER_MULTIPLIER = {"flagship": 1.3, "standard": 1.0}
 INCOME_SPEND_MULTIPLIER = {
@@ -54,7 +93,12 @@ def haversine_km(lat1, lon1, lat2, lon2):
 
 def attractiveness(outlet_row):
     tier_mult = TIER_MULTIPLIER.get(outlet_row["store_tier"], 1.0)
-    return outlet_row["gross_floor_area_sqm"] * tier_mult
+    type_mult = OUTLET_TYPE_ATTRACT_MULTIPLIER.get(outlet_row.get("outlet_type"), 1.0)
+    return outlet_row["gross_floor_area_sqm"] * tier_mult * type_mult
+
+
+def outlet_beta(outlet_row):
+    return BETA_BY_OUTLET_TYPE.get(outlet_row.get("outlet_type"), DEFAULT_BETA)
 
 
 def demand_potential(cell_row):
@@ -87,7 +131,7 @@ def compute_huff_scores(outlets, grid):
                 for _, o in city_outlets.iterrows():
                     d = max(haversine_km(cell["centroid_lat"], cell["centroid_lon"],
                                           o["latitude"], o["longitude"]), MIN_DIST_KM)
-                    w = (o["attractiveness"] ** ALPHA) / (d ** BETA)
+                    w = (o["attractiveness"] ** ALPHA) / (d ** outlet_beta(o))
                     weights.append((o["outlet_id"], w))
 
                 total_w = sum(w for _, w in weights)
@@ -147,7 +191,7 @@ def compute_cannibalization(outlets, grid, overlap_threshold=0.15):
                 for _, o in city_outlets.iterrows():
                     d = max(haversine_km(cell["centroid_lat"], cell["centroid_lon"],
                                           o["latitude"], o["longitude"]), MIN_DIST_KM)
-                    weights[o["outlet_id"]] = (o["attractiveness"] ** ALPHA) / (d ** BETA)
+                    weights[o["outlet_id"]] = (o["attractiveness"] ** ALPHA) / (d ** outlet_beta(o))
                 total_w = sum(weights.values())
                 p_matrix.append({k: v / total_w for k, v in weights.items()})
 
@@ -194,6 +238,32 @@ def compute_whitespace(whitespace_df, top_n=5):
 
 
 # ---------------------------------------------------------------------------
+# 4. Catchment validation — model assumption vs. observed origin dispersion
+# ---------------------------------------------------------------------------
+def compute_catchment_validation(outlets, origin_sample, deviation_flag_pct=0.5):
+    """
+    Sanity-check the beta/attractiveness assumptions above against the
+    observed spread of customer_origin_sample.csv's distance_km per outlet.
+    Flags outlets whose observed median distance deviates a lot from the
+    outlet_type's expected mean — a signal the outlet may be misclassified
+    (e.g. a "neighborhood" outlet that is actually behaving like a hub).
+    """
+    stats = origin_sample.groupby("outlet_id")["distance_km"].agg(
+        observed_median_km="median", observed_p90_km=lambda s: s.quantile(0.9), n_sampled_customers="count"
+    ).reset_index()
+
+    validation = outlets[["outlet_id", "brand", "outlet_type"]].merge(stats, on="outlet_id", how="left")
+    validation["expected_mean_km"] = validation["outlet_type"].map(EXPECTED_MEAN_KM_BY_TYPE)
+    validation["assumed_beta"] = validation["outlet_type"].map(BETA_BY_OUTLET_TYPE)
+    validation["deviation_pct"] = (
+        (validation["observed_median_km"] - validation["expected_mean_km"]) / validation["expected_mean_km"]
+    ).round(2)
+    validation["reclassify_review"] = validation["deviation_pct"].abs() >= deviation_flag_pct
+
+    return validation.sort_values("deviation_pct", ascending=False)
+
+
+# ---------------------------------------------------------------------------
 # MAIN
 # ---------------------------------------------------------------------------
 if __name__ == "__main__":
@@ -214,3 +284,17 @@ if __name__ == "__main__":
     whitespace = compute_whitespace(whitespace_raw)
     whitespace.to_csv(os.path.join(DATA_DIR, "whitespace_candidates.csv"), index=False)
     print(whitespace.to_string(index=False))
+
+    origin_path = os.path.join(DATA_DIR, "customer_origin_sample.csv")
+    if os.path.exists(origin_path):
+        print("\nMemvalidasi asumsi beta/outlet_type terhadap observed origin dispersion...")
+        origin_sample = pd.read_csv(origin_path)
+        validation = compute_catchment_validation(outlets, origin_sample)
+        validation.to_csv(os.path.join(DATA_DIR, "outlet_catchment_validation.csv"), index=False)
+        flagged = validation[validation["reclassify_review"]]
+        print(validation.to_string(index=False))
+        if not flagged.empty:
+            print(f"\n{len(flagged)} outlet menyimpang >= 50% dari expected_mean_km outlet_type-nya "
+                  "— pertimbangkan review klasifikasi outlet_type-nya.")
+    else:
+        print("\n(customer_origin_sample.csv tidak ditemukan — lewati catchment validation)")
