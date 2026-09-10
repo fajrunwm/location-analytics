@@ -22,10 +22,11 @@ Bandung/Surabaya asli, tapi tidak merepresentasikan lokasi/orang sungguhan):
 
 | File | Isi |
 |---|---|
-| `outlets.csv` | 42 outlet (18 Marugame Udon, 24 The Harvest) — lokasi, tipe, luas, tier |
+| `outlets.csv` | 42 outlet (18 Marugame Udon, 24 The Harvest) — lokasi, tipe, luas, tier, `outlet_type` (destination_hub/transit_adjacent/neighborhood) |
 | `demographics_grid.csv` | 420 grid cell 500m — populasi, income bracket, distribusi usia |
 | `competitor_pois.csv` | 90 POI kompetitor & kontekstual (mall, kantor, transit) |
 | `foot_traffic_transactions.csv` | 18,900 baris — simulasi 90 hari × daypart per outlet |
+| `customer_origin_sample.csv` | ~15,000 baris — per-customer home→outlet trip, dipakai untuk mengukur origin dispersion (jangkauan tarik) tiap outlet |
 
 Dokumentasi skema lengkap: `DATA_DICTIONARY.md`.
 Saat data asli dari brand tersedia, tinggal mapping ke skema yang sama —

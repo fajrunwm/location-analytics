@@ -1,43 +1,43 @@
 outlet_id,brand,city,outlet_name,location_type,estimated_captured_demand,market_share_pct
-MRG-017,Marugame Udon,Surabaya,Marugame Udon PIK Avenue,mall,135471.57454781694,38.2
-MRG-018,Marugame Udon,Bandung,Marugame Udon Lippo Mall Puri,mall,123757.65612642675,34.3
-MRG-004,Marugame Udon,Surabaya,Marugame Udon Senayan City,mall,116897.51363640667,33.0
-MRG-016,Marugame Udon,Surabaya,Marugame Udon Gandaria City,mall,102377.31181577635,28.9
-MRG-009,Marugame Udon,Bandung,Marugame Udon Ciputra World,mall,63190.37482522575,17.5
-MRG-003,Marugame Udon,Jakarta,Marugame Udon Kota Kasablanka,mall,60001.717555391166,16.4
-MRG-012,Marugame Udon,Jakarta,Marugame Udon Paris Van Java,mall,58696.648840706934,16.1
-MRG-008,Marugame Udon,Bandung,Marugame Udon Trans Studio Mall,mall,57450.16898183867,15.9
-MRG-005,Marugame Udon,Jakarta,Marugame Udon Pondok Indah Mall,mall,52331.06535010193,14.3
-MRG-014,Marugame Udon,Bandung,Marugame Udon AEON Mall,mall,41839.03982426334,11.6
-MRG-001,Marugame Udon,Bandung,Marugame Udon Central Park,mall,39639.837644240324,11.0
-MRG-002,Marugame Udon,Jakarta,Marugame Udon Grand Indonesia,mall,36515.56583902719,10.0
-MRG-006,Marugame Udon,Jakarta,Marugame Udon Summarecon Mall,mall,35743.508123917025,9.8
-MRG-010,Marugame Udon,Bandung,Marugame Udon Pakuwon Mall,mall,35016.4225980051,9.7
-MRG-011,Marugame Udon,Jakarta,Marugame Udon Tunjungan Plaza,mall,34404.91278712393,9.4
-MRG-015,Marugame Udon,Jakarta,Marugame Udon Bintaro Xchange,mall,34226.03320755639,9.4
-MRG-007,Marugame Udon,Jakarta,Marugame Udon Living World,mall,31942.95976301159,8.7
-MRG-013,Marugame Udon,Jakarta,Marugame Udon Cihampelas Walk,mall,21837.188533163866,6.0
-HVT-041,The Harvest,Bandung,The Harvest Counter 23,mall,118355.06834207178,32.8
-HVT-031,The Harvest,Surabaya,The Harvest Boutique 13,standalone_ruko,113476.09932517432,32.0
-HVT-039,The Harvest,Bandung,The Harvest Counter 21,mall,100080.93312739892,27.7
-HVT-023,The Harvest,Bandung,The Harvest Counter 05,mall,89564.95537107569,24.8
-HVT-042,The Harvest,Surabaya,The Harvest Counter 24,mall,85478.7065094804,24.1
-HVT-034,The Harvest,Surabaya,The Harvest Counter 16,mall,82284.53805287168,23.2
-HVT-038,The Harvest,Surabaya,The Harvest Counter 20,mall,73507.05611247355,20.7
-HVT-025,The Harvest,Jakarta,The Harvest Boutique 07,standalone_ruko,54038.34828161797,14.8
-HVT-037,The Harvest,Bandung,The Harvest Counter 19,mall,52892.54315945355,14.7
-HVT-027,The Harvest,Jakarta,The Harvest Boutique 09,standalone_ruko,43031.80756301224,11.8
-HVT-024,The Harvest,Jakarta,The Harvest Boutique 06,standalone_ruko,35948.81898996645,9.8
-HVT-019,The Harvest,Jakarta,The Harvest Boutique 01,standalone_ruko,33886.95101010605,9.3
-HVT-021,The Harvest,Jakarta,The Harvest Counter 03,mall,25525.082961716555,7.0
-HVT-020,The Harvest,Jakarta,The Harvest Boutique 02,standalone_ruko,23576.275387203357,6.4
-HVT-040,The Harvest,Jakarta,The Harvest Counter 22,mall,23346.38384556338,6.4
-HVT-033,The Harvest,Jakarta,The Harvest Boutique 15,standalone_ruko,22553.551928288274,6.2
-HVT-030,The Harvest,Jakarta,The Harvest Boutique 12,standalone_ruko,21169.786854772003,5.8
-HVT-032,The Harvest,Jakarta,The Harvest Counter 14,mall,17822.408966872863,4.9
-HVT-029,The Harvest,Jakarta,The Harvest Counter 11,mall,14096.50660465116,3.9
-HVT-036,The Harvest,Jakarta,The Harvest Counter 18,mall,12769.325971705799,3.5
-HVT-028,The Harvest,Jakarta,The Harvest Boutique 10,standalone_ruko,11106.35674453142,3.0
-HVT-022,The Harvest,Jakarta,The Harvest Counter 04,mall,10548.961468828806,2.9
-HVT-026,The Harvest,Jakarta,The Harvest Counter 08,mall,8662.369442274665,2.4
-HVT-035,The Harvest,Jakarta,The Harvest Counter 17,mall,7616.663978889038,2.1
+MRG-015,Marugame Udon,Surabaya,Marugame Udon Bintaro Xchange,mall,124263.73991597032,35.6
+MRG-001,Marugame Udon,Bandung,Marugame Udon Central Park,mall,87464.56074269248,24.2
+MRG-003,Marugame Udon,Bandung,Marugame Udon Kota Kasablanka,mall,78831.40556260584,21.8
+MRG-016,Marugame Udon,Surabaya,Marugame Udon Gandaria City,mall,77416.12625517797,22.2
+MRG-008,Marugame Udon,Jakarta,Marugame Udon Trans Studio Mall,mall,64841.37481694122,17.8
+MRG-010,Marugame Udon,Jakarta,Marugame Udon Pakuwon Mall,mall,61578.86112639682,16.9
+MRG-011,Marugame Udon,Bandung,Marugame Udon Tunjungan Plaza,mall,61112.48329450881,16.9
+MRG-018,Marugame Udon,Surabaya,Marugame Udon Lippo Mall Puri,mall,55686.26127044324,16.0
+MRG-009,Marugame Udon,Bandung,Marugame Udon Ciputra World,mall,52575.99749342798,14.5
+MRG-007,Marugame Udon,Jakarta,Marugame Udon Living World,mall,51850.21484912325,14.2
+MRG-012,Marugame Udon,Jakarta,Marugame Udon Paris Van Java,mall,51820.96527354214,14.2
+MRG-002,Marugame Udon,Bandung,Marugame Udon Grand Indonesia,mall,49636.79697666747,13.7
+MRG-017,Marugame Udon,Jakarta,Marugame Udon PIK Avenue,mall,49007.97648202808,13.4
+MRG-014,Marugame Udon,Surabaya,Marugame Udon AEON Mall,mall,47756.660503627514,13.7
+MRG-005,Marugame Udon,Surabaya,Marugame Udon Pondok Indah Mall,mall,43460.412054780965,12.5
+MRG-004,Marugame Udon,Jakarta,Marugame Udon Senayan City,mall,43292.81009631542,11.9
+MRG-013,Marugame Udon,Jakarta,Marugame Udon Cihampelas Walk,mall,42831.89735565306,11.7
+MRG-006,Marugame Udon,Bandung,Marugame Udon Summarecon Mall,mall,31952.855930097445,8.8
+HVT-038,The Harvest,Bandung,The Harvest Boutique 20,standalone_ruko,133684.13208707343,37.0
+HVT-034,The Harvest,Surabaya,The Harvest Boutique 16,standalone_ruko,91245.6448745681,26.2
+HVT-040,The Harvest,Bandung,The Harvest Boutique 22,standalone_ruko,81398.82601705712,22.5
+HVT-032,The Harvest,Surabaya,The Harvest Counter 14,mall,79028.54706790259,22.7
+HVT-025,The Harvest,Surabaya,The Harvest Boutique 07,standalone_ruko,69503.16002104351,19.9
+HVT-022,The Harvest,Bandung,The Harvest Counter 04,mall,67685.66225158337,18.7
+HVT-028,The Harvest,Surabaya,The Harvest Boutique 10,standalone_ruko,62178.214358194724,17.8
+HVT-019,The Harvest,Bandung,The Harvest Boutique 01,standalone_ruko,56094.055558749176,15.5
+HVT-024,The Harvest,Jakarta,The Harvest Boutique 06,standalone_ruko,54826.27976203854,15.0
+HVT-041,The Harvest,Surabaya,The Harvest Counter 23,mall,46627.63367829111,13.4
+HVT-029,The Harvest,Jakarta,The Harvest Boutique 11,standalone_ruko,38689.00600145388,10.6
+HVT-031,The Harvest,Jakarta,The Harvest Boutique 13,standalone_ruko,37940.06373476356,10.4
+HVT-042,The Harvest,Jakarta,The Harvest Boutique 24,standalone_ruko,36422.18065836406,10.0
+HVT-027,The Harvest,Jakarta,The Harvest Boutique 09,standalone_ruko,28494.520811969276,7.8
+HVT-039,The Harvest,Jakarta,The Harvest Boutique 21,standalone_ruko,25767.995821362063,7.1
+HVT-020,The Harvest,Jakarta,The Harvest Boutique 02,standalone_ruko,25015.56832092274,6.8
+HVT-023,The Harvest,Jakarta,The Harvest Boutique 05,standalone_ruko,23280.965977734348,6.4
+HVT-035,The Harvest,Bandung,The Harvest Counter 17,mall,22711.424085536877,6.3
+HVT-037,The Harvest,Jakarta,The Harvest Counter 19,mall,20874.97621357737,5.7
+HVT-033,The Harvest,Jakarta,The Harvest Counter 15,mall,19177.80312628557,5.3
+HVT-026,The Harvest,Jakarta,The Harvest Counter 08,mall,18734.72719140106,5.1
+HVT-036,The Harvest,Jakarta,The Harvest Counter 18,mall,17360.342551588114,4.8
+HVT-030,The Harvest,Jakarta,The Harvest Boutique 12,standalone_ruko,11619.406646834283,3.2
+HVT-021,The Harvest,Jakarta,The Harvest Counter 03,mall,7020.263181705198,1.9
