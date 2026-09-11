@@ -618,7 +618,10 @@ footer a{color:var(--ink-muted)}
         '<div class="range-labels"><span>rentang bawah '+fmt(p10)+'</span><span>rentang atas '+fmt(p90)+'</span></div>';
     }
     var neighbors = neighborsByOutlet[o.outlet_id] || [];
-    var neighborItem = function(n){ return '<li data-compare="'+n.id+'"><span>'+n.id+'</span><span class="pct">rebutan '+fmtPct(n.pct)+'%</span></li>'; };
+    // clicking a competitor here only peeks its popup on the map — it must
+    // NOT start/complete a comparison and must NOT change the primary
+    // selection; comparing is a map-marker-click-only action.
+    var neighborItem = function(n){ return '<li data-peek="'+n.id+'"><span>'+n.id+'</span><span class="pct">rebutan '+fmtPct(n.pct)+'%</span></li>'; };
     var neighborToggleHtml = neighbors.length
       ? '<button class="neighbor-toggle" id="toggleNeighborsBtn" data-expanded="0" aria-label="Lihat daftar saingan">▾</button>'
       : '';
@@ -640,8 +643,8 @@ footer a{color:var(--ink-muted)}
       '<div class="detail-row"><span class="k">Total risiko rebutan pelanggan</span><span class="v">'+(o.total_demand_at_risk_pct!=null ? fmtPct(o.total_demand_at_risk_pct)+'%' : '–')+'</span></div>'+
       '<button class="neighbor-link ghost" id="startCompareBtn">+ Bandingkan dengan outlet lain</button>';
 
-    el.querySelectorAll('[data-compare]').forEach(function(node){
-      node.addEventListener('click', function(){ compareWith(node.getAttribute('data-compare')); });
+    el.querySelectorAll('[data-peek]').forEach(function(node){
+      node.addEventListener('click', function(){ panToAndOpen(node.getAttribute('data-peek')); });
     });
     document.getElementById('startCompareBtn').addEventListener('click', startPicking);
     var toggleBtn = document.getElementById('toggleNeighborsBtn');
