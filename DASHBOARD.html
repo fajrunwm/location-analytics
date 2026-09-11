@@ -262,6 +262,13 @@ footer a{color:var(--ink-muted)}
 .cluster-pin:hover{transform:scale(1.08)}
 .popup-title{font-family:var(--mono); font-weight:600; font-size:12.5px; margin-bottom:2px}
 .popup-row{font-size:12px; color:#555}
+
+.leaflet-tooltip.outlet-tooltip{
+  font-family:var(--mono); font-weight:700; font-size:12.5px; white-space:nowrap;
+  background:#fff; color:#1a1a1a; border:1.5px solid rgba(120,120,120,.65);
+  padding:4px 9px; border-radius:6px; box-shadow:0 2px 8px -2px rgba(0,0,0,.3);
+}
+.leaflet-tooltip.outlet-tooltip::before{border-top-color:rgba(120,120,120,.65)}
 </style>
 </head>
 <body>
@@ -496,7 +503,7 @@ footer a{color:var(--ink-muted)}
     outlets.forEach(function(o){
       var visible = passesFilter(o);
       var marker = L.marker([o.latitude, o.longitude], { icon: buildIcon(o, visible), interactive:true });
-      marker.bindTooltip(o.outlet_id, {direction:'top', offset:[0,-2]});
+      marker.bindTooltip(o.outlet_id, {direction:'top', offset:[0,-2], className:'outlet-tooltip'});
       marker.bindPopup(
         '<div class="popup-title">'+o.outlet_id+' · '+o.outlet_name+'</div>'+
         '<div class="popup-row">'+o.city+' · '+(TYPE_LABEL[o.outlet_type]||o.outlet_type)+'</div>'+
