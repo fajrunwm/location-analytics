@@ -111,7 +111,7 @@ footer a{color:var(--ink-muted)}
     <p class="dek">Bagaimana 72 outlet Marugame Udon &amp; The Harvest di Jawa — lokasi &amp; rating-nya real (Google Maps), atribut lain sintetis — mengalir jadi site score, sinyal cannibalization, dan prompt image-gen.</p>
     <div class="meta-row">
       <span class="pill"><span class="dot"></span> <a href="https://github.com/fajrunwm/location-analytics" target="_blank" rel="noopener">github.com/fajrunwm/location-analytics</a></span>
-      <span class="pill">6 commit · lokasi &amp; rating real (Google Maps, Jawa), atribut lain sintetis</span>
+      <span class="pill">7 commit · lokasi &amp; rating real (Google Maps, Jawa), atribut lain sintetis</span>
       <span class="pill">brand: Marugame Udon · The Harvest</span>
     </div>
   </header>
@@ -122,7 +122,7 @@ footer a{color:var(--ink-muted)}
     <p class="intro">Lima file data sintetis mengalir lewat satu engine Huff gravity model, memecah jadi tiga output analitik, lalu digabung jadi satu profil per outlet yang dikonsumsi rule-based prompt builder — bukan LLM, supaya hasilnya auditable sebelum masuk ke layanan image-gen yang sudah ada.</p>
     <figure>
       <div class="fig-scroll">
-        <svg viewBox="0 0 1200 460" role="img" aria-label="Diagram alur data dari lima sumber dummy, melalui engine Huff scoring, pecah jadi tiga output analitik, menyatu di insight layer, lalu bercabang ke GenAI image-gen yang sudah ada dan dashboard analis yang masih direncanakan.">
+        <svg viewBox="0 0 1200 460" role="img" aria-label="Diagram alur data dari lima sumber dummy, melalui engine Huff scoring, pecah jadi tiga output analitik, menyatu di insight layer, lalu bercabang ke GenAI image-gen yang sudah ada dan dashboard interaktif yang juga sudah ada.">
           <defs>
             <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
               <path d="M0,0 L10,5 L0,10 z" fill="currentColor"/>
@@ -187,10 +187,10 @@ footer a{color:var(--ink-muted)}
           <text x="1120" y="167" text-anchor="middle" font-family="var(--sans)" font-weight="600" font-size="13" fill="var(--bg)">image-gen</text>
           <text x="1120" y="186" text-anchor="middle" font-family="var(--mono)" font-size="10" fill="var(--bg)" fill-opacity="0.85">existing, eksternal</text>
 
-          <rect x="1050" y="250" width="140" height="100" rx="7" fill="none" stroke="currentColor" stroke-opacity="0.5" stroke-dasharray="5 4"/>
-          <text x="1120" y="290" text-anchor="middle" font-family="var(--sans)" font-weight="600" font-size="13">Dashboard</text>
-          <text x="1120" y="307" text-anchor="middle" font-family="var(--sans)" font-weight="600" font-size="13">&amp; API</text>
-          <text x="1120" y="326" text-anchor="middle" font-family="var(--mono)" font-size="10" fill="currentColor" fill-opacity="0.6">planned</text>
+          <rect x="1050" y="250" width="140" height="100" rx="7" fill="var(--warn)" stroke="var(--warn)"/>
+          <text x="1120" y="288" text-anchor="middle" font-family="var(--sans)" font-weight="600" font-size="13" fill="var(--bg)">Dashboard</text>
+          <text x="1120" y="305" text-anchor="middle" font-family="var(--sans)" font-weight="600" font-size="13" fill="var(--bg)">interaktif</text>
+          <text x="1120" y="324" text-anchor="middle" font-family="var(--mono)" font-size="10" fill="var(--bg)" fill-opacity="0.85">analis · sudah ada</text>
 
           <!-- arrows -->
           <g stroke="currentColor" fill="none" stroke-width="1.4" marker-end="url(#arrow)">
@@ -213,7 +213,7 @@ footer a{color:var(--ink-muted)}
           </g>
         </svg>
       </div>
-      <figcaption><b>Yang ditunjukkan:</b> lima file dummy digabung lewat <code>outlet_id</code>/<code>grid_id</code>, dihitung satu engine Huff, dipecah jadi tiga sudut pandang analitik, lalu disatukan jadi satu profil per outlet yang di-generate <code>prompt_builder.py</code> secara rule-based — supaya isi prompt bisa diaudit sebelum sampai ke image-gen. Jalur ke dashboard analis masih direncanakan, belum diimplementasi.</figcaption>
+      <figcaption><b>Yang ditunjukkan:</b> lima file dummy digabung lewat <code>outlet_id</code>/<code>grid_id</code>, dihitung satu engine Huff, dipecah jadi tiga sudut pandang analitik, lalu disatukan jadi satu profil per outlet yang di-generate <code>prompt_builder.py</code> secara rule-based — supaya isi prompt bisa diaudit sebelum sampai ke image-gen. Dashboard interaktifnya (<code>DASHBOARD.html</code>) sudah ada — lihat repo.</figcaption>
     </figure>
   </section>
 
@@ -358,7 +358,7 @@ footer a{color:var(--ink-muted)}
   <section id="status">
     <span class="section-index">05 — Status &amp; riwayat</span>
     <h2>Riwayat build &amp; yang masih terbuka</h2>
-    <p class="intro">Enam commit, tiap satu perbaikan satu asumsi yang dibahas tim — dari data dummy penuh sampai 72 lokasi outlet real se-Jawa dan model yang mengenali outlet tidak flat.</p>
+    <p class="intro">Tujuh commit (dan puluhan iterasi kecil di dalamnya), tiap satu perbaikan satu asumsi yang dibahas tim — dari data dummy penuh sampai 72 lokasi outlet real se-Jawa, model yang mengenali outlet tidak flat, dan dashboard interaktif yang terus disempurnakan lewat feedback.</p>
     <ul class="log">
       <li><time>#1</time><div><div class="commit-title">Dummy data + Huff scoring awal + prompt builder</div><div class="commit-desc">42 outlet fiktif, grid demografi, POI, foot traffic — beta &amp; attractiveness masih satu angka global untuk semua outlet.</div></div></li>
       <li><time>#2</time><div><div class="commit-title">outlet_type + customer_origin_sample</div><div class="commit-desc">Outlet diklasifikasi destination_hub / transit_adjacent / neighborhood; ditambah sampel per-customer untuk mengukur origin dispersion riil.</div></div></li>
@@ -366,6 +366,7 @@ footer a{color:var(--ink-muted)}
       <li><time>#4</time><div><div class="commit-title">Cannibalization directional + confidence band</div><div class="commit-desc">demand-at-risk dipecah per arah &amp; per-network; site score dapat rentang Monte Carlo p10/p50/p90.</div></div></li>
       <li><time>#5</time><div><div class="commit-title">Fix konsistensi nama-outlet vs kota + OSM basemap</div><div class="commit-desc">Nama mall Marugame dipetakan ke kota asli sungguhan; dashboard dapat basemap peta nyata.</div></div></li>
       <li><time>#6</time><div><div class="commit-title">72 outlet REAL se-Jawa (Google Maps) + basemap CARTO Positron</div><div class="commit-desc">42 outlet fiktif diganti 72 outlet real (44 Marugame + 28 The Harvest) hasil scraping Google Maps, difilter ke pulau Jawa (Jakarta metro, Bandung, Surabaya, Semarang, Yogyakarta, Malang) — nama, kota, distrik, tipe lokasi, koordinat, rating &amp; jumlah ulasan sungguhan; outlet_type &amp; store_tier diturunkan dari review_count riil, bukan random murni. Basemap dashboard diganti CARTO Positron light/dark (lebih sederhana dari tile OSM standar).</div></div></li>
+      <li><time>#7</time><div><div class="commit-title">Dashboard: marker clustering, perbandingan outlet, filter, dan humanisasi UI</div><div class="commit-desc">Marker jadi lingkaran dengan ikon line-art per brand &amp; warna per karakter lokasi (palet baru, dipisah dari warna status confidence); marker clustering untuk 72 outlet yang padat; perbandingan dua outlet berdampingan (klik marker kedua di peta — sengaja dibatasi map-only, bukan lewat tabel/list, supaya jelas satu jalur interaksi); daftar lengkap saingan per outlet (expand/collapse); search + filter kota; basemap toggle dipindah jadi kontrol kecil di pojok peta (bukan filter data); format angka disatukan ke konvensi Indonesia (titik ribuan, koma desimal) di semua tempat; tooltip hover outlet &amp; whitespace diseragamkan (balon putih, border abu-abu, teks bold).</div></div></li>
     </ul>
     <p class="intro" style="margin:26px 0 10px">Yang masih terbuka sebelum dipakai untuk keputusan bisnis nyata:</p>
     <ul class="open-items">

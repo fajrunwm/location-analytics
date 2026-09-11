@@ -12,7 +12,7 @@ foot traffic, customer origin, dan atribut non-lokasi outlet) tetap
 
 ```
 Data sources (lokasi real + atribut sintetis)  →  Spatial database  →
-Analytics engine  →  Location insight layer  →  ┬→ Dashboard & API (analis)
+Analytics engine  →  Location insight layer  →  ┬→ Dashboard interaktif (analis) — sudah ada, DASHBOARD.html
                                                   └→ GenAI marketing (image-gen service existing)
 ```
 
@@ -74,6 +74,24 @@ Mapping table lengkap, guardrails (tidak ada logo kompetitor, wajah
 realistis identifiable, klaim promo tidak diotorisasi), dan contoh prompt
 untuk kedua brand: `PROMPT_TEMPLATE_DESIGN.md`.
 
+## 5. Dashboard interaktif — `DASHBOARD.html`
+
+Standalone (buka langsung di browser, tidak butuh server), menampilkan
+seluruh output tahap 2–4 di atas peta CARTO Positron (light/dark) dengan
+marker clustering untuk 72 outlet real:
+
+- Filter data: search nama/ID outlet, dropdown kota, brand, karakter lokasi
+- Overlay "peluang lokasi baru" (whitespace) dengan tooltip
+- Panel detail per outlet: site score, confidence band, daftar saingan
+  (expand/collapse)
+- Perbandingan dua outlet berdampingan (klik marker kedua di peta) —
+  menampilkan hubungan cannibalization directional-nya langsung dari
+  `cannibalization_pairs.csv`
+
+`ARCHITECTURE.html` (diagram teknis) dan `OVERVIEW_DECK.html` (deck 9-slide
+non-teknis) adalah dua ringkasan visual lain dari pipeline yang sama —
+lihat §Peta dokumen.
+
 ## Cara jalankan semuanya berurutan
 
 ```bash
@@ -89,6 +107,9 @@ python3 prompt_builder.py           # → contoh prompt siap kirim ke image-gen
 | `DATA_DICTIONARY.md` | Apa isi tiap kolom dan mengapa dimodelkan begitu? |
 | `SITE_SCORING_METHODOLOGY.md` | Bagaimana site score/whitespace dihitung, apa batasannya? |
 | `PROMPT_TEMPLATE_DESIGN.md` | Bagaimana insight lokasi jadi prompt image-gen? |
+| `DASHBOARD.html` | Tool interaktif — jelajahi outlet, bandingkan, cek cannibalization sendiri |
+| `ARCHITECTURE.html` | Diagram teknis pipeline end-to-end, untuk audiens yang mau lihat mekanismenya |
+| `OVERVIEW_DECK.html` | Ringkasan 9-slide non-teknis, untuk audiens bisnis/klien |
 
 ## Status & langkah selanjutnya
 
