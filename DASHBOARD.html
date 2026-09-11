@@ -593,11 +593,16 @@ footer a{color:var(--ink-muted)}
         '<div class="range-labels"><span>rentang bawah '+fmt(p10)+'</span><span>rentang atas '+fmt(p90)+'</span></div>';
     }
     var neighbors = neighborsByOutlet[o.outlet_id] || [];
+    var neighborItem = function(n){ return '<li data-compare="'+n.id+'"><span>'+n.id+'</span><span class="pct">rebutan '+n.pct+'%</span></li>'; };
     var neighborListHtml = '';
     if(neighbors.length){
-      neighborListHtml = '<ul class="competitor-list">' + neighbors.slice(0,3).map(function(n){
-        return '<li data-compare="'+n.id+'"><span>'+n.id+'</span><span class="pct">rebutan '+n.pct+'%</span></li>';
-      }).join('') + '</ul>';
+      var shown = neighbors.slice(0,3), rest = neighbors.slice(3);
+      neighborListHtml = '<ul class="competitor-list">' + shown.map(neighborItem).join('') + '</ul>';
+      if(rest.length){
+        neighborListHtml +=
+          '<ul class="competitor-list competitor-list-extra" hidden>' + rest.map(neighborItem).join('') + '</ul>'+
+          '<button class="neighbor-link ghost" id="toggleNeighborsBtn" data-expanded="0">▾ Lihat semua '+neighbors.length+' saingan</button>';
+      }
     }
     el.innerHTML =
       '<div class="detail-id">'+o.outlet_id+' · '+o.city+' · '+o.district+'</div>'+
@@ -618,6 +623,16 @@ footer a{color:var(--ink-muted)}
       node.addEventListener('click', function(){ compareWith(node.getAttribute('data-compare')); });
     });
     document.getElementById('startCompareBtn').addEventListener('click', startPicking);
+    var toggleBtn = document.getElementById('toggleNeighborsBtn');
+    if(toggleBtn){
+      toggleBtn.addEventListener('click', function(){
+        var extra = el.querySelector('.competitor-list-extra');
+        var expanded = toggleBtn.getAttribute('data-expanded') === '1';
+        extra.hidden = expanded;
+        toggleBtn.setAttribute('data-expanded', expanded ? '0' : '1');
+        toggleBtn.textContent = expanded ? ('▾ Lihat semua '+neighbors.length+' saingan') : '▴ Sembunyikan saingan lainnya';
+      });
+    }
   }
 
   function compareMiniCard(o, roleLabel, roleClass){
