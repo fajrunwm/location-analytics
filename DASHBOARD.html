@@ -212,6 +212,15 @@ aside h2{font-size:14px; margin:0 0 12px}
 .neighbor-link.ghost{background:transparent; border:1px dashed var(--border); color:var(--ink-muted)}
 .neighbor-link.ghost:hover{color:var(--accent-ink); border-color:var(--accent)}
 
+.competitor-list{list-style:none; margin:6px 0 0; padding:0; display:flex; flex-direction:column; gap:4px}
+.competitor-list li{
+  display:flex; justify-content:space-between; align-items:center; font-family:var(--mono); font-size:11.5px;
+  padding:6px 9px; background:var(--surface-2); border-radius:6px; cursor:pointer; transition:background .12s;
+}
+.competitor-list li:hover{background:var(--accent-soft); color:var(--accent-ink)}
+.competitor-list li .pct{color:var(--ink-muted); font-size:11px}
+.competitor-list li:hover .pct{color:inherit}
+
 .compare-header{display:flex; align-items:center; justify-content:space-between; font-weight:600; font-size:14px; margin-bottom:10px}
 .compare-close{background:var(--surface-2); border:none; color:var(--ink-muted); width:24px; height:24px; border-radius:50%; cursor:pointer; font-size:12px; line-height:1}
 .compare-close:hover{background:var(--status-low-soft); color:var(--status-low-ink)}
@@ -366,6 +375,21 @@ footer a{color:var(--ink-muted)}
   });
   function pairFor(a, b){ return pairByKey[a+'|'+b] || null; }
 
+  // per-outlet list of everyone it contests demand with, sorted by how much
+  // OF ITS OWN demand is at risk from that neighbor (highest first) — this is
+  // what lets the detail panel show "who" instead of just "how many".
+  var neighborsByOutlet = {};
+  function addNeighborEntry(id, otherId, pct){
+    (neighborsByOutlet[id] = neighborsByOutlet[id] || []).push({ id: otherId, pct: pct });
+  }
+  pairs.forEach(function(p){
+    addNeighborEntry(p.outlet_a, p.outlet_b, p.a_demand_at_risk_pct);
+    addNeighborEntry(p.outlet_b, p.outlet_a, p.b_demand_at_risk_pct);
+  });
+  Object.keys(neighborsByOutlet).forEach(function(id){
+    neighborsByOutlet[id].sort(function(x,y){ return y.pct - x.pct; });
+  });
+
   function css(name){ return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
   function radiusFor(cd){ return Math.max(6, Math.min(22, 5 + Math.sqrt(cd || 0) / 22)); }
   function typeColor(t){ return t==='destination_hub' ? css('--type-hub') : t==='transit_adjacent' ? css('--type-transit') : css('--type-neighborhood'); }
@@ -472,6 +496,7 @@ footer a{color:var(--ink-muted)}
     outlets.forEach(function(o){
       var visible = passesFilter(o);
       var marker = L.marker([o.latitude, o.longitude], { icon: buildIcon(o, visible), interactive:true });
+      marker.bindTooltip(o.outlet_id, {direction:'top', offset:[0,-2]});
       marker.bindPopup(
         '<div class="popup-title">'+o.outlet_id+' · '+o.outlet_name+'</div>'+
         '<div class="popup-row">'+o.city+' · '+(TYPE_LABEL[o.outlet_type]||o.outlet_type)+'</div>'+
@@ -567,9 +592,12 @@ footer a{color:var(--ink-muted)}
         '<div class="mid" style="left:'+((p50-p10)/(p90-p10)*100)+'%"></div></div>'+
         '<div class="range-labels"><span>rentang bawah '+fmt(p10)+'</span><span>rentang atas '+fmt(p90)+'</span></div>';
     }
-    var neighborHtml = '';
-    if(o.most_threatening_neighbor){
-      neighborHtml = '<button class="neighbor-link" data-compare="'+o.most_threatening_neighbor+'">⇄ Bandingkan dengan '+o.most_threatening_neighbor+' — saingan terdekat, rebutan '+o.most_threatening_neighbor_risk_pct+'% pelanggan outlet ini</button>';
+    var neighbors = neighborsByOutlet[o.outlet_id] || [];
+    var neighborListHtml = '';
+    if(neighbors.length){
+      neighborListHtml = '<ul class="competitor-list">' + neighbors.slice(0,3).map(function(n){
+        return '<li data-compare="'+n.id+'"><span>'+n.id+'</span><span class="pct">rebutan '+n.pct+'%</span></li>';
+      }).join('') + '</ul>';
     }
     el.innerHTML =
       '<div class="detail-id">'+o.outlet_id+' · '+o.city+' · '+o.district+'</div>'+
@@ -582,12 +610,13 @@ footer a{color:var(--ink-muted)}
       '<div class="detail-row"><span class="k">Pangsa pasar (kota+brand)</span><span class="v">'+o.market_share_pct+'%</span></div>'+
       rangeHtml+
       '<div class="detail-row"><span class="k">Bersaing dengan outlet lain</span><span class="v">'+(o.n_contested_neighbors!=null ? o.n_contested_neighbors+' outlet' : '–')+'</span></div>'+
+      neighborListHtml+
       '<div class="detail-row"><span class="k">Total risiko rebutan pelanggan</span><span class="v">'+(o.total_demand_at_risk_pct!=null ? o.total_demand_at_risk_pct+'%' : '–')+'</span></div>'+
-      neighborHtml+
       '<button class="neighbor-link ghost" id="startCompareBtn">+ Bandingkan dengan outlet lain</button>';
 
-    var cmpBtn = el.querySelector('[data-compare]');
-    if(cmpBtn){ cmpBtn.addEventListener('click', function(){ compareWith(cmpBtn.getAttribute('data-compare')); }); }
+    el.querySelectorAll('[data-compare]').forEach(function(node){
+      node.addEventListener('click', function(){ compareWith(node.getAttribute('data-compare')); });
+    });
     document.getElementById('startCompareBtn').addEventListener('click', startPicking);
   }
 
