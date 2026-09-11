@@ -6,6 +6,7 @@
 <title>Outlet Intelligence Board</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster.js"></script>
 <style>
 /* ---- inlined leaflet.css (v1.9.4, required styles) ---- */
 .leaflet-pane,.leaflet-tile,.leaflet-marker-icon,.leaflet-marker-shadow,.leaflet-tile-container,.leaflet-pane > svg,.leaflet-pane > canvas,.leaflet-zoom-box,.leaflet-image-layer,.leaflet-layer{position:absolute;left:0;top:0}
@@ -83,6 +84,11 @@ svg.leaflet-zoom-animated{will-change:transform}
 .leaflet-popup-content-wrapper,.leaflet-popup-tip{background:#fff;color:#222;box-shadow:0 3px 14px rgba(0,0,0,.35)}
 .leaflet-container a.leaflet-popup-close-button{position:absolute;top:0;right:0;border:none;text-align:center;width:22px;height:22px;font:16px/22px sans-serif;color:#777;text-decoration:none;background:transparent}
 /* ---- end inlined leaflet.css ---- */
+
+/* ---- inlined MarkerCluster.css (v1.5.3, core animation only — visuals are our own .cluster-pin below) ---- */
+.leaflet-cluster-anim .leaflet-marker-icon, .leaflet-cluster-anim .leaflet-marker-shadow{transition:transform .3s ease-out, opacity .3s ease-in}
+.leaflet-cluster-spider-leg{transition:stroke-dashoffset .3s ease-out, stroke-opacity .3s ease-in}
+/* ---- end inlined MarkerCluster.css ---- */
 
 :root{
   /* warm, humanist neutrals */
@@ -222,6 +228,14 @@ footer a{color:var(--ink-muted)}
 .pin:hover{transform:scale(1.12)}
 .pin.selected{outline:2.5px dashed var(--accent); outline-offset:3px}
 .ws-pin{border-radius:50%; background:transparent}
+.cluster-pin{
+  border-radius:50%; display:flex; align-items:center; justify-content:center; box-sizing:border-box;
+  font-family:var(--mono); font-weight:600; color:#fff; background:var(--accent);
+  box-shadow:0 0 0 3px rgba(255,255,255,.7), 0 3px 10px -3px rgba(43,35,32,.4);
+  transition:transform .15s;
+}
+:root[data-theme="dark"] .cluster-pin, :root:not([data-theme="light"]) .cluster-pin{box-shadow:0 0 0 3px rgba(24,19,16,.75), 0 3px 10px -3px rgba(0,0,0,.55)}
+.cluster-pin:hover{transform:scale(1.08)}
 .popup-title{font-family:var(--mono); font-weight:600; font-size:12.5px; margin-bottom:2px}
 .popup-row{font-size:12px; color:#555}
 </style>
@@ -374,7 +388,23 @@ footer a{color:var(--ink-muted)}
   var bounds = L.latLngBounds(outlets.map(function(o){ return [o.latitude, o.longitude]; }));
   map.fitBounds(bounds, {padding:[30,30]});
 
-  var outletLayer = L.layerGroup().addTo(map);
+  // Outlets cluster when zoomed out (72 real outlets bunch up tightly in a
+  // few kecamatan — e.g. Wonokromo/Surabaya, Jakarta Pusat — and overlap at
+  // low zoom without this). Whitespace stays a plain layer since those points
+  // are sparse top-N picks, not a dense scatter.
+  var outletLayer = L.markerClusterGroup({
+    maxClusterRadius: 45,
+    spiderfyOnMaxZoom: true,
+    showCoverageOnHover: false,
+    iconCreateFunction: function(cluster){
+      var count = cluster.getChildCount();
+      var d = count < 6 ? 34 : count < 15 ? 42 : 50;
+      return L.divIcon({
+        html: '<div class="cluster-pin" style="width:'+d+'px;height:'+d+'px;font-size:'+(d*0.36)+'px;">'+count+'</div>',
+        className: '', iconSize: [d, d]
+      });
+    }
+  }).addTo(map);
   var whitespaceLayer = L.layerGroup().addTo(map);
   var markerById = {};
 
@@ -515,7 +545,14 @@ footer a{color:var(--ink-muted)}
     state.selected = id;
     renderMap(); renderTable(); renderDetail();
     var m = markerById[id];
-    if(m){ map.panTo(m.getLatLng()); m.openPopup(); }
+    if(m){
+      // reveal the marker even if it's currently folded into a cluster,
+      // then pan to it and pop it open once it's actually on the map.
+      outletLayer.zoomToShowLayer(m, function(){
+        map.panTo(m.getLatLng());
+        m.openPopup();
+      });
+    }
   }
 
   function renderAll(){ renderKpis(); renderMap(); renderTable(); renderDetail(); }
