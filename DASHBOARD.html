@@ -287,10 +287,11 @@ footer a{color:var(--ink-muted)}
 .popup-row{font-size:12px; color:#555}
 
 .leaflet-tooltip.outlet-tooltip{
-  font-family:var(--mono); font-weight:700; font-size:12.5px; white-space:nowrap;
+  font-family:var(--mono); font-weight:400; font-size:12px; line-height:1.5; white-space:nowrap;
   background:#fff; color:#1a1a1a; border:1.5px solid rgba(120,120,120,.65);
-  padding:4px 9px; border-radius:6px; box-shadow:0 2px 8px -2px rgba(0,0,0,.3);
+  padding:5px 10px; border-radius:6px; box-shadow:0 2px 8px -2px rgba(0,0,0,.3);
 }
+.leaflet-tooltip.outlet-tooltip b{font-weight:700}
 .leaflet-tooltip.outlet-tooltip::before{border-top-color:rgba(120,120,120,.65)}
 </style>
 </head>
@@ -559,7 +560,10 @@ footer a{color:var(--ink-muted)}
           className: '', iconSize:[14,14], iconAnchor:[7,7]
         });
         var m = L.marker([w.centroid_lat, w.centroid_lon], {icon: icon, interactive:true});
-        m.bindTooltip('Peluang lokasi baru · '+w.grid_id+' ('+w.brand+') · skor '+fmtPct(w.whitespace_score, 2), {direction:'top'});
+        m.bindTooltip(
+          '<b>'+w.grid_id+'</b><br>Peluang lokasi baru · '+w.brand+'<br>Skor '+fmtPct(w.whitespace_score, 2),
+          {direction:'top', className:'outlet-tooltip'}
+        );
         m.addTo(whitespaceLayer);
       });
     }
@@ -567,7 +571,7 @@ footer a{color:var(--ink-muted)}
     outlets.forEach(function(o){
       var visible = passesFilter(o);
       var marker = L.marker([o.latitude, o.longitude], { icon: buildIcon(o, visible), interactive:true });
-      marker.bindTooltip(o.outlet_id, {direction:'top', offset:[0,-2], className:'outlet-tooltip'});
+      marker.bindTooltip('<b>'+o.outlet_id+'</b>', {direction:'top', offset:[0,-2], className:'outlet-tooltip'});
       marker.bindPopup(
         '<div class="popup-title">'+o.outlet_id+' · '+o.outlet_name+'</div>'+
         '<div class="popup-row">'+o.city+' · '+(TYPE_LABEL[o.outlet_type]||o.outlet_type)+'</div>'+
