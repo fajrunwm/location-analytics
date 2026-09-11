@@ -573,7 +573,10 @@ footer a{color:var(--ink-muted)}
         '</tr>';
     }).join('');
     body.querySelectorAll('tr').forEach(function(tr){
-      tr.addEventListener('click', function(){ handlePick(tr.getAttribute('data-id')); });
+      // Table rows always do a plain select — picking the second outlet to
+      // compare is a map-only interaction (clicking a marker), so a table
+      // click here never gets interpreted as "this is my compare pick".
+      tr.addEventListener('click', function(){ select(tr.getAttribute('data-id')); });
     });
   }
 
@@ -589,7 +592,7 @@ footer a{color:var(--ink-muted)}
     if(state.picking){
       el.className = 'detail-empty';
       el.innerHTML = EMPTY_HINT.replace('Klik salah satu outlet di peta atau tabel untuk lihat ceritanya — seberapa ramai, siapa saingan terdekatnya, dan seberapa yakin kita dengan angkanya.',
-        'Klik outlet kedua di peta atau tabel untuk dibandingkan dengan <b>'+state.selected+'</b>.')+
+        'Klik outlet kedua di peta (bukan di tabel) untuk dibandingkan dengan <b>'+state.selected+'</b>.')+
         '<button class="neighbor-link" id="cancelPickBtn" style="margin-top:14px">Batal bandingkan</button>';
       document.getElementById('cancelPickBtn').addEventListener('click', cancelPicking);
       return;
@@ -684,7 +687,7 @@ footer a{color:var(--ink-muted)}
           : '<div class="k" style="margin-top:8px">→ Dampaknya relatif seimbang di kedua outlet.</div>')+
         '</div>';
     } else {
-      relationHtml = '<div class="compare-relation"><span class="k">Tidak ada tumpang tindih area pelanggan yang signifikan antara keduanya — beda brand, beda kota, atau lokasinya cukup berjauhan.</span></div>';
+      relationHtml = '<div class="compare-relation"><span class="k">Tidak ada tumpang tindih area pelanggan yang signifikan antara keduanya.</span></div>';
     }
     el.innerHTML =
       '<div class="compare-header">'+
