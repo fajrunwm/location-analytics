@@ -212,6 +212,12 @@ aside h2{font-size:14px; margin:0 0 12px}
 .neighbor-link.ghost{background:transparent; border:1px dashed var(--border); color:var(--ink-muted)}
 .neighbor-link.ghost:hover{color:var(--accent-ink); border-color:var(--accent)}
 
+.neighbor-toggle{
+  background:none; border:none; cursor:pointer; color:var(--ink-muted); font-size:10px;
+  padding:2px 4px; margin-left:6px; line-height:1; transition:transform .15s, color .15s;
+}
+.neighbor-toggle:hover{color:var(--accent-ink)}
+.neighbor-toggle.open{transform:rotate(180deg)}
 .competitor-list{list-style:none; margin:6px 0 0; padding:0; display:flex; flex-direction:column; gap:4px}
 .competitor-list li{
   display:flex; justify-content:space-between; align-items:center; font-family:var(--mono); font-size:11.5px;
@@ -601,16 +607,12 @@ footer a{color:var(--ink-muted)}
     }
     var neighbors = neighborsByOutlet[o.outlet_id] || [];
     var neighborItem = function(n){ return '<li data-compare="'+n.id+'"><span>'+n.id+'</span><span class="pct">rebutan '+n.pct+'%</span></li>'; };
-    var neighborListHtml = '';
-    if(neighbors.length){
-      var shown = neighbors.slice(0,3), rest = neighbors.slice(3);
-      neighborListHtml = '<ul class="competitor-list">' + shown.map(neighborItem).join('') + '</ul>';
-      if(rest.length){
-        neighborListHtml +=
-          '<ul class="competitor-list competitor-list-extra" hidden>' + rest.map(neighborItem).join('') + '</ul>'+
-          '<button class="neighbor-link ghost" id="toggleNeighborsBtn" data-expanded="0">▾ Lihat semua '+neighbors.length+' saingan</button>';
-      }
-    }
+    var neighborToggleHtml = neighbors.length
+      ? '<button class="neighbor-toggle" id="toggleNeighborsBtn" data-expanded="0" aria-label="Lihat daftar saingan">▾</button>'
+      : '';
+    var neighborListHtml = neighbors.length
+      ? '<ul class="competitor-list" hidden>' + neighbors.map(neighborItem).join('') + '</ul>'
+      : '';
     el.innerHTML =
       '<div class="detail-id">'+o.outlet_id+' · '+o.city+' · '+o.district+'</div>'+
       '<div class="detail-name">'+o.outlet_name+'</div>'+
@@ -621,7 +623,7 @@ footer a{color:var(--ink-muted)}
       '<div class="detail-row"><span class="k">Estimasi pelanggan tertangkap</span><span class="v">'+fmt(o.estimated_captured_demand)+'</span></div>'+
       '<div class="detail-row"><span class="k">Pangsa pasar (kota+brand)</span><span class="v">'+o.market_share_pct+'%</span></div>'+
       rangeHtml+
-      '<div class="detail-row"><span class="k">Bersaing dengan outlet lain</span><span class="v">'+(o.n_contested_neighbors!=null ? o.n_contested_neighbors+' outlet' : '–')+'</span></div>'+
+      '<div class="detail-row"><span class="k">Bersaing dengan outlet lain</span><span class="v">'+(o.n_contested_neighbors!=null ? o.n_contested_neighbors+' outlet' : '–')+neighborToggleHtml+'</span></div>'+
       neighborListHtml+
       '<div class="detail-row"><span class="k">Total risiko rebutan pelanggan</span><span class="v">'+(o.total_demand_at_risk_pct!=null ? o.total_demand_at_risk_pct+'%' : '–')+'</span></div>'+
       '<button class="neighbor-link ghost" id="startCompareBtn">+ Bandingkan dengan outlet lain</button>';
@@ -633,11 +635,11 @@ footer a{color:var(--ink-muted)}
     var toggleBtn = document.getElementById('toggleNeighborsBtn');
     if(toggleBtn){
       toggleBtn.addEventListener('click', function(){
-        var extra = el.querySelector('.competitor-list-extra');
+        var list = el.querySelector('.competitor-list');
         var expanded = toggleBtn.getAttribute('data-expanded') === '1';
-        extra.hidden = expanded;
+        list.hidden = expanded;
         toggleBtn.setAttribute('data-expanded', expanded ? '0' : '1');
-        toggleBtn.textContent = expanded ? ('▾ Lihat semua '+neighbors.length+' saingan') : '▴ Sembunyikan saingan lainnya';
+        toggleBtn.classList.toggle('open', !expanded);
       });
     }
   }
