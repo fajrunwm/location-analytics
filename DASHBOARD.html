@@ -178,6 +178,14 @@ header p{margin:0; color:var(--ink-muted); font-size:13.5px; max-width:52ch}
 .chip-btn.on.type-neighborhood{background:var(--type-neighborhood-soft); color:var(--type-neighborhood); border-color:var(--type-neighborhood)}
 label.toggle{font-family:var(--mono); font-size:12px; color:var(--ink-muted); display:flex; align-items:center; gap:6px; cursor:pointer}
 
+.search-input, .city-select{
+  font-family:var(--mono); font-size:12px; padding:6px 12px; border-radius:14px; border:1px solid var(--border);
+  background:var(--bg); color:var(--ink); transition:border-color .15s;
+}
+.search-input{width:200px}
+.search-input:focus, .city-select:focus{outline:none; border-color:var(--accent)}
+.search-input::placeholder{color:var(--ink-muted)}
+
 .layout{display:grid; grid-template-columns:1fr 300px; gap:20px; align-items:start}
 @media (max-width:900px){.layout{grid-template-columns:1fr}}
 
@@ -291,6 +299,13 @@ footer a{color:var(--ink-muted)}
 
   <div class="controls">
     <div class="control-group">
+      <input type="search" id="searchInput" class="search-input" placeholder="Cari nama/ID outlet…">
+    </div>
+    <div class="control-group">
+      <span class="label">Kota</span>
+      <select id="citySelect" class="city-select"><option value="all">Semua kota</option></select>
+    </div>
+    <div class="control-group">
       <span class="label">Brand</span>
       <button class="chip-btn on" data-filter="brand" data-value="Marugame Udon"><span class="sw"></span>Marugame Udon</button>
       <button class="chip-btn on" data-filter="brand" data-value="The Harvest"><span class="sw"></span>The Harvest</button>
@@ -367,6 +382,8 @@ footer a{color:var(--ink-muted)}
   var state = {
     brands: new Set(['Marugame Udon','The Harvest']),
     types: new Set(['destination_hub','transit_adjacent','neighborhood']),
+    city: 'all',
+    search: '',
     showWhitespace: false,
     selected: null,
     compareId: null,
@@ -417,7 +434,16 @@ footer a{color:var(--ink-muted)}
     decimals = decimals==null ? 1 : decimals;
     return Number(n).toLocaleString('id-ID', {minimumFractionDigits:decimals, maximumFractionDigits:decimals});
   }
-  function passesFilter(o){ return state.brands.has(o.brand) && state.types.has(o.outlet_type); }
+  function passesFilter(o){
+    if(!state.brands.has(o.brand)) return false;
+    if(!state.types.has(o.outlet_type)) return false;
+    if(state.city !== 'all' && o.city !== state.city) return false;
+    if(state.search){
+      var hay = (o.outlet_name+' '+o.outlet_id).toLowerCase();
+      if(hay.indexOf(state.search) === -1) return false;
+    }
+    return true;
+  }
 
   // Line-art brand glyphs (1-2 colors: white strokes + one warm accent fill)
   // drawn small enough to still read as "bowl of udon" vs "slice of cake" at marker scale.
@@ -504,7 +530,9 @@ footer a{color:var(--ink-muted)}
     markerById = {};
 
     if(state.showWhitespace){
-      whitespace.filter(function(w){ return state.brands.has(w.brand); }).forEach(function(w){
+      whitespace.filter(function(w){
+        return state.brands.has(w.brand) && (state.city==='all' || w.city===state.city);
+      }).forEach(function(w){
         var icon = L.divIcon({
           html: '<div class="ws-pin" style="width:14px;height:14px;background:'+css('--accent')+';opacity:0.35;border:1.5px dashed rgba(128,128,128,.6);"></div>',
           className: '', iconSize:[14,14], iconAnchor:[7,7]
@@ -758,6 +786,23 @@ footer a{color:var(--ink-muted)}
   document.getElementById('whitespaceToggle').addEventListener('change', function(e){
     state.showWhitespace = e.target.checked;
     renderMap();
+  });
+
+  // city dropdown, populated from whatever cities actually appear in the data
+  var citySelect = document.getElementById('citySelect');
+  Array.from(new Set(outlets.map(function(o){ return o.city; }))).sort().forEach(function(city){
+    var opt = document.createElement('option');
+    opt.value = city; opt.textContent = city;
+    citySelect.appendChild(opt);
+  });
+  citySelect.addEventListener('change', function(){
+    state.city = citySelect.value;
+    renderAll();
+  });
+
+  document.getElementById('searchInput').addEventListener('input', function(e){
+    state.search = e.target.value.trim().toLowerCase();
+    renderAll();
   });
   document.querySelectorAll('#outletTable th[data-key]').forEach(function(th){
     th.addEventListener('click', function(){
