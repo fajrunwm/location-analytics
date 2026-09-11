@@ -90,6 +90,14 @@ svg.leaflet-zoom-animated{will-change:transform}
 .leaflet-cluster-spider-leg{transition:stroke-dashoffset .3s ease-out, stroke-opacity .3s ease-in}
 /* ---- end inlined MarkerCluster.css ---- */
 
+.basemap-control a{
+  width:28px; height:28px; line-height:28px; display:flex; align-items:center; justify-content:center;
+  color:var(--ink-muted); background:var(--surface);
+}
+.basemap-control a:hover{color:var(--accent-ink); background:var(--surface-2)}
+.basemap-control a.on{color:var(--accent-ink); background:var(--accent-soft)}
+:root[data-theme="dark"] .basemap-control a, :root:not([data-theme="light"]) .basemap-control a{background:var(--surface); border-bottom-color:var(--border)}
+
 :root{
   /* warm, humanist neutrals */
   --bg:#FAF6F1; --surface:#FFFFFF; --surface-2:#F2E9E1;
@@ -317,11 +325,6 @@ footer a{color:var(--ink-muted)}
       <button class="chip-btn on type-neighborhood" data-filter="type" data-value="neighborhood"><span class="sw"></span>Toko lokal</button>
     </div>
     <label class="toggle"><input type="checkbox" id="whitespaceToggle"> tampilkan peluang lokasi baru</label>
-    <div class="control-group">
-      <span class="label">Basemap</span>
-      <button class="chip-btn" data-basemap="light"><span class="sw"></span>Peta terang</button>
-      <button class="chip-btn" data-basemap="dark"><span class="sw"></span>Peta gelap</button>
-    </div>
   </div>
 
   <div class="layout">
@@ -473,18 +476,36 @@ footer a{color:var(--ink-muted)}
   var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
   var currentBasemap = (document.documentElement.getAttribute('data-theme') === 'dark' || (prefersDark && document.documentElement.getAttribute('data-theme') !== 'light')) ? 'dark' : 'light';
   basemaps[currentBasemap].addTo(map);
-  document.querySelector('.chip-btn[data-basemap="'+currentBasemap+'"]').classList.add('on');
 
-  document.querySelectorAll('.chip-btn[data-basemap]').forEach(function(btn){
-    btn.addEventListener('click', function(){
-      var mode = btn.getAttribute('data-basemap');
-      if(mode === currentBasemap) return;
-      map.removeLayer(basemaps[currentBasemap]);
-      basemaps[mode].addTo(map);
-      currentBasemap = mode;
-      document.querySelectorAll('.chip-btn[data-basemap]').forEach(function(b){ b.classList.toggle('on', b===btn); });
-    });
+  // Basemap is a "how the map looks" preference, not a data filter — it lives
+  // as a small control docked to the map itself (like Leaflet's own zoom
+  // control), not in the page-level filter bar with brand/type/city/search.
+  var SUN_ICON = '<svg width="14" height="14" viewBox="0 0 14 14"><circle cx="7" cy="7" r="2.6" fill="none" stroke="currentColor" stroke-width="1.3"/><g stroke="currentColor" stroke-width="1.3" stroke-linecap="round"><line x1="7" y1="0.8" x2="7" y2="2.2"/><line x1="7" y1="11.8" x2="7" y2="13.2"/><line x1="0.8" y1="7" x2="2.2" y2="7"/><line x1="11.8" y1="7" x2="13.2" y2="7"/><line x1="2.6" y1="2.6" x2="3.6" y2="3.6"/><line x1="10.4" y1="10.4" x2="11.4" y2="11.4"/><line x1="2.6" y1="11.4" x2="3.6" y2="10.4"/><line x1="10.4" y1="3.6" x2="11.4" y2="2.6"/></g></svg>';
+  var MOON_ICON = '<svg width="14" height="14" viewBox="0 0 14 14"><path d="M9.8 2.3a5.1 5.1 0 1 0 1.9 9.4 5.1 5.1 0 0 1-1.9-9.4z" fill="currentColor"/></svg>';
+
+  var BasemapControl = L.Control.extend({
+    options: { position: 'topright' },
+    onAdd: function(){
+      var div = L.DomUtil.create('div', 'leaflet-bar basemap-control');
+      div.innerHTML =
+        '<a href="#" data-basemap="light" title="Peta terang" class="'+(currentBasemap==='light'?'on':'')+'">'+SUN_ICON+'</a>'+
+        '<a href="#" data-basemap="dark" title="Peta gelap" class="'+(currentBasemap==='dark'?'on':'')+'">'+MOON_ICON+'</a>';
+      L.DomEvent.disableClickPropagation(div);
+      div.querySelectorAll('[data-basemap]').forEach(function(a){
+        a.addEventListener('click', function(e){
+          e.preventDefault();
+          var mode = a.getAttribute('data-basemap');
+          if(mode === currentBasemap) return;
+          map.removeLayer(basemaps[currentBasemap]);
+          basemaps[mode].addTo(map);
+          currentBasemap = mode;
+          div.querySelectorAll('[data-basemap]').forEach(function(b){ b.classList.toggle('on', b===a); });
+        });
+      });
+      return div;
+    }
   });
+  map.addControl(new BasemapControl());
 
   var bounds = L.latLngBounds(outlets.map(function(o){ return [o.latitude, o.longitude]; }));
   map.fitBounds(bounds, {padding:[30,30]});
