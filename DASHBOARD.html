@@ -409,6 +409,14 @@ footer a{color:var(--ink-muted)}
   function typeColor(t){ return t==='destination_hub' ? css('--type-hub') : t==='transit_adjacent' ? css('--type-transit') : css('--type-neighborhood'); }
   function confOpacity(c){ return c==='high' ? 0.9 : c==='medium' ? 0.65 : 0.4; }
   function fmt(n){ if(n==null) return '–'; return Math.round(n).toLocaleString('id-ID'); }
+  // Consistent Indonesian number format everywhere: "." for thousands, "," for
+  // decimals — used for every percentage/rating/ratio so "." never silently
+  // switches meaning (thousands vs decimal) between different parts of the UI.
+  function fmtPct(n, decimals){
+    if(n==null) return '–';
+    decimals = decimals==null ? 1 : decimals;
+    return Number(n).toLocaleString('id-ID', {minimumFractionDigits:decimals, maximumFractionDigits:decimals});
+  }
   function passesFilter(o){ return state.brands.has(o.brand) && state.types.has(o.outlet_type); }
 
   // Line-art brand glyphs (1-2 colors: white strokes + one warm accent fill)
@@ -502,7 +510,7 @@ footer a{color:var(--ink-muted)}
           className: '', iconSize:[14,14], iconAnchor:[7,7]
         });
         var m = L.marker([w.centroid_lat, w.centroid_lon], {icon: icon, interactive:true});
-        m.bindTooltip('Peluang lokasi baru · '+w.grid_id+' ('+w.brand+') · skor '+w.whitespace_score, {direction:'top'});
+        m.bindTooltip('Peluang lokasi baru · '+w.grid_id+' ('+w.brand+') · skor '+fmtPct(w.whitespace_score, 2), {direction:'top'});
         m.addTo(whitespaceLayer);
       });
     }
@@ -559,9 +567,9 @@ footer a{color:var(--ink-muted)}
         '<td>'+o.city+'</td>'+
         '<td>'+(TYPE_LABEL[o.outlet_type]||o.outlet_type)+'</td>'+
         '<td class="num">'+fmt(o.estimated_captured_demand)+'</td>'+
-        '<td class="num">'+o.market_share_pct+'%</td>'+
+        '<td class="num">'+fmtPct(o.market_share_pct)+'%</td>'+
         '<td><span class="badge '+o.confidence_label+'">'+(CONF_LABEL[o.confidence_label]||o.confidence_label)+'</span></td>'+
-        '<td class="num">'+(o.total_demand_at_risk_pct!=null ? o.total_demand_at_risk_pct+'%' : '–')+'</td>'+
+        '<td class="num">'+(o.total_demand_at_risk_pct!=null ? fmtPct(o.total_demand_at_risk_pct)+'%' : '–')+'</td>'+
         '</tr>';
     }).join('');
     body.querySelectorAll('tr').forEach(function(tr){
@@ -607,7 +615,7 @@ footer a{color:var(--ink-muted)}
         '<div class="range-labels"><span>rentang bawah '+fmt(p10)+'</span><span>rentang atas '+fmt(p90)+'</span></div>';
     }
     var neighbors = neighborsByOutlet[o.outlet_id] || [];
-    var neighborItem = function(n){ return '<li data-compare="'+n.id+'"><span>'+n.id+'</span><span class="pct">rebutan '+n.pct+'%</span></li>'; };
+    var neighborItem = function(n){ return '<li data-compare="'+n.id+'"><span>'+n.id+'</span><span class="pct">rebutan '+fmtPct(n.pct)+'%</span></li>'; };
     var neighborToggleHtml = neighbors.length
       ? '<button class="neighbor-toggle" id="toggleNeighborsBtn" data-expanded="0" aria-label="Lihat daftar saingan">▾</button>'
       : '';
@@ -619,14 +627,14 @@ footer a{color:var(--ink-muted)}
       '<div class="detail-name">'+o.outlet_name+'</div>'+
       '<span class="badge '+o.confidence_label+'">'+(CONF_LABEL[o.confidence_label]||o.confidence_label)+'</span>'+
       '<div class="detail-row"><span class="k">Brand</span><span class="v">'+o.brand+'</span></div>'+
-      '<div class="detail-row"><span class="k">Rating Google Maps</span><span class="v">'+(o.rating!=null ? o.rating+'★ ('+o.review_count+' ulasan)' : '–')+'</span></div>'+
+      '<div class="detail-row"><span class="k">Rating Google Maps</span><span class="v">'+(o.rating!=null ? fmtPct(o.rating)+'★ ('+fmt(o.review_count)+' ulasan)' : '–')+'</span></div>'+
       '<div class="detail-row"><span class="k">Karakter lokasi</span><span class="v">'+(TYPE_LABEL[o.outlet_type]||o.outlet_type)+'</span></div>'+
       '<div class="detail-row"><span class="k">Estimasi pelanggan tertangkap</span><span class="v">'+fmt(o.estimated_captured_demand)+'</span></div>'+
-      '<div class="detail-row"><span class="k">Pangsa pasar (kota+brand)</span><span class="v">'+o.market_share_pct+'%</span></div>'+
+      '<div class="detail-row"><span class="k">Pangsa pasar (kota+brand)</span><span class="v">'+fmtPct(o.market_share_pct)+'%</span></div>'+
       rangeHtml+
       '<div class="detail-row"><span class="k">Bersaing dengan outlet lain</span><span class="v">'+(o.n_contested_neighbors!=null ? o.n_contested_neighbors+' outlet' : '–')+neighborToggleHtml+'</span></div>'+
       neighborListHtml+
-      '<div class="detail-row"><span class="k">Total risiko rebutan pelanggan</span><span class="v">'+(o.total_demand_at_risk_pct!=null ? o.total_demand_at_risk_pct+'%' : '–')+'</span></div>'+
+      '<div class="detail-row"><span class="k">Total risiko rebutan pelanggan</span><span class="v">'+(o.total_demand_at_risk_pct!=null ? fmtPct(o.total_demand_at_risk_pct)+'%' : '–')+'</span></div>'+
       '<button class="neighbor-link ghost" id="startCompareBtn">+ Bandingkan dengan outlet lain</button>';
 
     el.querySelectorAll('[data-compare]').forEach(function(node){
@@ -653,7 +661,7 @@ footer a{color:var(--ink-muted)}
       '<span class="badge '+o.confidence_label+'">'+(CONF_LABEL[o.confidence_label]||o.confidence_label)+'</span>'+
       '<div class="detail-row"><span class="k">Karakter</span><span class="v">'+(TYPE_LABEL[o.outlet_type]||o.outlet_type)+'</span></div>'+
       '<div class="detail-row"><span class="k">Pelanggan tertangkap</span><span class="v">'+fmt(o.estimated_captured_demand)+'</span></div>'+
-      '<div class="detail-row"><span class="k">Pangsa pasar</span><span class="v">'+o.market_share_pct+'%</span></div>'+
+      '<div class="detail-row"><span class="k">Pangsa pasar</span><span class="v">'+fmtPct(o.market_share_pct)+'%</span></div>'+
       '</div>';
   }
 
@@ -668,9 +676,9 @@ footer a{color:var(--ink-muted)}
       var biggerPct = bigger === a ? p.a_demand_at_risk_pct : p.b_demand_at_risk_pct;
       var smallerPct = bigger === a ? p.b_demand_at_risk_pct : p.a_demand_at_risk_pct;
       relationHtml = '<div class="compare-relation">'+
-        '<div class="k" style="margin-bottom:6px">Area pelanggan yang tumpang tindih: <b>'+p.contested_cells_pct+'%</b></div>'+
-        '<div class="detail-row"><span class="k">'+bigger.outlet_id+' kehilangan</span><span class="v">'+biggerPct+'%</span></div>'+
-        '<div class="detail-row"><span class="k">'+smaller.outlet_id+' kehilangan</span><span class="v">'+smallerPct+'%</span></div>'+
+        '<div class="k" style="margin-bottom:6px">Area pelanggan yang tumpang tindih: <b>'+fmtPct(p.contested_cells_pct)+'%</b></div>'+
+        '<div class="detail-row"><span class="k">'+bigger.outlet_id+' kehilangan</span><span class="v">'+fmtPct(biggerPct)+'%</span></div>'+
+        '<div class="detail-row"><span class="k">'+smaller.outlet_id+' kehilangan</span><span class="v">'+fmtPct(smallerPct)+'%</span></div>'+
         (Math.abs(p.net_asymmetry_pct) >= 15
           ? '<div class="k" style="margin-top:8px">→ Tidak seimbang: <b>'+bigger.outlet_id+'</b> jauh lebih rentan kalau <b>'+smaller.outlet_id+'</b> ekspansi/promo di areanya.</div>'
           : '<div class="k" style="margin-top:8px">→ Dampaknya relatif seimbang di kedua outlet.</div>')+
