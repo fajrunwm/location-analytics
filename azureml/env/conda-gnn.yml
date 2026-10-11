@@ -11,3 +11,5 @@ dependencies:
       - pyarrow
       - scipy
       - scikit-learn
+      - mlflow
+      - azureml-mlflow

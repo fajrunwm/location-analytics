@@ -22,6 +22,11 @@ from scipy.stats import spearmanr
 from sklearn.metrics import r2_score
 from sklearn.model_selection import GroupKFold
 
+try:
+    import mlflow
+except ImportError:
+    mlflow = None
+
 
 def log(msg):
     print(f"[{time.strftime('%H:%M:%S')}] {msg}", flush=True)
@@ -134,11 +139,17 @@ def main():
         log(f"seed {seed}: R2(log)={r2:.3f} rho={spearmanr(y_np, oof[seed]).statistic:.3f}")
 
     ens = oof.mean(0)
+    urban = hexes["ctx_pop_hex"].values >= 1000  # same dense-urban cut as train_model.py
     metrics = {f"{args.target}|gnn_sage": {"r2_log": round(r2_score(y_np, ens), 4),
                                            "spearman": round(spearmanr(y_np, ens).statistic, 4),
+                                           "r2_log_urban": round(r2_score(y_np[urban], ens[urban]), 4),
+                                           "spearman_urban": round(spearmanr(y_np[urban], ens[urban]).statistic, 4),
                                            "seed_r2": [round(r2_score(y_np, o), 4) for o in oof],
                                            "params": vars(args) | {"n_features": len(cols)}}}
     log(json.dumps(metrics))
+    if mlflow:
+        m = metrics[f"{args.target}|gnn_sage"]
+        mlflow.log_metrics({"r2_log": m["r2_log"], "r2_log_urban": m["r2_log_urban"], "spearman": m["spearman"]})
     (out / "gnn_metrics.json").write_text(json.dumps(metrics, indent=2))
     pd.DataFrame({"h3": hexes.index, "area": hexes.area.values, f"{args.target}_gnn_pred_log": ens}).to_parquet(
         out / "gnn_predictions.parquet")
