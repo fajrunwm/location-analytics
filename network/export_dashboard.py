@@ -6,12 +6,18 @@ and injects them as JSON into network/dashboard_template.html.
 """
 import argparse
 import json
+import os
 import re
 from pathlib import Path
+
+# Must be set before numpy loads: export needs no BLAS threads, and OpenBLAS's per-thread
+# buffers can fail to allocate on a laptop that is short on memory.
+os.environ.setdefault("OPENBLAS_NUM_THREADS", "1")
 
 import h3
 import numpy as np
 import pandas as pd
+import pyarrow.parquet as pq
 
 from areas import AREAS
 
@@ -68,7 +74,13 @@ def main():
         layers_meta.append({"key": key, "label": label, "kind": kind, "desc": desc})
 
     for ar in a.areas.split(","):
-        hexes = pd.read_parquet(Path(a.data) / ar / "hex_features.parquet")
+        # Read only the columns the page needs (hex tables are ~576 columns wide).
+        hp = Path(a.data) / ar / "hex_features.parquet"
+        avail = set(pq.read_schema(hp).names)
+        need = {"h3", "walk_node_count", "y_commercial"} | {c for _, _, cands, _, _ in LAYERS for c in cands}
+        hexes = pd.read_parquet(hp, columns=sorted(need & avail))
+        if "h3" in hexes:
+            hexes = hexes.set_index("h3")
         hexes = hexes[hexes.walk_node_count >= 3]
         hexes = hexes.join(preds[[c for c in preds.columns if c.endswith(("_pred_log", "_gap_log"))]], how="left")
         vals = {}
