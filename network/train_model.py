@@ -195,7 +195,8 @@ def main():
         log(f"outlets: n={len(of)}; top |rho| vs review_count:\n{corr.head(10).round(3).to_string(index=False)}")
 
     if run:
-        mlflow.log_artifacts(str(out))
+        # Outputs already live in the job's output folder; mlflow.log_artifacts is broken with the
+        # azureml-mlflow version in this environment (unexpected 'tracking_uri' kwarg), so metrics only.
         mlflow.end_run()
 
 
