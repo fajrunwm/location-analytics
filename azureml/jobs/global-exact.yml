@@ -14,4 +14,4 @@ outputs:
     path: azureml://datastores/workspaceblobstore/paths/loc-analytics/network-v1/
     mode: rw_mount
 environment: azureml:loc-network@latest
-compute: azureml:loc-analytic
+compute: azureml:loc-cpu64-lp

@@ -1,0 +1,21 @@
+$schema: https://azuremlschemas.azureedge.net/latest/commandJob.schema.json
+display_name: network-bootstrap
+experiment_name: loc-network-model
+code: ../../network
+command: >-
+  python bootstrap_model.py --data ${{inputs.data}} --areas ${{inputs.areas}} --out ${{outputs.model}}
+  --replicates ${{inputs.replicates}}
+inputs:
+  areas: jabodetabek,bandung,surabaya,semarang,yogyakarta,malang
+  replicates: 200
+  data:
+    type: uri_folder
+    path: azureml://datastores/workspaceblobstore/paths/loc-analytics/network-v1/
+    mode: ro_mount
+outputs:
+  model:
+    type: uri_folder
+    path: azureml://datastores/workspaceblobstore/paths/loc-analytics/bootstrap-v1/
+    mode: rw_mount
+environment: azureml:loc-network@latest
+compute: azureml:loc-cpu64-lp

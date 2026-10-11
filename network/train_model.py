@@ -83,6 +83,8 @@ def main():
     ap.add_argument("--out", required=True)
     ap.add_argument("--folds", type=int, default=5)
     ap.add_argument("--group-res", type=int, default=6, choices=[6, 7])
+    ap.add_argument("--test-areas", default="", help="comma-separated areas never used in training "
+                    "(out-of-sample test, e.g. cities outside Java)")
     a = ap.parse_args()
 
     out = Path(a.out)
@@ -92,9 +94,15 @@ def main():
     hexes = hexes[hexes.walk_node_count >= 3]  # drop near-empty cells (water, edges)
     groups = hexes[f"h3_parent{a.group_res}"].astype(str)
     log(f"{len(hexes):,} hexes from {areas}, {groups.nunique()} spatial groups")
+    test_areas = [t for t in a.test_areas.split(",") if t]
+    test = pd.concat([pd.read_parquet(Path(a.data) / ar / "hex_features.parquet") for ar in test_areas]) if test_areas else None
+    if test is not None:
+        test = test[test.walk_node_count >= 3]
+        log(f"out-of-sample test: {len(test):,} hexes from {test_areas}")
 
     fsets = feature_sets(hexes.columns)
     metrics, preds = {}, hexes[["area", "lat", "lon"] + TARGETS].copy()
+    test_preds = test[["area", "lat", "lon"] + TARGETS].copy() if test is not None else None
     run = mlflow.start_run() if mlflow else None
     for target in TARGETS:
         y = np.log1p(hexes[target])
@@ -114,6 +122,22 @@ def main():
             if mlflow:
                 mlflow.log_metrics({f"{target}.{name}.r2".replace("+", "_"): r2,
                                     f"{target}.{name}.spearman".replace("+", "_"): rho})
+            if test is not None:
+                # Train on ALL training areas, predict cities the model has never seen.
+                n_est = int(np.mean([m.best_iteration_ or 500 for m in models]))
+                full = lgb.LGBMRegressor(**{**PARAMS, "n_estimators": n_est}, random_state=42).fit(hexes[cols], y)
+                yt = np.log1p(test[target])
+                pt = full.predict(test[cols])
+                ut = (test["ctx_pop_hex"] >= URBAN_POP_PER_HEX).values
+                per_area = {ar: round(r2_score(yt[test.area == ar], pt[(test.area == ar).values]), 4) for ar in test_areas}
+                metrics[f"{target}|{name}|test"] = {
+                    "r2_log": round(r2_score(yt, pt), 4), "spearman": round(spearmanr(yt, pt).statistic, 4),
+                    "r2_log_urban": round(r2_score(yt[ut], pt[ut]), 4) if ut.sum() > 50 else None,
+                    "r2_log_by_area": per_area, "n_hex": int(len(yt))}
+                log(f"{'':13s} {'-> test':16s} R2(log)={metrics[f'{target}|{name}|test']['r2_log']:.3f} by area {per_area}")
+                if name == "network+context":
+                    test_preds[f"{target}_pred_log"] = pt
+                    test_preds[f"{target}_gap_log"] = pt - yt
             if name == "network+context":
                 preds[f"{target}_pred_log"] = oof
                 preds[f"{target}_gap_log"] = oof - y  # >0: network says more activity than observed
@@ -128,10 +152,12 @@ def main():
                                               random_state=42).fit(X, y)
                     final.booster_.save_model(str(out / "lgbm_commercial.txt"))
     (out / "metrics.json").write_text(json.dumps(metrics, indent=2))
+    if test_preds is not None:
+        preds = pd.concat([preds, test_preds[~test_preds.index.isin(preds.index)]])
     preds.to_parquet(out / "hex_predictions.parquet")
 
     # Outlets: does network position line up with REAL Google Maps review counts?
-    paths = [Path(a.data) / ar / "outlet_features.parquet" for ar in areas]
+    paths = [Path(a.data) / ar / "outlet_features.parquet" for ar in areas + test_areas]
     paths = [p for p in paths if p.exists()]
     if paths:
         of = pd.concat([pd.read_parquet(p) for p in paths])

@@ -9,7 +9,7 @@ inputs:
   area: jabodetabek
   outlets:
     type: uri_file
-    path: ../../outlets.csv
+    path: ../../network/outlets_all.csv
 outputs:
   data:
     type: uri_folder

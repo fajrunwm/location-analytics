@@ -243,13 +243,21 @@ function renderOutletTable(ar){
 function renderStatic(){
   const m = DATA.metrics, rows = [];
   const names = {"network": "Struktur jalan saja", "context": "Populasi + transit saja", "network+context": "Gabungan (LightGBM)", "gnn_sage": "Gabungan (GraphSAGE)"};
+  const testRows = [];
   for (const [k, v] of Object.entries(m)){
-    const [target, fs] = k.split("|");
+    const [target, fs, split] = k.split("|");
     if (target !== "y_commercial") continue;
+    if (split === "test"){
+      const u = v.r2_log_urban;
+      testRows.push(`<span>${names[fs] ?? fs}</span><span class="num">${v.r2_log.toFixed(2)}</span><span class="num">${u == null ? "–" : u.toFixed(2)}</span>`);
+      continue;
+    }
     const u = v.r2_log_urban;
     rows.push(`<span>${names[fs] ?? fs}</span><span class="num">${v.r2_log.toFixed(2)}</span><span class="num">${u == null || isNaN(u) ? "–" : u.toFixed(2)}</span>`);
   }
   document.getElementById("metrics").innerHTML = `<span class="h">Fitur</span><span class="h num">R² semua hex</span><span class="h num">R² kota padat</span>` + rows.join("");
+  if (testRows.length) document.getElementById("metrics").innerHTML +=
+    `<span class="h" style="grid-column:1/-1;margin-top:8px">Uji di kota yang tidak pernah dilatih (luar Jawa)</span>` + testRows.join("");
 
   const imp = DATA.importance, mx = Math.max(...imp.map(d => d.value));
   document.getElementById("importance").innerHTML = imp.map(d => `

@@ -26,7 +26,7 @@ from rasterio.windows import from_bounds
 
 from areas import AREAS
 
-JAVA_PBF_URL = "https://download.geofabrik.de/asia/indonesia/java-latest.osm.pbf"
+PBF_URL = "https://download.geofabrik.de/asia/indonesia/{region}-latest.osm.pbf"
 WORLDPOP_URL = ("https://data.worldpop.org/GIS/Population/Global_2015_2030/R2025A/2025/IDN/v1/100m/"
                 "constrained/idn_pop_2025_CN_100m_R2025A_v1.tif")
 
@@ -63,8 +63,8 @@ def osmium(*args):
     subprocess.run(["osmium", *args, "--overwrite"], check=True)
 
 
-def osm_from_pbf(bbox, raw, cache):
-    pbf = download(JAVA_PBF_URL, cache / "java-latest.osm.pbf")
+def osm_from_pbf(bbox, raw, cache, region="java"):
+    pbf = download(PBF_URL.format(region=region), cache / f"{region}-latest.osm.pbf")
     area_pbf = raw / "area.osm.pbf"
     osmium("extract", "-b", ",".join(map(str, bbox)), "--strategy=complete_ways", str(pbf), "-o", str(area_pbf))
 
@@ -154,7 +154,8 @@ def main():
     cache.mkdir(parents=True, exist_ok=True)
 
     log(f"area={a.area} bbox={bbox}")
-    transit = osm_from_pbf(bbox, raw, cache) if a.osm_source == "pbf" else osm_from_overpass(bbox, raw)
+    transit = (osm_from_pbf(bbox, raw, cache, AREAS[a.area].get("pbf", "java")) if a.osm_source == "pbf"
+               else osm_from_overpass(bbox, raw))
     transit = classify_transit(transit)
     transit.to_parquet(raw / "transit.parquet")
     log(f"transit: {transit.transit_type.value_counts().to_dict()}")

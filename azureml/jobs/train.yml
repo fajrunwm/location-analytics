@@ -3,9 +3,11 @@ display_name: network-train
 experiment_name: loc-network-model
 code: ../../network
 command: >-
-  python train_model.py --data ${{inputs.data}} --areas ${{inputs.areas}} --out ${{outputs.model}} --group-res 6
+  python train_model.py --data ${{inputs.data}} --areas ${{inputs.areas}} --test-areas ${{inputs.test_areas}}
+  --out ${{outputs.model}} --group-res 6
 inputs:
   areas: jabodetabek,bandung,surabaya,semarang,yogyakarta,malang
+  test_areas: medan,palembang,denpasar,makassar,balikpapan
   data:
     type: uri_folder
     path: azureml://datastores/workspaceblobstore/paths/loc-analytics/network-v1/
@@ -13,5 +15,7 @@ inputs:
 outputs:
   model:
     type: uri_folder
+    path: azureml://datastores/workspaceblobstore/paths/loc-analytics/model-v1/
+    mode: rw_mount
 environment: azureml:loc-network@latest
-compute: azureml:loc-cpu-lp
+compute: azureml:loc-ded-e16
