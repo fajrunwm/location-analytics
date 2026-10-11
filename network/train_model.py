@@ -1,0 +1,154 @@
+"""Stage 4 — how much of commercial activity does street-network structure explain?
+
+Trains LightGBM on H3 hex features from one or more areas with SPATIAL cross-validation
+(GroupKFold over H3 res-6 parents, ~36 km2 blocks) so neighbouring hexes never sit on
+both sides of a split.
+
+Feature sets compared (same folds):
+  network          walk_* / drive_* / ang_*  — street structure only
+  context          ctx_*                     — population + transit stops
+  network+context  both
+
+Outputs (in --out):
+  metrics.json               R2 / Spearman per target x feature set (out-of-fold)
+  hex_predictions.parquet    out-of-fold predictions + residual ("network potential gap")
+  feature_importance.csv     mean |SHAP| per feature (network+context model)
+  outlet_correlations.csv    Spearman of real outlet review_count vs network features
+  outlet_scores.parquet      per-outlet network features + predicted hex potential
+"""
+import argparse
+import json
+import time
+from pathlib import Path
+
+import warnings
+
+import lightgbm as lgb
+import numpy as np
+import pandas as pd
+import shap
+from scipy.stats import spearmanr
+from sklearn.metrics import r2_score
+from sklearn.model_selection import GroupKFold
+
+warnings.filterwarnings("ignore", category=UserWarning)
+
+try:
+    import mlflow
+except ImportError:
+    mlflow = None
+
+TARGETS = ["y_commercial", "y_fnb"]
+PARAMS = dict(objective="regression", learning_rate=0.03, num_leaves=63, min_child_samples=30,
+              feature_fraction=0.5, bagging_fraction=0.8, bagging_freq=1, lambda_l2=1.0,
+              n_estimators=1500, verbose=-1)
+
+
+def log(msg):
+    print(f"[{time.strftime('%H:%M:%S')}] {msg}", flush=True)
+
+
+def feature_sets(cols):
+    net = [c for c in cols if c.startswith(("walk_", "drive_", "ang_"))]
+    ctx = [c for c in cols if c.startswith("ctx_")]
+    return {"network": net, "context": ctx, "network+context": net + ctx}
+
+
+def spatial_cv(X, y, groups, n_splits, params, seed=42):
+    oof = np.zeros(len(y))
+    models = []
+    for k, (tr, te) in enumerate(GroupKFold(n_splits=n_splits).split(X, y, groups)):
+        m = lgb.LGBMRegressor(**params, random_state=seed + k)
+        # inner early-stopping split: last 10% of training groups
+        tr_groups = groups.iloc[tr]
+        uniq = tr_groups.unique()
+        rng = np.random.default_rng(seed + k)
+        val_g = set(rng.choice(uniq, max(1, len(uniq) // 10), replace=False))
+        is_val = tr_groups.isin(val_g).values
+        m.fit(X.iloc[tr[~is_val]], y.iloc[tr[~is_val]],
+              eval_set=[(X.iloc[tr[is_val]], y.iloc[tr[is_val]])],
+              callbacks=[lgb.early_stopping(100, verbose=False)])
+        oof[te] = m.predict(X.iloc[te])
+        models.append(m)
+    return oof, models
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--data", required=True, help="folder with <area>/hex_features.parquet")
+    ap.add_argument("--areas", required=True, help="comma-separated")
+    ap.add_argument("--out", required=True)
+    ap.add_argument("--folds", type=int, default=5)
+    ap.add_argument("--group-res", type=int, default=6, choices=[6, 7])
+    a = ap.parse_args()
+
+    out = Path(a.out)
+    out.mkdir(parents=True, exist_ok=True)
+    areas = a.areas.split(",")
+    hexes = pd.concat([pd.read_parquet(Path(a.data) / ar / "hex_features.parquet") for ar in areas])
+    hexes = hexes[hexes.walk_node_count >= 3]  # drop near-empty cells (water, edges)
+    groups = hexes[f"h3_parent{a.group_res}"].astype(str)
+    log(f"{len(hexes):,} hexes from {areas}, {groups.nunique()} spatial groups")
+
+    fsets = feature_sets(hexes.columns)
+    metrics, preds = {}, hexes[["area", "lat", "lon"] + TARGETS].copy()
+    run = mlflow.start_run() if mlflow else None
+    for target in TARGETS:
+        y = np.log1p(hexes[target])
+        for name, cols in fsets.items():
+            oof, models = spatial_cv(hexes[cols], y, groups, min(a.folds, groups.nunique()), PARAMS)
+            r2 = r2_score(y, oof)
+            rho = spearmanr(y, oof).statistic
+            metrics[f"{target}|{name}"] = {"r2_log": round(r2, 4), "spearman": round(rho, 4), "n_features": len(cols)}
+            log(f"{target:13s} {name:16s} R2(log)={r2:.3f} rho={rho:.3f} ({len(cols)} feats)")
+            if mlflow:
+                mlflow.log_metrics({f"{target}.{name}.r2".replace("+", "_"): r2,
+                                    f"{target}.{name}.spearman".replace("+", "_"): rho})
+            if name == "network+context":
+                preds[f"{target}_pred_log"] = oof
+                preds[f"{target}_gap_log"] = oof - y  # >0: network says more activity than observed
+                if target == "y_commercial":
+                    X = hexes[cols]
+                    sample = X.sample(min(5000, len(X)), random_state=0)
+                    sv = np.mean([np.abs(shap.TreeExplainer(m).shap_values(sample)).mean(0) for m in models], axis=0)
+                    imp = pd.Series(sv, index=cols).sort_values(ascending=False)
+                    imp.rename("mean_abs_shap").to_csv(out / "feature_importance.csv")
+                    log("top SHAP: " + ", ".join(f"{k}={v:.3f}" for k, v in imp.head(8).items()))
+                    final = lgb.LGBMRegressor(**{**PARAMS, "n_estimators": int(np.mean([m.best_iteration_ or 500 for m in models]))},
+                                              random_state=42).fit(X, y)
+                    final.booster_.save_model(str(out / "lgbm_commercial.txt"))
+    (out / "metrics.json").write_text(json.dumps(metrics, indent=2))
+    preds.to_parquet(out / "hex_predictions.parquet")
+
+    # Outlets: does network position line up with REAL Google Maps review counts?
+    paths = [Path(a.data) / ar / "outlet_features.parquet" for ar in areas]
+    paths = [p for p in paths if p.exists()]
+    if paths:
+        of = pd.concat([pd.read_parquet(p) for p in paths])
+        of = of[~of.index.duplicated()]
+        of = of.join(preds[["y_commercial_pred_log", "y_commercial_gap_log"]], on="h3")
+        cand = [c for c in of.columns if c.startswith(("node_walk_", "node_drive_", "hex_walk_", "hex_ang_", "hex_drive_", "hex_ctx_"))
+                and not c.endswith("snap_m") and pd.api.types.is_numeric_dtype(of[c])] + ["y_commercial_pred_log"]
+        rows = []
+        for c in cand:
+            ok = of[[c, "review_count"]].dropna()
+            if len(ok) >= 8 and ok[c].nunique() > 2:
+                r = spearmanr(ok[c], ok["review_count"])
+                rows.append({"feature": c, "spearman": r.statistic, "p_value": r.pvalue, "n": len(ok)})
+        corr = pd.DataFrame(rows).sort_values("p_value")
+        # Benjamini-Hochberg: hundreds of features vs ~72 outlets -> most raw p<0.05 are chance.
+        m = len(corr)
+        q = (corr.p_value * m / np.arange(1, m + 1))[::-1].cummin()[::-1].clip(upper=1)
+        corr["q_value_bh"] = q.values
+        corr = corr.sort_values("spearman", key=np.abs, ascending=False)
+        corr.to_csv(out / "outlet_correlations.csv", index=False)
+        of.to_parquet(out / "outlet_scores.parquet")
+        log(f"outlets: n={len(of)}; top |rho| vs review_count:\n{corr.head(10).round(3).to_string(index=False)}")
+
+    if run:
+        mlflow.log_artifacts(str(out))
+        mlflow.end_run()
+
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,5 @@
+$schema: https://azuremlschemas.azureedge.net/latest/computeInstance.schema.json
+name: loc-analytic
+type: computeinstance
+size: Standard_E64ds_v4
+idle_time_before_shutdown_minutes: 60

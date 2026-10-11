@@ -1,0 +1,17 @@
+$schema: https://azuremlschemas.azureedge.net/latest/commandJob.schema.json
+display_name: network-train
+experiment_name: loc-network-model
+code: ../../network
+command: >-
+  python train_model.py --data ${{inputs.data}} --areas ${{inputs.areas}} --out ${{outputs.model}} --group-res 6
+inputs:
+  areas: jabodetabek,bandung,surabaya,semarang,yogyakarta,malang
+  data:
+    type: uri_folder
+    path: azureml://datastores/workspaceblobstore/paths/loc-analytics/network-v1/
+    mode: ro_mount
+outputs:
+  model:
+    type: uri_folder
+environment: azureml:loc-network@latest
+compute: azureml:loc-cpu-lp
