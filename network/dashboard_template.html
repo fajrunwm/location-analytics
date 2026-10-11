@@ -95,10 +95,13 @@ tr.outlet-row:hover{background:var(--surface-2)}
     <label class="sub" for="layer">Layer</label><select id="layer"></select>
     <label class="sub" for="basemap">Basemap</label>
     <select id="basemap">
-      <option value="gray">Abu-abu</option>
+      <option value="gray">Abu-abu terang</option>
+      <option value="dark">Abu-abu gelap</option>
       <option value="street">Peta jalan</option>
       <option value="satellite">Satelit</option>
     </select>
+    <label class="sub" for="ramp">Warna</label>
+    <select id="ramp"></select>
     <span class="opacity">
       <label class="sub" for="opacity">Opasitas layer</label>
       <input type="range" id="opacity" min="0" max="100" step="5" value="70" aria-describedby="opacity-val">
@@ -137,8 +140,13 @@ tr.outlet-row:hover{background:var(--surface-2)}
 <script>
 const DATA = /*__NETWORK_DATA__*/null;
 
-const SEQ_LIGHT = ["#cde2fb","#9ec5f4","#6da7ec","#3987e5","#256abf","#184f95","#0d366b"];
-const SEQ_DARK  = ["#13263f","#184f95","#1c5cab","#2a78d6","#5598e7","#86b6ef","#b7d3f6"];
+// Sequential ramps always run low -> high (pale/dark-recessive -> intense). They do NOT flip with
+// the UI theme; the basemap's brightness decides only the diverging midpoint and hex outlines.
+const RAMPS = {
+  biru:    {label: "Biru",    colors: ["#cde2fb","#9ec5f4","#6da7ec","#3987e5","#256abf","#184f95","#0d366b"]},
+  panas:   {label: "Panas",   colors: ["#ffffb2","#fed976","#feb24c","#fd8d3c","#fc4e2a","#e31a1c","#b10026"]},
+  viridis: {label: "Viridis", colors: ["#440154","#443983","#31688e","#21918c","#35b779","#90d743","#fde725"]},
+};
 const DIV_LIGHT = ["#b8302f","#e34948","#f4a7a2","#f0efec","#9ec5f4","#3987e5","#184f95"];
 const DIV_DARK  = ["#e66767","#b8443f","#5a2c2a","#383835","#1c4a80","#3987e5","#86b6ef"];
 
@@ -146,7 +154,8 @@ const isDark = () => {
   const t = document.documentElement.dataset.theme;
   return t ? t === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
 };
-const palette = kind => kind === "div" ? (isDark() ? DIV_DARK : DIV_LIGHT) : (isDark() ? SEQ_DARK : SEQ_LIGHT);
+const darkBase = () => baseSel.value === "dark" || baseSel.value === "satellite";
+const palette = kind => kind === "div" ? (darkBase() ? DIV_DARK : DIV_LIGHT) : RAMPS[rampSel.value].colors;
 const fmt = v => v == null ? "–" : Math.abs(v) >= 100 ? Math.round(v).toLocaleString("id-ID")
                 : Math.abs(v) >= 1 ? v.toFixed(1) : v.toPrecision(2);
 
@@ -155,10 +164,10 @@ const renderer = L.canvas({padding: 0.3});
 // Esri gray canvas: keyless (CARTO now serves an "API key required" placeholder).
 const ESRI = "https://server.arcgisonline.com/ArcGIS/rest/services/";
 const T = path => ESRI + path + "/MapServer/tile/{z}/{y}/{x}";
-// Basemaps: [base, label overlay, max zoom]. "gray" follows the light/dark theme.
+// Basemaps: [base, label overlay, max zoom].
 const BASEMAPS = {
-  gray: () => isDark() ? [T("Canvas/World_Dark_Gray_Base"), T("Canvas/World_Dark_Gray_Reference"), 16]
-                       : [T("Canvas/World_Light_Gray_Base"), T("Canvas/World_Light_Gray_Reference"), 16],
+  gray: () => [T("Canvas/World_Light_Gray_Base"), T("Canvas/World_Light_Gray_Reference"), 16],
+  dark: () => [T("Canvas/World_Dark_Gray_Base"), T("Canvas/World_Dark_Gray_Reference"), 16],
   street: () => [T("World_Street_Map"), null, 19],
   satellite: () => [T("World_Imagery"), T("Reference/World_Transportation"), 19],
 };
@@ -167,6 +176,8 @@ map.getPane("labels").style.pointerEvents = "none";
 let baseLayer, labelLayer, hexLayer, outletLayer;
 const attribution = 'Basemap © Esri · Jalan © OpenStreetMap · POI © Overture Maps · Populasi WorldPop';
 const baseSel = document.getElementById("basemap");
+const rampSel = document.getElementById("ramp");
+Object.entries(RAMPS).forEach(([k, r]) => rampSel.add(new Option(r.label, k)));
 
 function setBase(){
   if (baseLayer) map.removeLayer(baseLayer);
@@ -205,7 +216,7 @@ function render(){
   ar.h3.forEach((h, i) => {
     const c = colorFor(vals[i], br, pal);
     if (!c) return;
-    const poly = L.polygon(h3.cellToBoundary(h), {renderer, stroke: true, weight: 0.5, color: isDark() ? "#211A16" : "#ffffff",
+    const poly = L.polygon(h3.cellToBoundary(h), {renderer, stroke: true, weight: 0.5, color: darkBase() ? "#1a1a19" : "#ffffff",
                                                  fillColor: c, fillOpacity: 0.9});
     poly.bindTooltip(() => `<b>${lay.label}</b>: ${fmt(vals[i])}` + tipExtra(ar, i), {className: "tip", sticky: true});
     hexLayer.addLayer(poly);
@@ -220,7 +231,7 @@ function render(){
     const mrg = o.brand.startsWith("Marugame");
     const col = css.getPropertyValue(mrg ? "--brand-mrg" : "--brand-hvt").trim();
     const icon = L.divIcon({className: "", iconSize: [14, 14],
-      html: `<div style="width:14px;height:14px;background:${col};border:2px solid ${isDark() ? "#211A16" : "#fff"};border-radius:${mrg ? "50%" : "3px"};box-shadow:0 1px 3px rgba(0,0,0,.4)"></div>`});
+      html: `<div style="width:14px;height:14px;background:${col};border:2px solid ${darkBase() ? "#1a1a19" : "#fff"};border-radius:${mrg ? "50%" : "3px"};box-shadow:0 1px 3px rgba(0,0,0,.4)"></div>`});
     const m = L.marker([o.lat, o.lon], {icon, zIndexOffset: 1000, title: o.name});
     m.bindPopup(outletPopup(o));
     o._marker = m;
@@ -308,7 +319,7 @@ const fit = () => { const b = DATA.areas[areaSel.value].bbox; map.fitBounds([[b[
 areaSel.onchange = () => { fit(); render(); };
 layerSel.onchange = render;
 document.getElementById("theme").onclick = () => {
-  document.documentElement.dataset.theme = isDark() ? "light" : "dark"; setBase(); render();
+  document.documentElement.dataset.theme = isDark() ? "light" : "dark"; render();
 };
 matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => { setBase(); render(); });
 // Layer opacity: fades the hex canvas only (outlet markers & basemap labels stay crisp).
@@ -329,13 +340,20 @@ const hp = new URLSearchParams(location.hash.slice(1));
 if (hp.get("area") in DATA.areas) areaSel.value = hp.get("area");
 if (DATA.layers.some(l => l.key === hp.get("layer"))) layerSel.value = hp.get("layer");
 if (hp.get("op") !== null && !isNaN(+hp.get("op"))) opSel.value = Math.max(0, Math.min(100, +hp.get("op")));
-const syncHash = () => history.replaceState(null, "", `#area=${areaSel.value}&layer=${layerSel.value}&op=${opSel.value}&base=${baseSel.value}`);
+const syncHash = () => history.replaceState(null, "", `#area=${areaSel.value}&layer=${layerSel.value}&op=${opSel.value}&base=${baseSel.value}&ramp=${rampSel.value}`);
 areaSel.addEventListener("change", syncHash); layerSel.addEventListener("change", syncHash);
 opSel.addEventListener("change", syncHash);
 if (hp.get("base") in BASEMAPS) baseSel.value = hp.get("base");
 try { const b = localStorage.getItem("netmap-basemap"); if (!hp.get("base") && b in BASEMAPS) baseSel.value = b; } catch (e) {}
+if (hp.get("ramp") in RAMPS) rampSel.value = hp.get("ramp");
+try { const r = localStorage.getItem("netmap-ramp"); if (!hp.get("ramp") && r in RAMPS) rampSel.value = r; } catch (e) {}
+rampSel.addEventListener("change", () => {
+  render();
+  try { localStorage.setItem("netmap-ramp", rampSel.value); } catch (e) {}
+  syncHash();
+});
 baseSel.addEventListener("change", () => {
-  setBase();
+  setBase(); render();
   try { localStorage.setItem("netmap-basemap", baseSel.value); } catch (e) {}
   syncHash();
 });
