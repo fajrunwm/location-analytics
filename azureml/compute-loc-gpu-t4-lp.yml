@@ -1,0 +1,8 @@
+$schema: https://azuremlschemas.azureedge.net/latest/amlCompute.schema.json
+name: loc-gpu-t4-lp
+type: amlcompute
+size: Standard_NC8as_T4_v3
+tier: low_priority
+min_instances: 0
+max_instances: 4
+idle_time_before_scale_down: 120

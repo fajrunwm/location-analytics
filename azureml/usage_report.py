@@ -37,6 +37,7 @@ COMPUTES = {
     "loc-cpu64-lp": ("Standard_E64ds_v4", "low_priority", 5),
     "loc-ded-e16": ("Standard_E16ds_v4", "dedicated", 10),
     "gpu-a100-lp": ("Standard_NC24ads_A100_v4", "low_priority", 2),
+    "loc-gpu-t4-lp": ("Standard_NC8as_T4_v3", "low_priority", 2),
 }
 CI_CREATED = "2026-10-11T06:16:45Z"  # loc-analytic creation (from the create command output)
 AZ = r"C:\Program Files\Microsoft SDKs\Azure\CLI2\wbin\az.cmd" if sys.platform == "win32" else "az"
@@ -130,7 +131,8 @@ def main():
               "billed_hours": round(ci_hours, 2), "usd_est": round(ci_hours * ci_price, 2)}
     by_compute = pd.concat([by_compute[by_compute.compute != "loc-analytic"], pd.DataFrame([ci_row])], ignore_index=True)
 
-    vcpus = {"Standard_E64ds_v4": 64, "Standard_E32ds_v4": 32, "Standard_E16ds_v4": 16, "Standard_NC24ads_A100_v4": 24}
+    vcpus = {"Standard_E64ds_v4": 64, "Standard_E32ds_v4": 32, "Standard_E16ds_v4": 16, "Standard_NC24ads_A100_v4": 24,
+             "Standard_NC8as_T4_v3": 8}
     df["vcpu_hours"] = df.run_hours * df.vm_size.map(vcpus).fillna(0)
     summary = {
         "generated_utc": now.isoformat(),
@@ -138,7 +140,7 @@ def main():
         "jobs_failed": int((df.status == "Failed").sum()), "jobs_running": int(df.end.isna().sum()),
         "first_job_utc": str(df.created.min()), "last_job_end_utc": str(df.end.max()),
         "node_run_hours": round(df.run_hours.sum(), 2), "vcpu_hours": round(df.vcpu_hours.sum(), 1),
-        "gpu_hours": round(df[df.vm_size.str.contains("A100")].run_hours.sum(), 2),
+        "gpu_hours": round(df[df.vm_size.str.contains("A100|T4")].run_hours.sum(), 2),
         "compute_instance_uptime_hours": round(ci_hours, 2),
         "usd_estimate_total": round(by_compute.usd_est.sum(), 2),
         "usd_estimate_by_compute": by_compute.to_dict(orient="records"),
