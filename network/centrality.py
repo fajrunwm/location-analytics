@@ -35,13 +35,14 @@ POI_KEYS = ["food_and_drink", "shopping", "services_and_business", "education", 
             "health_care", "arts_and_entertainment", "community_and_government", "travel_and_transportation"]
 TRANSIT_KEYS = ["rail_station", "bus_station", "bus_stop"]
 EXACT_BETWEENNESS_MAX_NODES = int(os.environ.get("EXACT_BETWEENNESS_MAX_NODES", 250_000))
+CLOSENESS_MAX_NODES = int(os.environ.get("CLOSENESS_MAX_NODES", 250_000))
 
 
 def log(msg):
     print(f"[{time.strftime('%H:%M:%S')}] {msg}", flush=True)
 
 
-def global_networkit(G_proj):
+def global_networkit(G_proj, force_exact=False):
     """Global betweenness & harmonic closeness on the length-weighted undirected graph."""
     U = nx.Graph()
     for u, v, d in G_proj.edges(data=True):
@@ -67,14 +68,19 @@ def global_networkit(G_proj):
     bc.run()
     log(f"networkit betweenness {mode} on {n:,} nodes: {time.time() - t:.0f}s")
 
-    t = time.time()
-    hc = nk.centrality.HarmonicCloseness(g, normalized=True)
-    hc.run()
-    log(f"networkit harmonic closeness: {time.time() - t:.0f}s")
+    # Exact global closeness is O(n*m) and adds little over cityseer's 10-20 km closeness;
+    # skip it on big graphs (DKI drive at 242k nodes already took 31 min on 64 cores).
+    closeness = np.full(n, np.nan)
+    if n <= CLOSENESS_MAX_NODES or force_exact:
+        t = time.time()
+        hc = nk.centrality.HarmonicCloseness(g, normalized=True)
+        hc.run()
+        closeness = hc.scores()
+        log(f"networkit harmonic closeness: {time.time() - t:.0f}s")
 
     keys = list(idx)
     return pd.DataFrame({"node": [str(k) for k in keys], "nk_betweenness": bc.scores(),
-                         "nk_closeness": hc.scores()}).set_index("node"), mode
+                         "nk_closeness": closeness}).set_index("node"), mode
 
 
 def main():
@@ -99,7 +105,7 @@ def main():
     if a.global_exact_only:
         global EXACT_BETWEENNESS_MAX_NODES
         EXACT_BETWEENNESS_MAX_NODES = 10**9
-        glob, _ = global_networkit(G_proj)
+        glob, _ = global_networkit(G_proj, force_exact=True)
         glob.rename(columns=lambda c: c + "_exact").to_parquet(base / f"nodes_{a.net}_global_exact.parquet")
         log(f"wrote nodes_{a.net}_global_exact.parquet: {glob.shape}")
         return
