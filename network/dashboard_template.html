@@ -154,6 +154,7 @@ const isDark = () => {
   const t = document.documentElement.dataset.theme;
   return t ? t === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
 };
+const CAT = {"1": {color: "#2a78d6", label: "Peluang"}, "-1": {color: "#e34948", label: "Destinasi"}};
 const darkBase = () => baseSel.value === "dark" || baseSel.value === "satellite";
 const palette = kind => kind === "div" ? (darkBase() ? DIV_DARK : DIV_LIGHT) : RAMPS[rampSel.value].colors;
 const fmt = v => v == null ? "–" : Math.abs(v) >= 100 ? Math.round(v).toLocaleString("id-ID")
@@ -202,7 +203,7 @@ function breaks(values, kind){
   if (pos.length < 10) return [1,2,3,4,5,6].map(i => v[Math.min(v.length - 1, Math.floor(v.length * i / 7))]);
   return [1e-9, ...[1,2,3,4,5].map(i => pos[Math.min(pos.length - 1, Math.floor(pos.length * i / 6))])];
 }
-const colorFor = (x, br, pal) => { if (x == null) return null; let i = 0; while (i < br.length && x > br[i]) i++; return pal[i]; };
+const colorFor = (x, br, pal, kind) => { if (x == null) return null; if (kind === "cat") return CAT[String(x)]?.color ?? null; let i = 0; while (i < br.length && x > br[i]) i++; return pal[i]; };
 
 function render(){
   const ar = DATA.areas[areaSel.value];
@@ -214,11 +215,12 @@ function render(){
   if (hexLayer) map.removeLayer(hexLayer);
   hexLayer = L.layerGroup();
   ar.h3.forEach((h, i) => {
-    const c = colorFor(vals[i], br, pal);
+    const c = colorFor(vals[i], br, pal, lay.kind);
     if (!c) return;
     const poly = L.polygon(h3.cellToBoundary(h), {renderer, stroke: true, weight: 0.5, color: darkBase() ? "#1a1a19" : "#ffffff",
                                                  fillColor: c, fillOpacity: 0.9});
-    poly.bindTooltip(() => `<b>${lay.label}</b>: ${fmt(vals[i])}` + tipExtra(ar, i), {className: "tip", sticky: true});
+    const shown = lay.kind === "cat" ? CAT[String(vals[i])].label : fmt(vals[i]);
+    poly.bindTooltip(() => `<b>${lay.label}</b>: ${shown}` + tipExtra(ar, i), {className: "tip", sticky: true});
     hexLayer.addLayer(poly);
   });
   hexLayer.addTo(map);
@@ -241,8 +243,12 @@ function render(){
 
   document.getElementById("layer-title").textContent = lay.label;
   document.getElementById("layer-desc").textContent = lay.desc;
-  document.getElementById("legend").innerHTML = pal.map(c => `<span style="background:${c}"></span>`).join("");
-  document.getElementById("legend-labels").innerHTML = lay.kind === "div"
+  document.getElementById("legend").innerHTML = lay.kind === "cat"
+    ? Object.values(CAT).map(c => `<span style="background:${c.color}"></span>`).join("")
+    : pal.map(c => `<span style="background:${c}"></span>`).join("");
+  document.getElementById("legend-labels").innerHTML = lay.kind === "cat"
+    ? Object.values(CAT).map(c => `<span>${c.label}</span>`).join("")
+    : lay.kind === "div"
     ? `<span>aktivitas > potensi</span><span>seimbang</span><span>potensi > aktivitas</span>`
     : `<span>0 / rendah</span><span>${br.length ? "tengah ≈ " + fmt(br[3]) : ""}</span><span>tinggi (≥ ${br.length ? fmt(br[5]) : ""})</span>`;
   renderOutletTable(ar);
@@ -258,7 +264,7 @@ function outletPopup(o){
   return `<b>${o.name}</b><br><span style="color:var(--ink-muted)">${o.location_type ?? ""} · ★ ${o.rating} · ${o.reviews.toLocaleString("id-ID")} review</span>
     <table style="margin-top:6px">${row("Persentil potensi jaringan", fmt(o.potential_pct))}${row("Persentil hotspot aktual", fmt(o.actual_pct))}
     ${row("Persentil angular 2,4 km", fmt(o.ang2400_pct))}${row("Persentil koridor 10 km", fmt(o.drive10k_pct))}
-    ${row("Gap potensi (log)", o.gap == null ? "–" : o.gap.toFixed(2))}</table>`;
+    ${row("Gap potensi (log)", o.gap == null ? "–" : o.gap.toFixed(2))}${o.confident ? row("Label stabil (bootstrap)", o.confident) : ""}</table>`;
 }
 
 let sortKey = "potential_pct", sortDir = -1;

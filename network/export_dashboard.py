@@ -30,6 +30,10 @@ LAYERS = [
     ("gap", "Gap potensi", ["y_commercial_gap_log"], "div",
      "Prediksi − aktual (log), dihaluskan dengan 6 hex tetangga. Biru: jaringan mendukung lebih banyak aktivitas dari yang ada (peluang). "
      "Merah: aktivitas melebihi posisi jaringan (destinasi/mall)"),
+    ("confident", "Peluang & destinasi (stabil)", ["gap_confident_code"], "cat",
+     "Hanya hex yang labelnya bertahan di bootstrap 200× (blok spasial): biru = prediksi ≥ 1,5× aktual di ≥ 90% fit "
+     "out-of-bag (peluang), merah = aktual ≥ 1,5× prediksi (destinasi). Hex tanpa warna = tidak cukup jelas. "
+     "Hanya area latih (Jawa); kota luar Jawa tidak di-bootstrap"),
     ("ang2400", "Angular betweenness 2,4 km", ["ang_betweenness_2400_ang_mean"], "seq",
      "Seberapa sering segmen jalan dilewati rute paling 'lurus' (sedikit belokan) dalam radius 2,4 km jalan kaki"),
     ("drive10k", "Koridor kendaraan 10 km", ["drive_betweenness_10000_mean"], "seq",
@@ -58,6 +62,7 @@ def main():
     ap.add_argument("--areas", required=True)
     ap.add_argument("--template", default=str(Path(__file__).with_name("dashboard_template.html")))
     ap.add_argument("--out", required=True)
+    ap.add_argument("--bootstrap", default=None, help="folder with hex_bootstrap.parquet (optional layer)")
     a = ap.parse_args()
 
     model = Path(a.model)
@@ -68,9 +73,15 @@ def main():
         metrics.update(json.loads(gnn_path.read_text()))
     imp = pd.read_csv(model / "feature_importance.csv", index_col=0).iloc[:, 0]
     corr = pd.read_csv(model / "outlet_correlations.csv") if (model / "outlet_correlations.csv").exists() else None
+    boot = None
+    if a.bootstrap and (Path(a.bootstrap) / "hex_bootstrap.parquet").exists():
+        boot = pd.read_parquet(Path(a.bootstrap) / "hex_bootstrap.parquet", columns=["gap_confident"])
+        boot["gap_confident_code"] = boot.gap_confident.map({"opportunity": 1.0, "destination": -1.0})
 
     areas_out, layers_meta = {}, []
     for key, label, cands, kind, desc in LAYERS:
+        if key == "confident" and boot is None:
+            continue
         layers_meta.append({"key": key, "label": label, "kind": kind, "desc": desc})
 
     for ar in a.areas.split(","):
@@ -83,6 +94,8 @@ def main():
             hexes = hexes.set_index("h3")
         hexes = hexes[hexes.walk_node_count >= 3]
         hexes = hexes.join(preds[[c for c in preds.columns if c.endswith(("_pred_log", "_gap_log"))]], how="left")
+        if boot is not None:
+            hexes = hexes.join(boot[["gap_confident_code"]], how="left")
         vals = {}
         for key, _, cands, _, _ in LAYERS:
             col = next((c for c in cands if c in hexes), None)
@@ -99,7 +112,6 @@ def main():
         op = Path(a.data) / ar / "outlet_features.parquet"
         if op.exists():
             of = pd.read_parquet(op)
-            pot = hexes["y_commercial_pred_log"] if "y_commercial_pred_log" in hexes else None
             for oid, r in of.iterrows():
                 h = r.get("h3")
                 row = {"id": oid, "name": r["outlet_name"], "brand": r["brand"], "lat": r["latitude"],
@@ -109,6 +121,9 @@ def main():
                                  ("drive10k", "drive_betweenness_10000_mean"), ("actual", "y_commercial")):
                     if col in hexes and h in hexes.index:
                         row[f"{key}_pct"] = float((hexes[col] <= hexes.at[h, col]).mean().round(3) * 100)
+                if "gap_confident_code" in hexes and h in hexes.index:
+                    c = hexes.at[h, "gap_confident_code"]
+                    row["confident"] = {1.0: "peluang", -1.0: "destinasi"}.get(c, "")
                 if "y_commercial_gap_log" in hexes and h in hexes.index:
                     g = hexes.at[h, "y_commercial_gap_log"]
                     row["gap"] = None if pd.isna(g) else round(float(g), 3)
