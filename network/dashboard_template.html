@@ -34,14 +34,17 @@
 }
 *{box-sizing:border-box}
 html,body{margin:0;height:100%}
-body{background:var(--bg);color:var(--ink);font:14px/1.45 var(--sans)}
+body{background:var(--bg);color:var(--ink);font:14px/1.45 var(--sans);display:flex;flex-direction:column}
 header{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;padding:12px 16px;border-bottom:1px solid var(--border);background:var(--surface)}
 header h1{font-size:16px;margin:0 8px 0 0;font-weight:600}
 header .sub{color:var(--ink-muted);font-size:12px}
 .controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-left:auto}
 select,button{font:inherit;font-size:13px;color:var(--ink);background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:6px 10px}
 button{cursor:pointer}
-main{display:grid;grid-template-columns:minmax(0,1fr) 380px;height:calc(100% - 58px)}
+.opacity{display:flex;align-items:center;gap:6px}
+.opacity input[type=range]{width:120px;accent-color:#2a78d6;cursor:pointer}
+.opacity output{font:12px var(--mono);color:var(--ink-muted);min-width:34px;text-align:right}
+main{display:grid;grid-template-columns:minmax(0,1fr) 380px;flex:1;min-height:0}
 #map{height:100%;background:var(--surface-2)}
 aside{overflow:auto;border-left:1px solid var(--border);background:var(--surface);padding:14px 16px 32px}
 aside h2{font-size:13px;text-transform:uppercase;letter-spacing:.04em;color:var(--ink-muted);margin:18px 0 8px;font-weight:600}
@@ -69,7 +72,15 @@ tr.outlet-row:hover{background:var(--surface-2)}
 .leaflet-popup-content-wrapper,.leaflet-popup-tip{background:var(--surface);color:var(--ink)}
 .leaflet-container{font-family:var(--sans)}
 @media (max-width: 900px){
-  main{grid-template-columns:1fr;grid-template-rows:60vh auto;height:auto}
+  body{display:block}
+  header .sub{flex-basis:100%}
+  .controls{width:100%}
+  .controls select{flex:1 1 0;min-width:0}
+  .opacity{flex:1 1 100%}
+  .opacity input[type=range]{flex:1;width:auto}
+  main{grid-template-columns:minmax(0,1fr);grid-template-rows:60vh auto}
+  aside{min-width:0}
+  aside table{display:block;overflow-x:auto}
   aside{border-left:none;border-top:1px solid var(--border)}
   .controls{margin-left:0}
 }
@@ -82,6 +93,17 @@ tr.outlet-row:hover{background:var(--surface-2)}
   <div class="controls">
     <label class="sub" for="area">Area</label><select id="area"></select>
     <label class="sub" for="layer">Layer</label><select id="layer"></select>
+    <label class="sub" for="basemap">Basemap</label>
+    <select id="basemap">
+      <option value="gray">Abu-abu</option>
+      <option value="street">Peta jalan</option>
+      <option value="satellite">Satelit</option>
+    </select>
+    <span class="opacity">
+      <label class="sub" for="opacity">Opasitas layer</label>
+      <input type="range" id="opacity" min="0" max="100" step="5" value="70" aria-describedby="opacity-val">
+      <output id="opacity-val" for="opacity">70%</output>
+    </span>
     <button id="theme" title="Ganti tema">◐</button>
   </div>
 </header>
@@ -128,24 +150,31 @@ const palette = kind => kind === "div" ? (isDark() ? DIV_DARK : DIV_LIGHT) : (is
 const fmt = v => v == null ? "–" : Math.abs(v) >= 100 ? Math.round(v).toLocaleString("id-ID")
                 : Math.abs(v) >= 1 ? v.toFixed(1) : v.toPrecision(2);
 
-const map = L.map("map", {preferCanvas: true, zoomControl: true, maxZoom: 16});
+const map = L.map("map", {preferCanvas: true, zoomControl: true, maxZoom: 19});
 const renderer = L.canvas({padding: 0.3});
 // Esri gray canvas: keyless (CARTO now serves an "API key required" placeholder).
-const ESRI = "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/";
-const tiles = {
-  light: [ESRI + "World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}", ESRI + "World_Light_Gray_Reference/MapServer/tile/{z}/{y}/{x}"],
-  dark: [ESRI + "World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}", ESRI + "World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}"],
+const ESRI = "https://server.arcgisonline.com/ArcGIS/rest/services/";
+const T = path => ESRI + path + "/MapServer/tile/{z}/{y}/{x}";
+// Basemaps: [base, label overlay, max zoom]. "gray" follows the light/dark theme.
+const BASEMAPS = {
+  gray: () => isDark() ? [T("Canvas/World_Dark_Gray_Base"), T("Canvas/World_Dark_Gray_Reference"), 16]
+                       : [T("Canvas/World_Light_Gray_Base"), T("Canvas/World_Light_Gray_Reference"), 16],
+  street: () => [T("World_Street_Map"), null, 19],
+  satellite: () => [T("World_Imagery"), T("Reference/World_Transportation"), 19],
 };
 map.createPane("labels").style.zIndex = 450;
 map.getPane("labels").style.pointerEvents = "none";
 let baseLayer, labelLayer, hexLayer, outletLayer;
 const attribution = 'Basemap © Esri · Jalan © OpenStreetMap · POI © Overture Maps · Populasi WorldPop';
+const baseSel = document.getElementById("basemap");
 
 function setBase(){
-  if (baseLayer) { map.removeLayer(baseLayer); map.removeLayer(labelLayer); }
-  const [b, l] = isDark() ? tiles.dark : tiles.light;
-  baseLayer = L.tileLayer(b, {attribution, maxZoom: 16}).addTo(map);
-  labelLayer = L.tileLayer(l, {maxZoom: 16, pane: "labels"}).addTo(map);
+  if (baseLayer) map.removeLayer(baseLayer);
+  if (labelLayer) map.removeLayer(labelLayer);
+  const [b, l, maxZoom] = BASEMAPS[baseSel.value]();
+  map.setMaxZoom(maxZoom);
+  baseLayer = L.tileLayer(b, {attribution, maxZoom}).addTo(map);
+  labelLayer = l ? L.tileLayer(l, {maxZoom, pane: "labels"}).addTo(map) : null;
   baseLayer.bringToBack();
 }
 
@@ -177,11 +206,12 @@ function render(){
     const c = colorFor(vals[i], br, pal);
     if (!c) return;
     const poly = L.polygon(h3.cellToBoundary(h), {renderer, stroke: true, weight: 0.5, color: isDark() ? "#211A16" : "#ffffff",
-                                                 fillColor: c, fillOpacity: 0.62});
+                                                 fillColor: c, fillOpacity: 0.9});
     poly.bindTooltip(() => `<b>${lay.label}</b>: ${fmt(vals[i])}` + tipExtra(ar, i), {className: "tip", sticky: true});
     hexLayer.addLayer(poly);
   });
   hexLayer.addTo(map);
+  applyOpacity();
 
   if (outletLayer) map.removeLayer(outletLayer);
   outletLayer = L.layerGroup();
@@ -281,12 +311,34 @@ document.getElementById("theme").onclick = () => {
   document.documentElement.dataset.theme = isDark() ? "light" : "dark"; setBase(); render();
 };
 matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => { setBase(); render(); });
-// Shareable view: #area=<key>&layer=<key>
+// Layer opacity: fades the hex canvas only (outlet markers & basemap labels stay crisp).
+const opSel = document.getElementById("opacity"), opOut = document.getElementById("opacity-val");
+function applyOpacity(){
+  opOut.textContent = opSel.value + "%";
+  const el = renderer._container;
+  if (el) el.style.opacity = opSel.value / 100;
+}
+try { const saved = localStorage.getItem("netmap-opacity"); if (saved !== null) opSel.value = saved; } catch (e) {}
+opSel.addEventListener("input", () => {
+  applyOpacity();
+  try { localStorage.setItem("netmap-opacity", opSel.value); } catch (e) {}
+});
+
+// Shareable view: #area=<key>&layer=<key>[&op=<0-100>]
 const hp = new URLSearchParams(location.hash.slice(1));
 if (hp.get("area") in DATA.areas) areaSel.value = hp.get("area");
 if (DATA.layers.some(l => l.key === hp.get("layer"))) layerSel.value = hp.get("layer");
-const syncHash = () => history.replaceState(null, "", `#area=${areaSel.value}&layer=${layerSel.value}`);
+if (hp.get("op") !== null && !isNaN(+hp.get("op"))) opSel.value = Math.max(0, Math.min(100, +hp.get("op")));
+const syncHash = () => history.replaceState(null, "", `#area=${areaSel.value}&layer=${layerSel.value}&op=${opSel.value}&base=${baseSel.value}`);
 areaSel.addEventListener("change", syncHash); layerSel.addEventListener("change", syncHash);
+opSel.addEventListener("change", syncHash);
+if (hp.get("base") in BASEMAPS) baseSel.value = hp.get("base");
+try { const b = localStorage.getItem("netmap-basemap"); if (!hp.get("base") && b in BASEMAPS) baseSel.value = b; } catch (e) {}
+baseSel.addEventListener("change", () => {
+  setBase();
+  try { localStorage.setItem("netmap-basemap", baseSel.value); } catch (e) {}
+  syncHash();
+});
 setBase(); fit(); renderStatic(); render();
 </script>
 </body>
