@@ -156,7 +156,11 @@ function breaks(values, kind){
     const m = Math.max(Math.abs(v[Math.floor(v.length * .02)]), Math.abs(v[Math.floor(v.length * .98)])) || 1;
     return [-m*.6, -m*.3, -m*.1, m*.1, m*.3, m*.6].map(x => +x.toFixed(2));
   }
-  return [1,2,3,4,5,6].map(i => v[Math.min(v.length - 1, Math.floor(v.length * i / 7))]);
+  // Zero / near-zero cells take the lightest class; quantiles over the positive tail for the rest,
+  // so a long run of 0-1 counts does not swallow the scale.
+  const pos = v.filter(x => x > 1e-9);
+  if (pos.length < 10) return [1,2,3,4,5,6].map(i => v[Math.min(v.length - 1, Math.floor(v.length * i / 7))]);
+  return [1e-9, ...[1,2,3,4,5].map(i => pos[Math.min(pos.length - 1, Math.floor(pos.length * i / 6))])];
 }
 const colorFor = (x, br, pal) => { if (x == null) return null; let i = 0; while (i < br.length && x > br[i]) i++; return pal[i]; };
 
@@ -199,7 +203,7 @@ function render(){
   document.getElementById("legend").innerHTML = pal.map(c => `<span style="background:${c}"></span>`).join("");
   document.getElementById("legend-labels").innerHTML = lay.kind === "div"
     ? `<span>aktivitas > potensi</span><span>seimbang</span><span>potensi > aktivitas</span>`
-    : `<span>rendah</span><span>${br.length ? "p50 ≈ " + fmt(br[2]) : ""}</span><span>tinggi</span>`;
+    : `<span>0 / rendah</span><span>${br.length ? "tengah ≈ " + fmt(br[3]) : ""}</span><span>tinggi (≥ ${br.length ? fmt(br[5]) : ""})</span>`;
   renderOutletTable(ar);
 }
 
@@ -249,7 +253,7 @@ function renderStatic(){
 
   const imp = DATA.importance, mx = Math.max(...imp.map(d => d.value));
   document.getElementById("importance").innerHTML = imp.map(d => `
-    <div style="display:grid;grid-template-columns:minmax(0,230px) 1fr 44px;gap:8px;align-items:center;font-size:12px;margin:3px 0">
+    <div style="display:grid;grid-template-columns:minmax(0,1fr) 110px 44px;gap:8px;align-items:center;font-size:12px;margin:3px 0">
       <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${d.feature}">${d.feature}</span>
       <div class="bar" style="width:${(d.value / mx * 100).toFixed(1)}%"></div><span class="num" style="font-family:var(--mono);text-align:right">${d.value.toFixed(3)}</span>
     </div>`).join("");
@@ -269,6 +273,12 @@ document.getElementById("theme").onclick = () => {
   document.documentElement.dataset.theme = isDark() ? "light" : "dark"; setBase(); render();
 };
 matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => { setBase(); render(); });
+// Shareable view: #area=<key>&layer=<key>
+const hp = new URLSearchParams(location.hash.slice(1));
+if (hp.get("area") in DATA.areas) areaSel.value = hp.get("area");
+if (DATA.layers.some(l => l.key === hp.get("layer"))) layerSel.value = hp.get("layer");
+const syncHash = () => history.replaceState(null, "", `#area=${areaSel.value}&layer=${layerSel.value}`);
+areaSel.addEventListener("change", syncHash); layerSel.addEventListener("change", syncHash);
 setBase(); fit(); renderStatic(); render();
 </script>
 </body>

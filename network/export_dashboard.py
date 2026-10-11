@@ -9,6 +9,7 @@ import json
 import re
 from pathlib import Path
 
+import h3
 import numpy as np
 import pandas as pd
 
@@ -21,7 +22,7 @@ LAYERS = [
     ("potential", "Potensi jaringan", ["y_commercial_pred_log"], "seq",
      "Prediksi model (struktur jalan + populasi + transit) — dari spatial CV, bukan data latih"),
     ("gap", "Gap potensi", ["y_commercial_gap_log"], "div",
-     "Prediksi − aktual (log). Biru: jaringan mendukung lebih banyak aktivitas dari yang ada (peluang). "
+     "Prediksi − aktual (log), dihaluskan dengan 6 hex tetangga. Biru: jaringan mendukung lebih banyak aktivitas dari yang ada (peluang). "
      "Merah: aktivitas melebihi posisi jaringan (destinasi/mall)"),
     ("ang2400", "Angular betweenness 2,4 km", ["ang_betweenness_2400_ang_mean"], "seq",
      "Seberapa sering segmen jalan dilewati rute paling 'lurus' (sedikit belokan) dalam radius 2,4 km jalan kaki"),
@@ -32,6 +33,16 @@ LAYERS = [
     ("pop1200", "Penduduk terjangkau 1,2 km", ["ctx_pop_sum_1200_nw", "ctx_pop_sum_1200_wt"], "seq",
      "Penduduk (WorldPop 2025) dalam 1,2 km jarak jalan kaki"),
 ]
+
+
+def smooth(series):
+    """Mean over each hex and its 6 neighbours — per-hex residuals are noisy; areas are the signal."""
+    lookup = series.to_dict()
+    out = []
+    for h in series.index:
+        vals = [lookup[n] for n in h3.grid_disk(h, 1) if n in lookup and pd.notna(lookup[n])]
+        out.append(np.mean(vals) if vals else np.nan)
+    return pd.Series(out, index=series.index)
 
 
 def main():
@@ -68,6 +79,8 @@ def main():
             v = hexes[col].astype(float)
             if key == "potential":
                 v = np.expm1(v)  # back to POI-count scale
+            if key == "gap":
+                v = smooth(v)
             vals[key] = [None if not np.isfinite(x) else round(float(x), 3) for x in v]
 
         outlets = []
