@@ -7,7 +7,8 @@ are its out-of-bag set. Outputs per hex:
   pred_p10/p50/p90       log(1+commercial POI) across all replicates
   gap_oob_p10/p50/p90    (prediction - actual) using only out-of-bag replicates, so the gap
                          is never measured on data the model trained on
-  gap_confident          "opportunity" if oob gap p10 > 0, "destination" if p90 < 0, else ""
+  gap_confident          "opportunity" if oob gap p10 > margin (predicted >= 1.5x actual in at
+                         least 90% of out-of-bag fits), "destination" if p90 < -margin, else ""
 
 Like outlet_confidence_bands.csv in the Huff engine, this says which signals are stable
 rather than an artefact of one particular fit.
@@ -54,6 +55,8 @@ def main():
     ap.add_argument("--replicates", type=int, default=200)
     ap.add_argument("--n-estimators", type=int, default=600)
     ap.add_argument("--workers", type=int, default=0, help="parallel replicates (0 = cpus/8)")
+    ap.add_argument("--margin", type=float, default=float(np.log(1.5)),
+                    help="log-gap a hex must clear to be labelled (default ln 1.5: 1.5x more/less than actual)")
     a = ap.parse_args()
 
     out = Path(a.out)
@@ -89,7 +92,9 @@ def main():
         "gap_oob_p10": np.nanpercentile(gap, 10, axis=0), "gap_oob_p50": np.nanpercentile(gap, 50, axis=0),
         "gap_oob_p90": np.nanpercentile(gap, 90, axis=0), "n_oob": oob.sum(0),
     }, index=hexes.index)
-    res["gap_confident"] = np.select([res.gap_oob_p10 > 0, res.gap_oob_p90 < 0], ["opportunity", "destination"], "")
+    # A sign that is merely stable is not enough (tiny gaps are stable too); require a material gap.
+    res["gap_confident"] = np.select([res.gap_oob_p10 > a.margin, res.gap_oob_p90 < -a.margin],
+                                     ["opportunity", "destination"], "")
     res.to_parquet(out / "hex_bootstrap.parquet")
     summary = res.groupby("area").gap_confident.value_counts().unstack(fill_value=0)
     log(f"confident gaps by area:\n{summary.to_string()}")
