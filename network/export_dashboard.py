@@ -119,6 +119,13 @@ def main():
         "importance": [{"feature": k, "value": round(float(v), 4)} for k, v in fam.head(15).items()],
         "outlet_corr": [] if corr is None else corr.head(12).round(4).replace({np.nan: None}).to_dict("records"),
     }
+    def clean(o):  # NaN (e.g. too few dense-urban hexes) -> null for strict JSON
+        if isinstance(o, dict):
+            return {k: clean(v) for k, v in o.items()}
+        if isinstance(o, list):
+            return [clean(v) for v in o]
+        return None if isinstance(o, float) and not np.isfinite(o) else o
+    payload = clean(payload)
     html = Path(a.template).read_text(encoding="utf-8")
     html = html.replace("/*__NETWORK_DATA__*/null", json.dumps(payload, separators=(",", ":"), allow_nan=False))
     Path(a.out).write_text(html, encoding="utf-8")

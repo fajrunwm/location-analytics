@@ -60,7 +60,7 @@ tr.outlet-row:hover{background:var(--surface-2)}
 .dot.mrg{background:var(--brand-mrg);border-radius:50%}
 .dot.hvt{background:var(--brand-hvt);border-radius:2px}
 .bar{height:8px;border-radius:0 4px 4px 0;background:#2a78d6}
-.kv{display:grid;grid-template-columns:1fr auto auto;gap:2px 10px;font-size:12.5px}
+.kv{display:grid;grid-template-columns:1fr auto auto;gap:2px 12px;font-size:12.5px}
 .kv .h{color:var(--ink-muted);font-size:11.5px}
 .kv .num{font-family:var(--mono);text-align:right}
 .note{font-size:12px;color:var(--ink-muted);border-left:3px solid var(--border);padding-left:10px;margin:10px 0}
@@ -94,7 +94,7 @@ tr.outlet-row:hover{background:var(--surface-2)}
     <div class="legend-labels" id="legend-labels"></div>
 
     <h2>Seberapa jauh struktur jalan menjelaskan aktivitas?</h2>
-    <div class="desc">R² (log POI komersial per hex) dari spatial cross-validation — blok ±36 km² tidak pernah muncul di data latih dan uji sekaligus.</div>
+    <div class="desc">R² (log POI komersial per hex) dari spatial cross-validation — blok ±36 km² tidak pernah muncul di data latih dan uji sekaligus. "Kota padat" = hex ≥ ~9.500 jiwa/km², tanpa efek mudah kota-vs-desa.</div>
     <div class="kv" id="metrics"></div>
 
     <h2>Fitur paling berpengaruh</h2>
@@ -106,8 +106,8 @@ tr.outlet-row:hover{background:var(--surface-2)}
     <table id="outlets"><thead></thead><tbody></tbody></table>
 
     <h2>Korelasi dengan jumlah review (real)</h2>
-    <div class="desc">Spearman ρ antara fitur jaringan di lokasi outlet dan jumlah review Google Maps. q = p-value setelah koreksi Benjamini–Hochberg; hanya q &lt; 0,1 yang layak dianggap sinyal.</div>
-    <table id="corr"><thead><tr><th>Fitur</th><th class="num">ρ</th><th class="num">q</th><th class="num">n</th></tr></thead><tbody></tbody></table>
+    <div class="desc">Spearman ρ antara fitur jaringan di lokasi outlet dan jumlah review Google Maps. "adj" = review relatif terhadap rata-rata kelompok brand × tipe lokasi (mall vs ruko). q = p-value setelah koreksi Benjamini–Hochberg; hanya q &lt; 0,1 yang layak dianggap sinyal (baris abu-abu = belum signifikan).</div>
+    <table id="corr"><thead><tr><th>Fitur</th><th class="num">ρ</th><th class="num">ρ adj</th><th class="num">q adj</th><th class="num">n</th></tr></thead><tbody></tbody></table>
 
     <div class="note">Data: jaringan jalan OpenStreetMap (Geofabrik), POI Overture Maps, populasi WorldPop 2025 (100 m), lokasi & review outlet Google Maps. Semua nyata — tidak memakai data sintetis repo. Jumlah review adalah proxy popularitas, bukan omzet.</div>
   </aside>
@@ -242,9 +242,10 @@ function renderStatic(){
   for (const [k, v] of Object.entries(m)){
     const [target, fs] = k.split("|");
     if (target !== "y_commercial") continue;
-    rows.push(`<span>${names[fs] ?? fs}</span><span class="num">R² ${v.r2_log.toFixed(2)}</span><span class="num">ρ ${v.spearman.toFixed(2)}</span>`);
+    const u = v.r2_log_urban;
+    rows.push(`<span>${names[fs] ?? fs}</span><span class="num">${v.r2_log.toFixed(2)}</span><span class="num">${u == null || isNaN(u) ? "–" : u.toFixed(2)}</span>`);
   }
-  document.getElementById("metrics").innerHTML = `<span class="h">Fitur</span><span class="h num">R²</span><span class="h num">Spearman</span>` + rows.join("");
+  document.getElementById("metrics").innerHTML = `<span class="h">Fitur</span><span class="h num">R² semua hex</span><span class="h num">R² kota padat</span>` + rows.join("");
 
   const imp = DATA.importance, mx = Math.max(...imp.map(d => d.value));
   document.getElementById("importance").innerHTML = imp.map(d => `
@@ -253,8 +254,9 @@ function renderStatic(){
       <div class="bar" style="width:${(d.value / mx * 100).toFixed(1)}%"></div><span class="num" style="font-family:var(--mono);text-align:right">${d.value.toFixed(3)}</span>
     </div>`).join("");
 
-  document.querySelector("#corr tbody").innerHTML = DATA.outlet_corr.map(r => `<tr${r.q_value_bh < 0.1 ? "" : ' style="color:var(--ink-muted)"'}>
-      <td>${r.feature}</td><td class="num">${r.spearman.toFixed(2)}</td><td class="num">${r.q_value_bh.toFixed(3)}</td><td class="num">${r.n}</td></tr>`).join("");
+  document.querySelector("#corr tbody").innerHTML = DATA.outlet_corr.map(r => `<tr${r.q_value_bh_adj < 0.1 ? "" : ' style="color:var(--ink-muted)"'}>
+      <td style="word-break:break-all">${r.feature}</td><td class="num">${r.spearman.toFixed(2)}</td><td class="num">${r.spearman_adj.toFixed(2)}</td>
+      <td class="num">${r.q_value_bh_adj.toFixed(2)}</td><td class="num">${r.n}</td></tr>`).join("");
 }
 
 const areaSel = document.getElementById("area"), layerSel = document.getElementById("layer");

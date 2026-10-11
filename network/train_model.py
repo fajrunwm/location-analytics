@@ -31,7 +31,7 @@ from scipy.stats import spearmanr
 from sklearn.metrics import r2_score
 from sklearn.model_selection import GroupKFold
 
-warnings.filterwarnings("ignore", category=UserWarning)
+warnings.filterwarnings("ignore")
 
 try:
     import mlflow
@@ -39,6 +39,7 @@ except ImportError:
     mlflow = None
 
 TARGETS = ["y_commercial", "y_fnb"]
+URBAN_POP_PER_HEX = 1000  # H3 res 9 ~0.105 km2 -> ~9,500 people/km2
 PARAMS = dict(objective="regression", learning_rate=0.03, num_leaves=63, min_child_samples=30,
               feature_fraction=0.5, bagging_fraction=0.8, bagging_freq=1, lambda_l2=1.0,
               n_estimators=1500, verbose=-1)
@@ -101,8 +102,15 @@ def main():
             oof, models = spatial_cv(hexes[cols], y, groups, min(a.folds, groups.nunique()), PARAMS)
             r2 = r2_score(y, oof)
             rho = spearmanr(y, oof).statistic
-            metrics[f"{target}|{name}"] = {"r2_log": round(r2, 4), "spearman": round(rho, 4), "n_features": len(cols)}
-            log(f"{target:13s} {name:16s} R2(log)={r2:.3f} rho={rho:.3f} ({len(cols)} feats)")
+            # Dense-urban subset (>= ~9.5k people/km2): removes the easy urban-vs-rural gradient.
+            urban = (hexes["ctx_pop_hex"] >= URBAN_POP_PER_HEX).values
+            r2_u = r2_score(y[urban], oof[urban]) if urban.sum() > 50 else float("nan")
+            rho_u = spearmanr(y[urban], oof[urban]).statistic if urban.sum() > 50 else float("nan")
+            metrics[f"{target}|{name}"] = {"r2_log": round(r2, 4), "spearman": round(rho, 4), "n_features": len(cols),
+                                           "r2_log_urban": round(r2_u, 4), "spearman_urban": round(rho_u, 4),
+                                           "n_hex": int(len(y)), "n_hex_urban": int(urban.sum())}
+            log(f"{target:13s} {name:16s} R2(log)={r2:.3f} rho={rho:.3f} | dense-urban R2={r2_u:.3f} rho={rho_u:.3f} "
+                f"(n={urban.sum()}) ({len(cols)} feats)")
             if mlflow:
                 mlflow.log_metrics({f"{target}.{name}.r2".replace("+", "_"): r2,
                                     f"{target}.{name}.spearman".replace("+", "_"): rho})
@@ -131,18 +139,31 @@ def main():
         of = of.join(preds[["y_commercial_pred_log", "y_commercial_gap_log"]], on="h3")
         cand = [c for c in of.columns if c.startswith(("node_walk_", "node_drive_", "hex_walk_", "hex_ang_", "hex_drive_", "hex_ctx_"))
                 and not c.endswith("snap_m") and pd.api.types.is_numeric_dtype(of[c])] + ["y_commercial_pred_log"]
+        # Adjusted target: log reviews relative to the outlet's own brand x location_type group
+        # (mall outlets and ruko outlets differ systematically, independent of street network).
+        lr = np.log1p(of["review_count"])
+        of["review_resid"] = lr - lr.groupby([of["brand"], of["location_type"]]).transform("mean")
+
+        def bh(p):
+            p = pd.Series(p).reset_index(drop=True)
+            order = p.sort_values().index
+            m = len(p)
+            q = (p[order] * m / np.arange(1, m + 1))[::-1].cummin()[::-1].clip(upper=1)
+            return q.reindex(p.index).values
+
         rows = []
         for c in cand:
-            ok = of[[c, "review_count"]].dropna()
+            ok = of[[c, "review_count", "review_resid"]].dropna()
             if len(ok) >= 8 and ok[c].nunique() > 2:
                 r = spearmanr(ok[c], ok["review_count"])
-                rows.append({"feature": c, "spearman": r.statistic, "p_value": r.pvalue, "n": len(ok)})
-        corr = pd.DataFrame(rows).sort_values("p_value")
+                ra = spearmanr(ok[c], ok["review_resid"])
+                rows.append({"feature": c, "spearman": r.statistic, "p_value": r.pvalue,
+                             "spearman_adj": ra.statistic, "p_value_adj": ra.pvalue, "n": len(ok)})
+        corr = pd.DataFrame(rows)
         # Benjamini-Hochberg: hundreds of features vs ~72 outlets -> most raw p<0.05 are chance.
-        m = len(corr)
-        q = (corr.p_value * m / np.arange(1, m + 1))[::-1].cummin()[::-1].clip(upper=1)
-        corr["q_value_bh"] = q.values
-        corr = corr.sort_values("spearman", key=np.abs, ascending=False)
+        corr["q_value_bh"] = bh(corr.p_value)
+        corr["q_value_bh_adj"] = bh(corr.p_value_adj)
+        corr = corr.sort_values("spearman_adj", key=np.abs, ascending=False)
         corr.to_csv(out / "outlet_correlations.csv", index=False)
         of.to_parquet(out / "outlet_scores.parquet")
         log(f"outlets: n={len(of)}; top |rho| vs review_count:\n{corr.head(10).round(3).to_string(index=False)}")
