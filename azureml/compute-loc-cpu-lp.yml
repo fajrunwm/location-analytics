@@ -4,5 +4,5 @@ type: amlcompute
 size: Standard_E32ds_v4
 tier: low_priority
 min_instances: 0
-max_instances: 1
+max_instances: 5
 idle_time_before_scale_down: 300

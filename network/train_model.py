@@ -50,7 +50,9 @@ def log(msg):
 
 def feature_sets(cols):
     net = [c for c in cols if c.startswith(("walk_", "drive_", "ang_"))]
-    ctx = [c for c in cols if c.startswith("ctx_")]
+    # Population: keep sum/mean per radius only — the other cityseer stats (min/max/median/mad/var)
+    # are ~100 near-duplicate columns that would dominate grouped importance.
+    ctx = [c for c in cols if c.startswith(("ctx_n_", "ctx_pop_hex", "ctx_pop_sum_", "ctx_pop_mean_"))]
     return {"network": net, "context": ctx, "network+context": net + ctx}
 
 

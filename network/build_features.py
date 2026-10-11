@@ -80,6 +80,14 @@ def main():
 
     walk = add_h3(pd.read_parquet(base / "nodes_walk.parquet"), a.res)
     drive = add_h3(pd.read_parquet(base / "nodes_drive.parquet"), a.res)
+    # Optional: exact global betweenness from the separate global-exact job replaces the sampled one.
+    for net, df in (("walk", walk), ("drive", drive)):
+        exact = base / f"nodes_{net}_global_exact.parquet"
+        if exact.exists():
+            ex = pd.read_parquet(exact)
+            df["nk_betweenness"] = ex["nk_betweenness_exact"].reindex(df.index).values
+            df["nk_closeness"] = ex["nk_closeness_exact"].reindex(df.index).values
+            log(f"using exact global centrality for {net}")
     seg = add_h3(pd.read_parquet(base / "segments_walk_angular.parquet"), a.res)
 
     w_struct, w_access, w_pop = split_cols(walk.columns)

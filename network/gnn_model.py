@@ -109,7 +109,7 @@ def main():
     hexes = pd.concat([pd.read_parquet(Path(args.data) / a / "hex_features.parquet") for a in args.areas.split(",")])
     hexes = hexes[hexes.walk_node_count >= 3]
     hexes = hexes[~hexes.index.duplicated()]
-    cols = [c for c in hexes.columns if c.startswith(("walk_", "drive_", "ang_", "ctx_"))]
+    cols = [c for c in hexes.columns if c.startswith(("walk_", "drive_", "ang_", "ctx_n_", "ctx_pop_hex", "ctx_pop_sum_", "ctx_pop_mean_"))]
     Xn = hexes[cols].astype("float64")
     Xn = np.sign(Xn) * np.log1p(np.abs(Xn))  # heavy-tailed centralities
     Xn = (Xn - Xn.mean()) / Xn.std().replace(0, 1)

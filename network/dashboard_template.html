@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Network Hotspot Map</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/h3-js@4.1.0/dist/h3-js.umd.js"></script>
+<style>
+:root{
+  --bg:#FAF6F1; --surface:#FFFFFF; --surface-2:#F2E9E1;
+  --ink:#2B2320; --ink-muted:#8A7B71; --border:#E7DAD0;
+  --accent:#D9704F;
+  --brand-mrg:#eb6834; --brand-hvt:#6250d6;
+  --mono:"IBM Plex Mono", ui-monospace, monospace;
+  --sans:"IBM Plex Sans", system-ui, sans-serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#181310; --surface:#211A16; --surface-2:#2A211C;
+    --ink:#F1E8E1; --ink-muted:#AD9C90; --border:#382D26;
+    --accent:#E68F6B; --brand-mrg:#d95926; --brand-hvt:#9085e9;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#181310; --surface:#211A16; --surface-2:#2A211C;
+  --ink:#F1E8E1; --ink-muted:#AD9C90; --border:#382D26;
+  --accent:#E68F6B; --brand-mrg:#d95926; --brand-hvt:#9085e9;
+  color-scheme: dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{background:var(--bg);color:var(--ink);font:14px/1.45 var(--sans)}
+header{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;padding:12px 16px;border-bottom:1px solid var(--border);background:var(--surface)}
+header h1{font-size:16px;margin:0 8px 0 0;font-weight:600}
+header .sub{color:var(--ink-muted);font-size:12px}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-left:auto}
+select,button{font:inherit;font-size:13px;color:var(--ink);background:var(--surface-2);border:1px solid var(--border);border-radius:8px;padding:6px 10px}
+button{cursor:pointer}
+main{display:grid;grid-template-columns:minmax(0,1fr) 380px;height:calc(100% - 58px)}
+#map{height:100%;background:var(--surface-2)}
+aside{overflow:auto;border-left:1px solid var(--border);background:var(--surface);padding:14px 16px 32px}
+aside h2{font-size:13px;text-transform:uppercase;letter-spacing:.04em;color:var(--ink-muted);margin:18px 0 8px;font-weight:600}
+aside h2:first-child{margin-top:0}
+.desc{color:var(--ink-muted);font-size:12.5px;margin:4px 0 10px}
+.legend{display:flex;align-items:stretch;height:12px;border-radius:3px;overflow:hidden;margin-top:6px}
+.legend span{flex:1}
+.legend-labels{display:flex;justify-content:space-between;font:11px var(--mono);color:var(--ink-muted);margin-top:3px}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th,td{text-align:left;padding:5px 4px;border-bottom:1px solid var(--border);vertical-align:top}
+th{color:var(--ink-muted);font-weight:500;cursor:pointer;white-space:nowrap}
+td.num,th.num{text-align:right;font-family:var(--mono)}
+tr.outlet-row{cursor:pointer}
+tr.outlet-row:hover{background:var(--surface-2)}
+.dot{display:inline-block;width:9px;height:9px;margin-right:6px;vertical-align:middle}
+.dot.mrg{background:var(--brand-mrg);border-radius:50%}
+.dot.hvt{background:var(--brand-hvt);border-radius:2px}
+.bar{height:8px;border-radius:0 4px 4px 0;background:#2a78d6}
+.kv{display:grid;grid-template-columns:1fr auto auto;gap:2px 10px;font-size:12.5px}
+.kv .h{color:var(--ink-muted);font-size:11.5px}
+.kv .num{font-family:var(--mono);text-align:right}
+.note{font-size:12px;color:var(--ink-muted);border-left:3px solid var(--border);padding-left:10px;margin:10px 0}
+.tip{font:12px var(--sans);color:var(--ink);background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:6px 9px;box-shadow:0 2px 10px rgba(0,0,0,.15)}
+.leaflet-tooltip.tip{background:var(--surface);color:var(--ink);border-color:var(--border)}
+.leaflet-popup-content-wrapper,.leaflet-popup-tip{background:var(--surface);color:var(--ink)}
+.leaflet-container{font-family:var(--sans)}
+@media (max-width: 900px){
+  main{grid-template-columns:1fr;grid-template-rows:60vh auto;height:auto}
+  aside{border-left:none;border-top:1px solid var(--border)}
+  .controls{margin-left:0}
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>Network Hotspot Map</h1>
+  <span class="sub">Centrality jaringan jalan × aktivitas komersial · Marugame Udon & The Harvest</span>
+  <div class="controls">
+    <label class="sub" for="area">Area</label><select id="area"></select>
+    <label class="sub" for="layer">Layer</label><select id="layer"></select>
+    <button id="theme" title="Ganti tema">◐</button>
+  </div>
+</header>
+<main>
+  <div id="map" role="region" aria-label="Peta hex"></div>
+  <aside>
+    <h2 id="layer-title">Layer</h2>
+    <div class="desc" id="layer-desc"></div>
+    <div class="legend" id="legend"></div>
+    <div class="legend-labels" id="legend-labels"></div>
+
+    <h2>Seberapa jauh struktur jalan menjelaskan aktivitas?</h2>
+    <div class="desc">R² (log POI komersial per hex) dari spatial cross-validation — blok ±36 km² tidak pernah muncul di data latih dan uji sekaligus.</div>
+    <div class="kv" id="metrics"></div>
+
+    <h2>Fitur paling berpengaruh</h2>
+    <div class="desc">Mean |SHAP| dijumlah per keluarga metrik (semua radius & agregasi).</div>
+    <div id="importance"></div>
+
+    <h2>Outlet di area ini</h2>
+    <div class="desc">Persentil hex outlet di dalam area (100 = tertinggi). Klik baris untuk zoom.</div>
+    <table id="outlets"><thead></thead><tbody></tbody></table>
+
+    <h2>Korelasi dengan jumlah review (real)</h2>
+    <div class="desc">Spearman ρ antara fitur jaringan di lokasi outlet dan jumlah review Google Maps. q = p-value setelah koreksi Benjamini–Hochberg; hanya q &lt; 0,1 yang layak dianggap sinyal.</div>
+    <table id="corr"><thead><tr><th>Fitur</th><th class="num">ρ</th><th class="num">q</th><th class="num">n</th></tr></thead><tbody></tbody></table>
+
+    <div class="note">Data: jaringan jalan OpenStreetMap (Geofabrik), POI Overture Maps, populasi WorldPop 2025 (100 m), lokasi & review outlet Google Maps. Semua nyata — tidak memakai data sintetis repo. Jumlah review adalah proxy popularitas, bukan omzet.</div>
+  </aside>
+</main>
+<script>
+const DATA = /*__NETWORK_DATA__*/null;
+
+const SEQ_LIGHT = ["#cde2fb","#9ec5f4","#6da7ec","#3987e5","#256abf","#184f95","#0d366b"];
+const SEQ_DARK  = ["#13263f","#184f95","#1c5cab","#2a78d6","#5598e7","#86b6ef","#b7d3f6"];
+const DIV_LIGHT = ["#b8302f","#e34948","#f4a7a2","#f0efec","#9ec5f4","#3987e5","#184f95"];
+const DIV_DARK  = ["#e66767","#b8443f","#5a2c2a","#383835","#1c4a80","#3987e5","#86b6ef"];
+
+const isDark = () => {
+  const t = document.documentElement.dataset.theme;
+  return t ? t === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+};
+const palette = kind => kind === "div" ? (isDark() ? DIV_DARK : DIV_LIGHT) : (isDark() ? SEQ_DARK : SEQ_LIGHT);
+const fmt = v => v == null ? "–" : Math.abs(v) >= 100 ? Math.round(v).toLocaleString("id-ID")
+                : Math.abs(v) >= 1 ? v.toFixed(1) : v.toPrecision(2);
+
+const map = L.map("map", {preferCanvas: true, zoomControl: true, maxZoom: 16});
+const renderer = L.canvas({padding: 0.3});
+// Esri gray canvas: keyless (CARTO now serves an "API key required" placeholder).
+const ESRI = "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/";
+const tiles = {
+  light: [ESRI + "World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}", ESRI + "World_Light_Gray_Reference/MapServer/tile/{z}/{y}/{x}"],
+  dark: [ESRI + "World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}", ESRI + "World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}"],
+};
+map.createPane("labels").style.zIndex = 450;
+map.getPane("labels").style.pointerEvents = "none";
+let baseLayer, labelLayer, hexLayer, outletLayer;
+const attribution = 'Basemap © Esri · Jalan © OpenStreetMap · POI © Overture Maps · Populasi WorldPop';
+
+function setBase(){
+  if (baseLayer) { map.removeLayer(baseLayer); map.removeLayer(labelLayer); }
+  const [b, l] = isDark() ? tiles.dark : tiles.light;
+  baseLayer = L.tileLayer(b, {attribution, maxZoom: 16}).addTo(map);
+  labelLayer = L.tileLayer(l, {maxZoom: 16, pane: "labels"}).addTo(map);
+  baseLayer.bringToBack();
+}
+
+function breaks(values, kind){
+  const v = values.filter(x => x != null && isFinite(x)).sort((a, b) => a - b);
+  if (!v.length) return [];
+  if (kind === "div"){
+    const m = Math.max(Math.abs(v[Math.floor(v.length * .02)]), Math.abs(v[Math.floor(v.length * .98)])) || 1;
+    return [-m*.6, -m*.3, -m*.1, m*.1, m*.3, m*.6].map(x => +x.toFixed(2));
+  }
+  return [1,2,3,4,5,6].map(i => v[Math.min(v.length - 1, Math.floor(v.length * i / 7))]);
+}
+const colorFor = (x, br, pal) => { if (x == null) return null; let i = 0; while (i < br.length && x > br[i]) i++; return pal[i]; };
+
+function render(){
+  const ar = DATA.areas[areaSel.value];
+  const lay = DATA.layers.find(l => l.key === layerSel.value);
+  const vals = ar.values[lay.key] || [];
+  const pal = palette(lay.kind);
+  const br = breaks(vals, lay.kind);
+
+  if (hexLayer) map.removeLayer(hexLayer);
+  hexLayer = L.layerGroup();
+  ar.h3.forEach((h, i) => {
+    const c = colorFor(vals[i], br, pal);
+    if (!c) return;
+    const poly = L.polygon(h3.cellToBoundary(h), {renderer, stroke: true, weight: 0.5, color: isDark() ? "#211A16" : "#ffffff",
+                                                 fillColor: c, fillOpacity: 0.62});
+    poly.bindTooltip(() => `<b>${lay.label}</b>: ${fmt(vals[i])}` + tipExtra(ar, i), {className: "tip", sticky: true});
+    hexLayer.addLayer(poly);
+  });
+  hexLayer.addTo(map);
+
+  if (outletLayer) map.removeLayer(outletLayer);
+  outletLayer = L.layerGroup();
+  const css = getComputedStyle(document.documentElement);
+  ar.outlets.forEach(o => {
+    const mrg = o.brand.startsWith("Marugame");
+    const col = css.getPropertyValue(mrg ? "--brand-mrg" : "--brand-hvt").trim();
+    const icon = L.divIcon({className: "", iconSize: [14, 14],
+      html: `<div style="width:14px;height:14px;background:${col};border:2px solid ${isDark() ? "#211A16" : "#fff"};border-radius:${mrg ? "50%" : "3px"};box-shadow:0 1px 3px rgba(0,0,0,.4)"></div>`});
+    const m = L.marker([o.lat, o.lon], {icon, zIndexOffset: 1000, title: o.name});
+    m.bindPopup(outletPopup(o));
+    o._marker = m;
+    outletLayer.addLayer(m);
+  });
+  outletLayer.addTo(map);
+
+  document.getElementById("layer-title").textContent = lay.label;
+  document.getElementById("layer-desc").textContent = lay.desc;
+  document.getElementById("legend").innerHTML = pal.map(c => `<span style="background:${c}"></span>`).join("");
+  document.getElementById("legend-labels").innerHTML = lay.kind === "div"
+    ? `<span>aktivitas > potensi</span><span>seimbang</span><span>potensi > aktivitas</span>`
+    : `<span>rendah</span><span>${br.length ? "p50 ≈ " + fmt(br[2]) : ""}</span><span>tinggi</span>`;
+  renderOutletTable(ar);
+}
+
+function tipExtra(ar, i){
+  const a = ar.values.actual?.[i], p = ar.values.potential?.[i];
+  return (a != null && p != null) ? `<br><span style="color:var(--ink-muted)">aktual ${fmt(a)} · potensi ${fmt(p)} POI</span>` : "";
+}
+
+function outletPopup(o){
+  const row = (k, v) => `<tr><td style="color:var(--ink-muted)">${k}</td><td class="num">${v}</td></tr>`;
+  return `<b>${o.name}</b><br><span style="color:var(--ink-muted)">${o.location_type ?? ""} · ★ ${o.rating} · ${o.reviews.toLocaleString("id-ID")} review</span>
+    <table style="margin-top:6px">${row("Persentil potensi jaringan", fmt(o.potential_pct))}${row("Persentil hotspot aktual", fmt(o.actual_pct))}
+    ${row("Persentil angular 2,4 km", fmt(o.ang2400_pct))}${row("Persentil koridor 10 km", fmt(o.drive10k_pct))}
+    ${row("Gap potensi (log)", o.gap == null ? "–" : o.gap.toFixed(2))}</table>`;
+}
+
+let sortKey = "potential_pct", sortDir = -1;
+function renderOutletTable(ar){
+  const cols = [["name","Outlet",false],["reviews","Review",true],["potential_pct","Potensi",true],["actual_pct","Aktual",true],["ang2400_pct","Angular",true]];
+  const t = document.getElementById("outlets");
+  t.tHead.innerHTML = "<tr>" + cols.map(([k, l, n]) => `<th class="${n ? "num" : ""}" data-k="${k}">${l}${sortKey === k ? (sortDir < 0 ? " ↓" : " ↑") : ""}</th>`).join("") + "</tr>";
+  t.tHead.querySelectorAll("th").forEach(th => th.onclick = () => {
+    sortDir = sortKey === th.dataset.k ? -sortDir : -1; sortKey = th.dataset.k; renderOutletTable(ar);
+  });
+  const rows = [...ar.outlets].sort((a, b) => ((a[sortKey] ?? -1) > (b[sortKey] ?? -1) ? 1 : -1) * sortDir);
+  t.tBodies[0].innerHTML = rows.length ? rows.map(o => `<tr class="outlet-row" data-id="${o.id}">
+      <td><span class="dot ${o.brand.startsWith("Marugame") ? "mrg" : "hvt"}"></span>${o.name.replace(/^(Marugame Udon|The Harvest( Cakes)?)\s*-?\s*/, "")}</td>
+      <td class="num">${o.reviews.toLocaleString("id-ID")}</td><td class="num">${fmt(o.potential_pct)}</td>
+      <td class="num">${fmt(o.actual_pct)}</td><td class="num">${fmt(o.ang2400_pct)}</td></tr>`).join("")
+    : `<tr><td colspan="5" style="color:var(--ink-muted)">Tidak ada outlet di area ini</td></tr>`;
+  t.tBodies[0].querySelectorAll("tr.outlet-row").forEach(tr => tr.onclick = () => {
+    const o = ar.outlets.find(x => x.id === tr.dataset.id);
+    map.setView([o.lat, o.lon], 15); o._marker.openPopup();
+  });
+}
+
+function renderStatic(){
+  const m = DATA.metrics, rows = [];
+  const names = {"network": "Struktur jalan saja", "context": "Populasi + transit saja", "network+context": "Gabungan (LightGBM)", "gnn_sage": "Gabungan (GraphSAGE)"};
+  for (const [k, v] of Object.entries(m)){
+    const [target, fs] = k.split("|");
+    if (target !== "y_commercial") continue;
+    rows.push(`<span>${names[fs] ?? fs}</span><span class="num">R² ${v.r2_log.toFixed(2)}</span><span class="num">ρ ${v.spearman.toFixed(2)}</span>`);
+  }
+  document.getElementById("metrics").innerHTML = `<span class="h">Fitur</span><span class="h num">R²</span><span class="h num">Spearman</span>` + rows.join("");
+
+  const imp = DATA.importance, mx = Math.max(...imp.map(d => d.value));
+  document.getElementById("importance").innerHTML = imp.map(d => `
+    <div style="display:grid;grid-template-columns:minmax(0,230px) 1fr 44px;gap:8px;align-items:center;font-size:12px;margin:3px 0">
+      <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${d.feature}">${d.feature}</span>
+      <div class="bar" style="width:${(d.value / mx * 100).toFixed(1)}%"></div><span class="num" style="font-family:var(--mono);text-align:right">${d.value.toFixed(3)}</span>
+    </div>`).join("");
+
+  document.querySelector("#corr tbody").innerHTML = DATA.outlet_corr.map(r => `<tr${r.q_value_bh < 0.1 ? "" : ' style="color:var(--ink-muted)"'}>
+      <td>${r.feature}</td><td class="num">${r.spearman.toFixed(2)}</td><td class="num">${r.q_value_bh.toFixed(3)}</td><td class="num">${r.n}</td></tr>`).join("");
+}
+
+const areaSel = document.getElementById("area"), layerSel = document.getElementById("layer");
+Object.entries(DATA.areas).forEach(([k, a]) => areaSel.add(new Option(a.label, k)));
+DATA.layers.forEach(l => layerSel.add(new Option(l.label, l.key)));
+const fit = () => { const b = DATA.areas[areaSel.value].bbox; map.fitBounds([[b[1], b[0]], [b[3], b[2]]]); };
+areaSel.onchange = () => { fit(); render(); };
+layerSel.onchange = render;
+document.getElementById("theme").onclick = () => {
+  document.documentElement.dataset.theme = isDark() ? "light" : "dark"; setBase(); render();
+};
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => { setBase(); render(); });
+setBase(); fit(); renderStatic(); render();
+</script>
+</body>
+</html>

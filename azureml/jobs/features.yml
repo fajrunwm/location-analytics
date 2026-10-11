@@ -1,0 +1,19 @@
+$schema: https://azuremlschemas.azureedge.net/latest/commandJob.schema.json
+display_name: network-features
+experiment_name: loc-network-centrality
+code: ../../network
+# Rebuild hex/outlet features in place (e.g. after the global-exact job).
+command: >-
+  python build_features.py --area ${{inputs.area}} --out ${{outputs.data}} --outlets ${{inputs.outlets}}
+inputs:
+  area: jabodetabek
+  outlets:
+    type: uri_file
+    path: ../../outlets.csv
+outputs:
+  data:
+    type: uri_folder
+    path: azureml://datastores/workspaceblobstore/paths/loc-analytics/network-v1/
+    mode: rw_mount
+environment: azureml:loc-network@latest
+compute: azureml:loc-cpu-lp
