@@ -1,0 +1,17 @@
+$schema: https://azuremlschemas.azureedge.net/latest/commandJob.schema.json
+display_name: network-gnn
+experiment_name: loc-network-model
+code: ../../network
+command: >-
+  python gnn_model.py --data ${{inputs.data}} --areas ${{inputs.areas}} --out ${{outputs.model}} --seeds 10
+inputs:
+  areas: jabodetabek,bandung,surabaya,semarang,yogyakarta,malang
+  data:
+    type: uri_folder
+    path: azureml://datastores/workspaceblobstore/paths/loc-analytics/network-v1/
+    mode: ro_mount
+outputs:
+  model:
+    type: uri_folder
+environment: azureml:loc-gnn@latest
+compute: azureml:gpu-a100-lp

@@ -92,6 +92,25 @@ marker clustering untuk 72 outlet real:
 non-teknis) adalah dua ringkasan visual lain dari pipeline yang sama —
 lihat §Peta dokumen.
 
+## 6. Street network analysis — `network/` (Azure ML)
+
+Menguji seberapa jauh **struktur jaringan jalan** menjelaskan di mana aktivitas
+komersial terkumpul, hanya dengan data nyata (OSM, Overture Maps, WorldPop, lokasi
+& review outlet). Centrality multi-radius (cityseer, networkit) per simpang →
+hex H3 → LightGBM dengan spatial CV, uji di 5 kota luar Jawa, bootstrap, GNN.
+Dijalankan di workspace Azure ML `azureml-azure-benefit` (job spec: `azureml/jobs/`).
+
+| File | Isi |
+|---|---|
+| `network/fetch_data.py` → `centrality.py` → `build_features.py` | Pipeline per area (13 area: 6 metro Jawa, DKI, Jakarta Pusat, 5 kota luar Jawa) |
+| `network/train_model.py`, `bootstrap_model.py`, `gnn_model.py` | Model, interval kepercayaan, GraphSAGE |
+| `network/export_dashboard.py` → `NETWORK_DASHBOARD.html` | Peta hotspot, potensi, gap, peluang stabil, layer centrality |
+| `azureml/usage_report.py` | Pemakaian & estimasi biaya Azure per job/compute |
+
+Hasil (spatial CV, 52.760 hex): struktur jalan saja R² 0,68 vs populasi saja 0,59;
+di kota luar Jawa yang tidak pernah dilatih 0,50. Tidak memprediksi jumlah review outlet.
+Detail: `NETWORK_ANALYSIS_METHODOLOGY.md`.
+
 ## Cara jalankan semuanya berurutan
 
 ```bash
@@ -110,6 +129,8 @@ python3 prompt_builder.py           # → contoh prompt siap kirim ke image-gen
 | `DASHBOARD.html` | Tool interaktif — jelajahi outlet, bandingkan, cek cannibalization sendiri |
 | `ARCHITECTURE.html` | Diagram teknis pipeline end-to-end, untuk audiens yang mau lihat mekanismenya |
 | `OVERVIEW_DECK.html` | Ringkasan 9-slide non-teknis, untuk audiens bisnis/klien |
+| `NETWORK_ANALYSIS_METHODOLOGY.md` | Bagaimana centrality jaringan jalan diukur dan diuji, apa hasil & batasannya? |
+| `NETWORK_DASHBOARD.html` | Peta interaktif hasil network analysis (12 area, layer centrality, peluang stabil) |
 
 ## Status & langkah selanjutnya
 

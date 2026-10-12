@@ -1,0 +1,108 @@
+{
+  "generated_utc": "2026-10-12T07:17:15.920299+00:00",
+  "jobs_total": 37,
+  "jobs_completed": 27,
+  "jobs_failed": 1,
+  "jobs_running": 0,
+  "first_job_utc": "2026-10-11 06:48:25.060673+00:00",
+  "last_job_end_utc": "2026-10-12 07:05:59+00:00",
+  "node_run_hours": 76.0,
+  "vcpu_hours": 4681.8,
+  "gpu_hours": 0.1,
+  "compute_instance_uptime_hours": 20.25,
+  "usd_estimate_total": 140.73,
+  "usd_estimate_by_compute": [
+    {
+      "compute": "gpu-a100-lp",
+      "vm_size": "Standard_NC24ads_A100_v4",
+      "tier": "low_priority",
+      "jobs": 3,
+      "run_hours": 0.09,
+      "billed_hours": 0.19,
+      "usd_est": 0.15
+    },
+    {
+      "compute": "loc-cpu-lp",
+      "vm_size": "Standard_E32ds_v4",
+      "tier": "low_priority",
+      "jobs": 10,
+      "run_hours": 5.42,
+      "billed_hours": 6.25,
+      "usd_est": 2.88
+    },
+    {
+      "compute": "loc-cpu64-lp",
+      "vm_size": "Standard_E64ds_v4",
+      "tier": "low_priority",
+      "jobs": 13,
+      "run_hours": 46.46,
+      "billed_hours": 47.54,
+      "usd_est": 43.84
+    },
+    {
+      "compute": "loc-ded-e16",
+      "vm_size": "Standard_E16ds_v4",
+      "tier": "dedicated",
+      "jobs": 2,
+      "run_hours": 0.11,
+      "billed_hours": 0.44,
+      "usd_est": 0.51
+    },
+    {
+      "compute": "loc-gpu-t4-lp",
+      "vm_size": "Standard_NC8as_T4_v3",
+      "tier": "low_priority",
+      "jobs": 4,
+      "run_hours": 0.0,
+      "billed_hours": 0.14,
+      "usd_est": 0.04
+    },
+    {
+      "compute": "loc-analytic (uptime)",
+      "vm_size": "Standard_E64ds_v4",
+      "tier": "dedicated",
+      "jobs": 5,
+      "run_hours": 23.93,
+      "billed_hours": 20.25,
+      "usd_est": 93.31
+    }
+  ],
+  "prices_usd_per_hour": {
+    "Standard_E32ds_v4|low_priority": 0.461,
+    "Standard_E32ds_v4|dedicated": 2.304,
+    "Standard_E64ds_v4|low_priority": 0.922,
+    "Standard_E64ds_v4|dedicated": 4.608,
+    "Standard_NC8as_T4_v3|low_priority": 0.15,
+    "Standard_NC8as_T4_v3|dedicated": 0.752,
+    "Standard_E16ds_v4|low_priority": 0.23,
+    "Standard_E16ds_v4|dedicated": 1.152,
+    "Standard_NC24ads_A100_v4|low_priority": 0.735,
+    "Standard_NC24ads_A100_v4|dedicated": 3.673
+  },
+  "notes": [
+    "Estimate = retail list price (eastus2, Linux) x node-hours; Sponsorship credit is drawn at these list prices.",
+    "Cluster idle tail before scale-down is included; node provisioning time before StartTimeUtc is not (minutes).",
+    "Storage (blob ~ few GB) and container registry are negligible and not included.",
+    "Cost Management actuals cover the whole shared workspace and lag 8-24 h; see cost_management_workspace_usd."
+  ],
+  "cost_management_workspace_usd": [
+    {
+      "Cost": 49.9281980270976,
+      "UsageDate": 20261011,
+      "MeterSubCategory": "Edsv4 Series VM",
+      "Currency": "USD"
+    },
+    {
+      "Cost": 0.2715129113928,
+      "UsageDate": 20261011,
+      "MeterSubCategory": "NCads A100 v4 Series Linux",
+      "Currency": "USD"
+    },
+    {
+      "Cost": 16.028370422784,
+      "UsageDate": 20261011,
+      "MeterSubCategory": "NCadsH100v5 Series",
+      "Currency": "USD"
+    }
+  ]
+}

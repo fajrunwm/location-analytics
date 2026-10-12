@@ -1,0 +1,7 @@
+.venv/
+data_local/
+__pycache__/
+*.pyc
+network/work/
+network/cache/
+data_azure/

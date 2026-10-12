@@ -1,0 +1,17 @@
+$schema: https://azuremlschemas.azureedge.net/latest/commandJob.schema.json
+display_name: network-global-exact
+experiment_name: loc-network-centrality
+code: ../../network
+# Reads raw graphml written by the area pipeline, writes nodes_<net>_global_exact.parquet next to it.
+command: >-
+  python centrality.py --area ${{inputs.area}} --net ${{inputs.net}} --out ${{outputs.data}} --global-exact-only
+inputs:
+  area: jabodetabek
+  net: walk
+outputs:
+  data:
+    type: uri_folder
+    path: azureml://datastores/workspaceblobstore/paths/loc-analytics/network-v1/
+    mode: rw_mount
+environment: azureml:loc-network@latest
+compute: azureml:loc-cpu64-lp

@@ -1,0 +1,24 @@
+name: loc-network
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - osmium-tool
+  - pip
+  - pip:
+      - osmnx==2.1.1
+      - cityseer==5.8.0
+      - networkit==11.2.2
+      - h3==4.5.0
+      - geopandas==1.2.0
+      - shapely==2.2.0
+      - rasterio==1.4.4
+      - pyarrow
+      - overturemaps==1.0.2
+      - requests
+      - lightgbm==4.7.0
+      - shap
+      - scikit-learn
+      - matplotlib
+      - mlflow
+      - azureml-mlflow

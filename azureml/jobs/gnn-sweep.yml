@@ -1,0 +1,42 @@
+$schema: https://azuremlschemas.azureedge.net/latest/sweepJob.schema.json
+type: sweep
+display_name: gnn-sweep
+experiment_name: loc-network-model
+trial:
+  code: ../../network
+  command: >-
+    python gnn_model.py --data ${{inputs.data}} --areas ${{inputs.areas}} --out ${{outputs.model}}
+    --hidden ${{search_space.hidden}} --layers ${{search_space.layers}} --dropout ${{search_space.dropout}}
+    --lr ${{search_space.lr}} --seeds 3
+  environment: azureml:loc-gnn@latest
+inputs:
+  areas: jabodetabek,bandung,surabaya,semarang,yogyakarta,malang
+  data:
+    type: uri_folder
+    path: azureml://datastores/workspaceblobstore/paths/loc-analytics/network-v1/
+    mode: ro_mount
+outputs:
+  model:
+    type: uri_folder
+compute: azureml:gpu-a100-lp
+sampling_algorithm: random
+search_space:
+  hidden:
+    type: choice
+    values: [128, 256, 512]
+  layers:
+    type: choice
+    values: [2, 3, 4]
+  dropout:
+    type: choice
+    values: [0.1, 0.2, 0.35]
+  lr:
+    type: choice
+    values: [0.001, 0.002, 0.004]
+objective:
+  goal: maximize
+  primary_metric: r2_log
+limits:
+  max_total_trials: 24
+  max_concurrent_trials: 4
+  timeout: 10800

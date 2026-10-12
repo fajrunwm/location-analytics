@@ -1,0 +1,5 @@
+$schema: https://azuremlschemas.azureedge.net/latest/environment.schema.json
+name: loc-network
+image: mcr.microsoft.com/azureml/openmpi4.1.0-ubuntu22.04
+conda_file: conda.yml
+description: Street-network centrality (osmnx, cityseer, networkit, osmium) + LightGBM for location analytics

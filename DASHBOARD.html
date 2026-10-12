@@ -465,14 +465,18 @@ footer a{color:var(--ink-muted)}
   // ---- Leaflet map ----
   var map = L.map('map', {scrollWheelZoom:true});
 
-  var CARTO_ATTR = '&copy; <a href="https://carto.com/attributions" target="_blank">CARTO</a>, &copy; OpenStreetMap contributors';
+  // Esri gray canvas (keyless) — CARTO tiles now return an "API key required" placeholder.
+  var ESRI = 'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/';
+  var ESRI_ATTR = 'Basemap &copy; Esri, &copy; OpenStreetMap contributors';
+  function esriBasemap(base, ref) {
+    return L.layerGroup([
+      L.tileLayer(ESRI + base + '/MapServer/tile/{z}/{y}/{x}', {maxZoom: 16, attribution: ESRI_ATTR}),
+      L.tileLayer(ESRI + ref + '/MapServer/tile/{z}/{y}/{x}', {maxZoom: 16})
+    ]);
+  }
   var basemaps = {
-    light: L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-      maxZoom: 19, subdomains: 'abcd', attribution: CARTO_ATTR
-    }),
-    dark: L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-      maxZoom: 19, subdomains: 'abcd', attribution: CARTO_ATTR
-    })
+    light: esriBasemap('World_Light_Gray_Base', 'World_Light_Gray_Reference'),
+    dark: esriBasemap('World_Dark_Gray_Base', 'World_Dark_Gray_Reference')
   };
   var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
   var currentBasemap = (document.documentElement.getAttribute('data-theme') === 'dark' || (prefersDark && document.documentElement.getAttribute('data-theme') !== 'light')) ? 'dark' : 'light';
