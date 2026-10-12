@@ -131,6 +131,11 @@ digerakkan pariwisata, bukan penduduk lokal.
 kepadatan simpang 5,1%. Sinyalnya lokal — radius 1,2–2,4 km paling berpengaruh; betweenness
 dan closeness global (eksak, seluruh graf) hampir tidak menambah.
 
+**GNN pembanding** (GraphSAGE di graf ketetanggaan hex, sweep di Azure; 2 trial selesai
+sebelum batas waktu): terbaik R² 0,712 (kota padat 0,576) vs LightGBM 0,702 (0,559).
+Konteks tetangga hampir tidak menambah di luar fitur multi-radius, jadi LightGBM yang bisa
+dijelaskan tetap jadi model utama.
+
 **Peluang & destinasi stabil** (bootstrap blok spasial 200×; label hanya bila gap ≥ 1,5×
 bertahan di ≥ 90% fit out-of-bag): Jabodetabek 4.433 hex peluang / 5.678 destinasi,
 Bandung 918 / 885, Surabaya 903 / 1.045, Yogyakarta 499 / 723, Semarang 371 / 495,
