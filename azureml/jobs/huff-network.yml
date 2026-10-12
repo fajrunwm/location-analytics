@@ -1,0 +1,24 @@
+$schema: https://azuremlschemas.azureedge.net/latest/commandJob.schema.json
+display_name: huff-network
+experiment_name: loc-network-huff
+code: ../../network
+# Huff model with measured drive-network distance vs the assumed circuity factor, per metro.
+command: >-
+  for a in ${{inputs.areas}}; do python huff_network.py --area $a --data ${{inputs.data}}
+  --outlets ${{inputs.outlets}} --out ${{outputs.out}} || exit 1; done
+inputs:
+  areas: "malang semarang yogyakarta bandung surabaya jabodetabek"
+  outlets:
+    type: uri_file
+    path: ../../network/outlets_all.csv
+  data:
+    type: uri_folder
+    path: azureml://datastores/workspaceblobstore/paths/loc-analytics/network-v1/
+    mode: ro_mount
+outputs:
+  out:
+    type: uri_folder
+    path: azureml://datastores/workspaceblobstore/paths/loc-analytics/huff-network-v1/
+    mode: rw_mount
+environment: azureml:loc-network@latest
+compute: azureml:loc-ded-e16
