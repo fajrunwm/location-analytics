@@ -28,12 +28,11 @@ LAYERS = [
     ("potential", "Potensi jaringan", ["y_commercial_pred_log"], "seq",
      "Prediksi model (struktur jalan + populasi + transit) — dari spatial CV, bukan data latih"),
     ("gap", "Gap potensi", ["y_commercial_gap_log"], "div",
-     "Prediksi − aktual (log), dihaluskan dengan 6 hex tetangga. Biru: jaringan mendukung lebih banyak aktivitas dari yang ada (peluang). "
-     "Merah: aktivitas melebihi posisi jaringan (destinasi/mall)"),
+     "Biru = lokasi strategis tapi usahanya masih sedikit (peluang); merah = ramai karena sengaja dituju, "
+     "seperti mall atau kawasan wisata (destinasi). Makin pekat, makin besar selisihnya."),
     ("confident", "Peluang & destinasi (stabil)", ["gap_confident_code"], "cat",
-     "Hanya hex yang labelnya bertahan di bootstrap 200× (blok spasial): biru = prediksi ≥ 1,5× aktual di ≥ 90% fit "
-     "out-of-bag (peluang), merah = aktual ≥ 1,5× prediksi (destinasi). Hex tanpa warna = tidak cukup jelas. "
-     "Hanya area latih (Jawa); kota luar Jawa tidak di-bootstrap"),
+     "Biru = peluang: lokasi strategis tapi usahanya masih sedikit. "
+     "Merah = destinasi: ramai karena sengaja dituju (mall, wisata, kantor); hanya hex dengan hasil konsisten yang diwarnai."),
     ("ang2400", "Angular betweenness 2,4 km", ["ang_betweenness_2400_ang_mean"], "seq",
      "Seberapa sering segmen jalan dilewati rute paling 'lurus' (sedikit belokan) dalam radius 2,4 km jalan kaki"),
     ("drive10k", "Koridor kendaraan 10 km", ["drive_betweenness_10000_mean"], "seq",
