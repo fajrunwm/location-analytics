@@ -29,7 +29,7 @@ SUB = "37bac92f-7fda-49aa-a356-6384c88795a0"
 RG = "tes-azure-benefit"
 WS = "azureml-azure-benefit"
 REGION = "eastus2"
-EXPERIMENTS = {"loc-network-centrality", "loc-network-model"}
+EXPERIMENTS = {"loc-network-centrality", "loc-network-model", "loc-network-huff"}
 # Project computes -> (VM size, tier, idle minutes billed after the last job on a node)
 COMPUTES = {
     "loc-analytic": ("Standard_E64ds_v4", "dedicated", None),     # compute instance: billed on uptime
