@@ -1,16 +1,16 @@
 {
-  "generated_utc": "2026-10-12T07:17:15.920299+00:00",
-  "jobs_total": 37,
-  "jobs_completed": 27,
+  "generated_utc": "2026-10-12T09:14:45.170312+00:00",
+  "jobs_total": 39,
+  "jobs_completed": 29,
   "jobs_failed": 1,
   "jobs_running": 0,
   "first_job_utc": "2026-10-11 06:48:25.060673+00:00",
-  "last_job_end_utc": "2026-10-12 07:05:59+00:00",
-  "node_run_hours": 76.0,
-  "vcpu_hours": 4681.8,
+  "last_job_end_utc": "2026-10-12 09:09:25+00:00",
+  "node_run_hours": 76.11,
+  "vcpu_hours": 4683.5,
   "gpu_hours": 0.1,
   "compute_instance_uptime_hours": 20.25,
-  "usd_estimate_total": 140.73,
+  "usd_estimate_total": 141.24,
   "usd_estimate_by_compute": [
     {
       "compute": "gpu-a100-lp",
@@ -43,10 +43,10 @@
       "compute": "loc-ded-e16",
       "vm_size": "Standard_E16ds_v4",
       "tier": "dedicated",
-      "jobs": 2,
-      "run_hours": 0.11,
-      "billed_hours": 0.44,
-      "usd_est": 0.51
+      "jobs": 4,
+      "run_hours": 0.22,
+      "billed_hours": 0.88,
+      "usd_est": 1.02
     },
     {
       "compute": "loc-gpu-t4-lp",
@@ -68,16 +68,16 @@
     }
   ],
   "prices_usd_per_hour": {
-    "Standard_E32ds_v4|low_priority": 0.461,
-    "Standard_E32ds_v4|dedicated": 2.304,
     "Standard_E64ds_v4|low_priority": 0.922,
     "Standard_E64ds_v4|dedicated": 4.608,
-    "Standard_NC8as_T4_v3|low_priority": 0.15,
-    "Standard_NC8as_T4_v3|dedicated": 0.752,
+    "Standard_E32ds_v4|low_priority": 0.461,
+    "Standard_E32ds_v4|dedicated": 2.304,
+    "Standard_NC24ads_A100_v4|low_priority": 0.735,
+    "Standard_NC24ads_A100_v4|dedicated": 3.673,
     "Standard_E16ds_v4|low_priority": 0.23,
     "Standard_E16ds_v4|dedicated": 1.152,
-    "Standard_NC24ads_A100_v4|low_priority": 0.735,
-    "Standard_NC24ads_A100_v4|dedicated": 3.673
+    "Standard_NC8as_T4_v3|low_priority": 0.15,
+    "Standard_NC8as_T4_v3|dedicated": 0.752
   },
   "notes": [
     "Estimate = retail list price (eastus2, Linux) x node-hours; Sponsorship credit is drawn at these list prices.",
@@ -87,13 +87,13 @@
   ],
   "cost_management_workspace_usd": [
     {
-      "Cost": 49.9281980270976,
+      "Cost": 66.0554876831616,
       "UsageDate": 20261011,
       "MeterSubCategory": "Edsv4 Series VM",
       "Currency": "USD"
     },
     {
-      "Cost": 0.2715129113928,
+      "Cost": 0.7919132804352,
       "UsageDate": 20261011,
       "MeterSubCategory": "NCads A100 v4 Series Linux",
       "Currency": "USD"
@@ -102,6 +102,18 @@
       "Cost": 16.028370422784,
       "UsageDate": 20261011,
       "MeterSubCategory": "NCadsH100v5 Series",
+      "Currency": "USD"
+    },
+    {
+      "Cost": 1.6557870868992,
+      "UsageDate": 20261012,
+      "MeterSubCategory": "Edsv4 Series VM",
+      "Currency": "USD"
+    },
+    {
+      "Cost": 0.3393913089336,
+      "UsageDate": 20261012,
+      "MeterSubCategory": "NCads A100 v4 Series Linux",
       "Currency": "USD"
     }
   ]

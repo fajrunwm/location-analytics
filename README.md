@@ -146,8 +146,10 @@ nyata. Yang masih perlu diputuskan/dikerjakan sebelum produksi:
   Denpasar, Balikpapan — sengaja belum dipakai)
 - Kalibrasi parameter Huff model (`beta`, tier multiplier) terhadap data
   transaksi riil
-- Ganti jarak garis-lurus dengan travel-time (routing API) untuk akurasi
-  catchment yang lebih baik
+- Pasang circuity terukur per pita jarak (atau jarak jaringan langsung) ke
+  `site_scoring_huff.py` — jarak & waktu tempuh jaringan sudah dihitung di
+  `network/huff_network.py` (lihat `NETWORK_ANALYSIS_METHODOLOGY.md` §Huff);
+  faktor konstan lama meremehkan perjalanan 1–3 km sebesar 40–60%
 - Siapa yang punya hak edit mapping table prompt (marketing vs data team)
   dan proses approval sebelum image hasil generate dipakai publik
 - Endpoint API untuk menghubungkan `prompt_builder.py` ke layanan image-gen

@@ -62,6 +62,7 @@ def main():
     ap.add_argument("--template", default=str(Path(__file__).with_name("dashboard_template.html")))
     ap.add_argument("--out", required=True)
     ap.add_argument("--bootstrap", default=None, help="folder with hex_bootstrap.parquet (optional layer)")
+    ap.add_argument("--huff", default=None, help="huff-network output folder (<area>/huff_outlets.csv), optional")
     a = ap.parse_args()
 
     model = Path(a.model)
@@ -72,6 +73,11 @@ def main():
         metrics.update(json.loads(gnn_path.read_text()))
     imp = pd.read_csv(model / "feature_importance.csv", index_col=0).iloc[:, 0]
     corr = pd.read_csv(model / "outlet_correlations.csv") if (model / "outlet_correlations.csv").exists() else None
+    huff = {}
+    if a.huff:
+        for f in Path(a.huff).glob("*/huff_outlets.csv"):
+            for r in pd.read_csv(f).itertuples():
+                huff[r.outlet_id] = {"huff_change_pct": r.change_pct, "drive_min": r.mean_drive_min_captured}
     boot = None
     if a.bootstrap and (Path(a.bootstrap) / "hex_bootstrap.parquet").exists():
         boot = pd.read_parquet(Path(a.bootstrap) / "hex_bootstrap.parquet", columns=["gap_confident"])
@@ -123,6 +129,7 @@ def main():
                 if "gap_confident_code" in hexes and h in hexes.index:
                     c = hexes.at[h, "gap_confident_code"]
                     row["confident"] = {1.0: "peluang", -1.0: "destinasi"}.get(c, "")
+                row.update({k: (None if pd.isna(v) else float(v)) for k, v in huff.get(oid, {}).items()})
                 if "y_commercial_gap_log" in hexes and h in hexes.index:
                     g = hexes.at[h, "y_commercial_gap_log"]
                     row["gap"] = None if pd.isna(g) else round(float(g), 3)
