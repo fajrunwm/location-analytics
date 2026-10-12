@@ -108,4 +108,36 @@ outlet, p-value dikoreksi Benjamini–Hochberg; hanya q < 0,1 yang dianggap siny
 
 ## Hasil
 
-_Diisi setelah run Azure ML selesai — lihat bagian berikut._
+Run final Azure ML (`train-final`, `bootstrap-final`; 12 Okt 2026). Latih: Jabodetabek,
+Bandung Raya, Surabaya, Semarang, Yogyakarta, Malang (52.760 hex, 72 outlet). Uji
+out-of-sample: Medan, Palembang, Denpasar & Badung, Makassar, Balikpapan (14.537 hex,
+26 outlet) — tidak pernah dipakai melatih.
+
+**Prediksi hotspot** — target log(1 + POI komersial) per hex, R²:
+
+| Fitur | Spatial CV (semua hex) | Spatial CV (kota padat) | Kota baru (luar Jawa) |
+|---|---|---|---|
+| Struktur jalan saja | 0,68 | 0,52 | 0,50 |
+| Populasi + transit saja | 0,59 | 0,39 | 0,36 |
+| Gabungan | 0,70 | 0,56 | 0,51 |
+
+"Kota padat" = hex ≥ ~9.500 jiwa/km² (gradien kota-desa dihilangkan). Per kota baru
+(gabungan): Makassar 0,65 · Balikpapan 0,58 · Palembang 0,53 · Medan 0,49 · Denpasar 0,23.
+Di Denpasar populasi saja negatif (−0,26), struktur jalan tetap 0,38 — aktivitas di sana
+digerakkan pariwisata, bukan penduduk lokal.
+
+**Fitur terpenting** (porsi mean |SHAP|, semua radius dijumlah): angular closeness jalan kaki
+34,5% · populasi terjangkau 17,2% · closeness kendaraan 10,0% · angular betweenness 7,6% ·
+kepadatan simpang 5,1%. Sinyalnya lokal — radius 1,2–2,4 km paling berpengaruh; betweenness
+dan closeness global (eksak, seluruh graf) hampir tidak menambah.
+
+**Peluang & destinasi stabil** (bootstrap blok spasial 200×; label hanya bila gap ≥ 1,5×
+bertahan di ≥ 90% fit out-of-bag): Jabodetabek 4.433 hex peluang / 5.678 destinasi,
+Bandung 918 / 885, Surabaya 903 / 1.045, Yogyakarta 499 / 723, Semarang 371 / 495,
+Malang 314 / 416.
+
+**Outlet** (n = 98): model "mengenali" mall tanpa diberi tahu — median gap outlet mall
+−1,68 (n = 47) vs ruko −0,54 (n = 50). Tidak ada fitur jaringan yang signifikan terhadap
+jumlah review setelah koreksi BH dan kontrol brand × tipe lokasi (terkuat ρ = 0,25, q = 0,52):
+posisi jaringan memprediksi *di mana* keramaian komersial terjadi, bukan *outlet mana* yang
+paling banyak direview.
