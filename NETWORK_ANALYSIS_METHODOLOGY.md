@@ -146,3 +146,45 @@ Malang 314 / 416.
 jumlah review setelah koreksi BH dan kontrol brand × tipe lokasi (terkuat ρ = 0,25, q = 0,52):
 posisi jaringan memprediksi *di mana* keramaian komersial terjadi, bukan *outlet mana* yang
 paling banyak direview.
+
+## Huff dengan jarak jaringan jalan — `network/huff_network.py`
+
+`site_scoring_huff.py` mengubah jarak garis lurus jadi "jarak jalan" dengan faktor circuity
+asumsi per kota (1,25–1,35, belum pernah di-fit). Tahap ini menggantinya dengan jarak
+terpendek di graf jalan kendaraan OSM yang sama, untuk 6 metro Jawa (72 outlet), lalu
+membandingkan dua varian Huff dengan parameter identik (alpha, beta per `outlet_type`,
+attractiveness, kompetisi sebrand) dan demand identik (penduduk WorldPop per hex) — jadi
+semua selisih murni karena cara mengukur jarak. Job Azure ML `huff-network-6metro`.
+
+**Circuity terukur** (jarak jalan ÷ jarak lurus, pasangan hex–outlet 1–20 km):
+
+| Metro | Asumsi lama | Median terukur | 1–3 km | 3–7 km | 7–12 km | 12–20 km |
+|---|---|---|---|---|---|---|
+| Jabodetabek | 1,35 | 1,30 | 1,62 | 1,41 | 1,32 | 1,27 |
+| Surabaya | 1,30 | 1,30 | 1,55 | 1,37 | 1,31 | 1,25 |
+| Bandung Raya | 1,25 | 1,29 | 1,47 | 1,34 | 1,28 | 1,27 |
+| Yogyakarta | 1,30 | 1,29 | 1,42 | 1,32 | 1,27 | 1,26 |
+| Malang | 1,30 (default) | 1,31 | 1,40 | 1,33 | 1,27 | 1,27 |
+| Semarang | 1,30 (default) | 1,28 | 1,40 | 1,30 | 1,25 | 1,26 |
+
+Rata-rata per kota ternyata sudah dekat dengan asumsi. Yang salah adalah anggapan faktornya
+**konstan**: perjalanan pendek 40–60% lebih jauh dari garis lurus (sungai, rel, jalan satu
+arah, blok tertutup), perjalanan jauh hanya ~26%. Faktor konstan meremehkan jarak dekat →
+jangkauan outlet lingkungan (`neighborhood`, beta curam) dinilai terlalu besar.
+
+**Dampak ke Huff:** 25 dari 72 outlet berubah captured demand ≥ 5%, 8 berubah ≥ 10%
+(terbesar: Marugame MERR Surabaya −26%, Marugame Majapahit Semarang −22%, Harvest Graha
+Famili −20%, Marugame Soekarno-Hatta T3 −19%; naik: Harvest Bengawan +13%, Marugame Botani
+Square +12%). Ranking captured demand berubah untuk 16 dari 36 outlet Jabodetabek dan 4 dari
+10 di Bandung. Populasi yang diperebutkan dua outlet sebrand (P ≥ 0,15 untuk keduanya) naik
+8% dan pasangan yang berebut bertambah 119 → 135; terbesar Marugame Bandung MRG-025/026 (+38%).
+
+**Waktu tempuh** (mobil, kecepatan diimputasi OSMnx per kelas jalan, rata-rata tertimbang
+demand yang ditangkap): median 9 menit (Malang) sampai 21 menit (Jabodetabek); outlet mall
+19 menit vs ruko 15 menit. Ditampilkan di popup outlet `NETWORK_DASHBOARD.html`.
+
+**Implikasi untuk `site_scoring_huff.py`:** ganti faktor konstan dengan circuity per pita
+jarak di atas (atau langsung jarak jaringan), lalu kalibrasi ulang beta per `outlet_type` —
+beta lama di-set bersama jarak yang terlalu pendek untuk perjalanan dekat. Batasan: kecepatan
+jalan adalah imputasi tanpa kemacetan, jadi waktu tempuh adalah batas bawah; pasangan
+> 60 km jarak jalan diabaikan (bobot Huff-nya sudah ~0).
